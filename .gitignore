@@ -1,0 +1,6 @@
+tmp
+**/appsettings.*.json
+**/appsettings.json
+**/bin
+**/obj
+.idea/config
