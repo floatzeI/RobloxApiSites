@@ -1,0 +1,12 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Web.WebAPI", "Roblox.Web.WebAPI\Roblox.Web.WebAPI\Roblox.Web.WebAPI.csproj", "{9C59B3CB-3ED9-4FB4-94A3-B87B88B557BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.AccountInformation.Api", "Roblox.AccountInformation.Api\Roblox.AccountInformation.Api\Roblox.AccountInformation.Api.csproj", "{32E2F9A6-1035-4672-AEFA-361AC8C8E98D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+EndGlobal
