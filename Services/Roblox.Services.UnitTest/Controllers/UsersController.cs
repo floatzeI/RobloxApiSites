@@ -29,6 +29,8 @@ namespace Roblox.Services.UnitTest.Controllers
             var result = await controller.GetUserDescription(1);
             Assert.Equal(expectedDescription, result.description);
             Assert.Equal(userId, result.userId);
+            
+            mock.VerifyAll();
         }
         
         [Fact]
@@ -42,6 +44,8 @@ namespace Roblox.Services.UnitTest.Controllers
             {
                 await controller.GetUserDescription(1);
             });
+            
+            mock.VerifyAll();
         }
 
         [Fact]
@@ -57,6 +61,8 @@ namespace Roblox.Services.UnitTest.Controllers
                 userId = userId,
                 description = newDescription,
             });
+            
+            mock.VerifyAll();
         }
     }
 }
