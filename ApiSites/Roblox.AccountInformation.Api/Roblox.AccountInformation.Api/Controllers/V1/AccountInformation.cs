@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Roblox.Users.Client;
 
 namespace Roblox.AccountInformation.Api.Controllers.V1 {
     /// <summary>Account Information Api v1</summary>
@@ -8,6 +9,11 @@ namespace Roblox.AccountInformation.Api.Controllers.V1 {
     [Route("/v1/")]
     public class AccountInformationController
     {
+        private IUsersV1Client usersV1Client { get; }
+        public AccountInformationController(IUsersV1Client usersV1Client)
+        {
+            this.usersV1Client = usersV1Client;
+        }
         /// <summary>Get the user's birthdate</summary>
         [HttpGet("birthdate")]
         public async Task<AccountInformation.Api.Models.BirthdayResponse> GetBirthdate()
@@ -26,7 +32,11 @@ namespace Roblox.AccountInformation.Api.Controllers.V1 {
         [HttpGet("description")]
         public async Task<AccountInformation.Api.Models.DescriptionResponse> GetDescription()
         {
-            throw new NotImplementedException();
+            var result = await usersV1Client.GetDescription(1);
+            return new()
+            {
+                description = result.description,
+            };
         }
         
         /// <summary>Update the user's description</summary>
