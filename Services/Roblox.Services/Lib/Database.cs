@@ -14,28 +14,14 @@ namespace Roblox.Services
         private static PostgresCompiler compiler { get; set; }
         public static NpgsqlConnection client => new NpgsqlConnection(connectionString);
 
-        public static QueryFactory queryFactory
+        public static void SetConnectionString(string newConnectionString)
         {
-            get
+            if (connectionString != null)
             {
-                var factory = new QueryFactory(client, compiler);
-#if DEBUG
-                factory.Logger = compiled => {
-                    Console.WriteLine(compiled.ToString().Replace("\n", ""));
-                };
-#endif
-                return factory;
+                throw new Exception("Existing connectionString is not null. It cannot be set.");
             }
-        }
-        public Db(string connectionStringParam)
-        {
-            connectionString = connectionStringParam;
-            compiler = new PostgresCompiler();
-        }
 
-        public static Query Query(string column)
-        {
-            return queryFactory.Query(column);
+            connectionString = newConnectionString;
         }
     }
 }
