@@ -29,7 +29,7 @@ namespace Roblox.ApiClientBase
             string actionName)
         {
             var cl = new HttpClient();
-            var url = baseUrl + "/" + version + "/" + actionPath + "/" + actionName;
+            var url = baseUrl + version  + actionPath + "/" + actionName;
             if (headers != null)
             {
                 foreach (var item in headers)
