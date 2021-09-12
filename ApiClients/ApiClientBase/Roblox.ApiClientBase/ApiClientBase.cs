@@ -54,12 +54,32 @@ namespace Roblox.ApiClientBase
             {
                 return await DoGet(cl, url);
             }
+            if (method == HttpMethod.Post)
+            {
+                return await DoPost(cl, url, formParameters);
+            }
             throw new System.NotImplementedException();
         }
 
         private async Task<ApiClientResponse> DoGet(HttpClient httpClient, string requestUrl)
         {
             var result = await httpClient.GetAsync(requestUrl);
+            var body = await result.Content.ReadAsStringAsync();
+            return new()
+            {
+                statusCode = result.StatusCode,
+                headers = result.Headers,
+                machineId = "AWA-WEB0000", // TODO
+                body = body,
+                url = requestUrl,
+            };
+        }
+        
+        private async Task<ApiClientResponse> DoPost(HttpClient httpClient, string requestUrl, Dictionary<string, string> formData)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
+            request.Content = new FormUrlEncodedContent(formData);
+            var result = await httpClient.SendAsync(request);
             var body = await result.Content.ReadAsStringAsync();
             return new()
             {
