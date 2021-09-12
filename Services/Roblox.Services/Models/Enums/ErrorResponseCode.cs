@@ -5,6 +5,7 @@ namespace Roblox.Services.Models
     /// </summary>
     public enum ErrorCode
     {
-        RecordNotFound = 1,
+        InternalServerError = 1,
+        RecordNotFound,
     }
 }
