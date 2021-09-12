@@ -9,7 +9,7 @@ using Roblox.Services.Models;
 
 namespace Roblox.Services.Exceptions
 {
-    public class ExceptionHandler
+    public static class ExceptionHandler
     {
         public static async Task OnError(Exception error, HttpContext context)
         {
