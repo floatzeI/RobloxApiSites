@@ -6,10 +6,10 @@ using Xunit;
 
 namespace Roblox.Services.UnitTest.Controllers
 {
-    public class UnitTestAccountInformationController
+    public class UnitTestUsersController
     {
-        private static AccountInformationServiceMock service = new();
-        private static AccountInformationController controller = new(service);
+        private static UsersServiceMock service = new();
+        private static UsersController controller = new(service);
         
         [Fact]
         public async Task GetUserDescription()

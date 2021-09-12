@@ -2,17 +2,17 @@
 using System.Threading.Tasks;
 using Dapper;
 using Roblox.Services.Exceptions.Services;
-using Roblox.Services.Models.AccountInformation;
+using Roblox.Services.Models.Users;
 
 namespace Roblox.Services.Services
 {
-    public class AccountInformationService : IAccountInformationService
+    public class UsersService : IUsersService
     {
-        public async Task<AccountDescriptionEntry> GetDescription(long userId)
+        public async Task<UserDescriptionEntry> GetDescription(long userId)
         {
             var result =
                 await Db.client
-                    .QuerySingleOrDefaultAsync<Models.AccountInformation.AccountDescriptionEntry>(@"SELECT 
+                    .QuerySingleOrDefaultAsync<Models.Users.UserDescriptionEntry>(@"SELECT 
                     user_id as userId, 
                     description, 
                     created_at as created, 

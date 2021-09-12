@@ -36,7 +36,7 @@ namespace Roblox.Services
             // configuration strings
             Roblox.Services.Db.SetConnectionString(Configuration.GetSection("Postgres").Value);
             // services
-            services.AddSingleton<IAccountInformationService, AccountInformationService>();
+            services.AddSingleton<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
