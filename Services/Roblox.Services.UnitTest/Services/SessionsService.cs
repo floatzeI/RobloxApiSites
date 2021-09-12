@@ -45,5 +45,16 @@ namespace Roblox.Services.UnitTest.Services
             Assert.Equal(userId, result.userId);
             Assert.Equal(SessionsService.sessionCookiePrefix + sessionId, result.sessionId);
         }
+
+        [Fact]
+        public async Task Delete_Session_For_User()
+        {
+            var sessionId = "RandomSessionIdHere";
+            var mock = new Mock<ISessionsDatabase>();
+            mock.Setup(c => c.DeleteSession(sessionId));
+            var service = new SessionsService(mock.Object);
+            await service.DeleteSession(SessionsService.sessionCookiePrefix + sessionId);
+            mock.VerifyAll();
+        }
     }
 }
