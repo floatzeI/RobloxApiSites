@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ApiClients\Roblox.Users.Client\Roblox.Users.Client.csproj" />
     <ProjectReference Include="..\..\Roblox.Web.WebAPI\Roblox.Web.WebAPI\Roblox.Web.WebAPI.csproj" />
   </ItemGroup>
 
