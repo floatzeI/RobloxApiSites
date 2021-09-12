@@ -25,5 +25,13 @@ namespace Roblox.Services.Database
                 created = currentTime,
             };
         }
+
+        public async Task DeleteSession(string sessionId)
+        {
+            await Db.client.ExecuteAsync("DELETE FROM account_session WHERE id = @id", new
+            {
+                id = sessionId,
+            });
+        }
     }
 }
