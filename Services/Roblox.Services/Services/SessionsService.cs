@@ -43,5 +43,11 @@ namespace Roblox.Services.Services
                 sessionId = sessionCookiePrefix + insertResult.id,
             };
         }
+
+        public async Task DeleteSession(string sessionIdWithPrefix)
+        {
+            var id = sessionIdWithPrefix[sessionCookiePrefix.Length..];
+            await db.DeleteSession(id);
+        }
     }
 }
