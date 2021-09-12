@@ -42,6 +42,7 @@ namespace Roblox.Services
             });
             // configuration strings
             Roblox.Services.Db.SetConnectionString(Configuration.GetSection("Postgres").Value);
+            Roblox.Services.Redis.SetConnectionString(Configuration.GetSection("Redis").Value);
             // services
             services.AddSingleton<IUsersService, UsersService>(c => new (new UsersDatabase()));
         }
