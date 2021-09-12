@@ -6,7 +6,7 @@ using Roblox.Services.Services;
 namespace Roblox.Services.Controllers
 {
     [ApiController]
-    [Route("/User/v1")]
+    [Route("/Users/v1")]
     public class AccountInformationController
     {
         private IAccountInformationService accountInformationService { get; }
