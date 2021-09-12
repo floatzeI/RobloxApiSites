@@ -6,7 +6,9 @@ exports.up = async (conn) => {
 	user_id bigint PRIMARY KEY,
     birthdate date,
     gender smallint,
-    description VARCHAR(4096)
+    description VARCHAR(4096),
+    created_at timestamp DEFAULT(CURRENT_TIMESTAMP) NOT NULL,
+    updated_at timestamp DEFAULT(CURRENT_TIMESTAMP) NOT NULL
 );
 
     `);
