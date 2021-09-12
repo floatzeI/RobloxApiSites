@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Roblox.Services.Database;
 using Roblox.Services.Services;
 
 namespace Roblox.Services
@@ -42,7 +43,7 @@ namespace Roblox.Services
             // configuration strings
             Roblox.Services.Db.SetConnectionString(Configuration.GetSection("Postgres").Value);
             // services
-            services.AddSingleton<IUsersService, UsersService>();
+            services.AddSingleton<IUsersService, UsersService>(c => new (new UsersDatabase()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
