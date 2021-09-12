@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -32,6 +35,9 @@ namespace Roblox.Services
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Roblox.Services", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
             // configuration strings
             Roblox.Services.Db.SetConnectionString(Configuration.GetSection("Postgres").Value);
@@ -44,7 +50,6 @@ namespace Roblox.Services
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Roblox.Services v1"));
             }
@@ -52,6 +57,14 @@ namespace Roblox.Services
             {
                 app.UseHttpsRedirection();
             }
+
+            app.UseExceptionHandler(errorApp => {
+                errorApp.Run(async context =>
+                {
+                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                    await Exceptions.ExceptionHandler.OnError(exceptionHandlerPathFeature.Error, context);
+                }); 
+            });
 
             app.UseRouting();
 
