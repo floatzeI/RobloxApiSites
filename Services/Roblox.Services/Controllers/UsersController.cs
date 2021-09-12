@@ -35,7 +35,7 @@ namespace Roblox.Services.Controllers
         /// Insert or update the description for the provided account ID
         /// </summary>
         /// <param name="request">The description request</param>
-        [HttpPost]
+        [HttpPost("SetUserDescription")]
         public async Task SetUserDescription([Required, FromBody] Models.Users.SetDescriptionRequest request)
         {
             await usersService.SetUserDescription(request.userId, request.description);
