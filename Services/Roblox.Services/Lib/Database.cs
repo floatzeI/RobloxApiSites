@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Roblox.Services
 {
-    public class Db
+    public static class Db
     {
         private static string connectionString { get; set; }
         private static PostgresCompiler compiler { get; set; }
