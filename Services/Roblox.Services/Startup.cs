@@ -45,6 +45,7 @@ namespace Roblox.Services
             Roblox.Services.Redis.SetConnectionString(Configuration.GetSection("Redis").Value);
             // services
             services.AddSingleton<IUsersService, UsersService>(c => new (new UsersDatabase()));
+            services.AddSingleton<ISessionsService, SessionsService>(c => new (new SessionsDatabase()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
