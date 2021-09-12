@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Roblox.Services.Controllers;
 using Xunit;
 using Moq;
+using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.Users;
 using Roblox.Services.Services;
 
@@ -12,7 +13,7 @@ namespace Roblox.Services.UnitTest.Controllers
     {
         
         [Fact]
-        public async Task Return_Mock_User_Description()
+        public async Task Get_User_Description()
         {
             var userId = 1;
             var expectedDescription = "This is an example description for a unit test.";
@@ -28,6 +29,19 @@ namespace Roblox.Services.UnitTest.Controllers
             var result = await controller.GetUserDescription(1);
             Assert.Equal(expectedDescription, result.description);
             Assert.Equal(userId, result.userId);
+        }
+        
+        [Fact]
+        public async Task Get_User_Description_For_Invalid_Account_And_Throw()
+        {
+            var userId = 1;
+            var mock = new Mock<IUsersService>();
+            mock.Setup(foo => foo.GetDescription(userId)).Throws(new RecordNotFoundException(userId));
+            UsersController controller = new(mock.Object);
+            await Assert.ThrowsAsync<RecordNotFoundException>(async () =>
+            {
+                await controller.GetUserDescription(1);
+            });
         }
     }
 }
