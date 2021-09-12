@@ -7,10 +7,16 @@ namespace Roblox.Services.Database
 {
     public class SessionsDatabase : ISessionsDatabase
     {
+        private IDatabaseConnectionProvider db { get; set; }
+        public SessionsDatabase(DatabaseConfiguration<dynamic> config)
+        {
+            db = config.dbConnection;
+        }
+        
         public async Task<SessionEntry> InsertSession(long userId, string sessionId)
         {
             var currentTime = DateTime.Now;
-            await Db.client.ExecuteAsync("INSERT INTO account_session (user_id, id, created_at, updated_at) VALUES (@user_id, @id, @created_at, @updated_at)", new
+            await db.connection.ExecuteAsync("INSERT INTO account_session (user_id, id, created_at, updated_at) VALUES (@user_id, @id, @created_at, @updated_at)", new
             {
                 user_id = userId,
                 id = sessionId,
@@ -28,7 +34,7 @@ namespace Roblox.Services.Database
 
         public async Task DeleteSession(string sessionId)
         {
-            await Db.client.ExecuteAsync("DELETE FROM account_session WHERE id = @id", new
+            await db.connection.ExecuteAsync("DELETE FROM account_session WHERE id = @id", new
             {
                 id = sessionId,
             });

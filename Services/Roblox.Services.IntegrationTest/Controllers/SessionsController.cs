@@ -12,7 +12,7 @@ namespace Roblox.Services.IntegrationTest.Controllers
         public async Task CreateSession()
         {
             var sessionUserId = 1;
-            var controller = new SessionsController(new SessionsService(new SessionsDatabase()));
+            var controller = new SessionsController(new SessionsService(new SessionsDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null))));
             var result = await controller.CreateSession(sessionUserId);
             Assert.Equal(sessionUserId, result.userId);
             Assert.True(result.sessionId.Length > 500);
@@ -22,7 +22,7 @@ namespace Roblox.Services.IntegrationTest.Controllers
         {
             // Create a random session
             var sessionUserId = 1;
-            var controller = new SessionsController(new SessionsService(new SessionsDatabase()));
+            var controller = new SessionsController(new SessionsService(new SessionsDatabase(new (new PostgresDatabaseProvider(), null))));
             var result = await controller.CreateSession(sessionUserId);
             // Delete it
             await controller.DeleteSession(result.sessionId);

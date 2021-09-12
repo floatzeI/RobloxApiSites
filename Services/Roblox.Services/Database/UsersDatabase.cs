@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Threading.Tasks;
 using Dapper;
 using Roblox.Services.DatabaseCache;
@@ -9,14 +10,20 @@ namespace Roblox.Services.Database
 {
     public class UsersDatabase : IUsersDatabase
     {
-        private IUsersDatabaseCache dbCache { get; set; } = new UsersDatabaseCache();
+        private IDatabaseConnectionProvider db { get; set; }
+        private IUsersDatabaseCache dbCache { get; }
+        public UsersDatabase(DatabaseConfiguration<IUsersDatabaseCache> config)
+        {
+            db = config.dbConnection;
+            dbCache = config.dbCache;
+        }
         
         public async Task<AccountInformationEntry> GetAccountInformationEntry(long userId)
         {
             var cache = await dbCache.GetAccountInformation(userId);
             if (cache != null) return cache;
             var result =
-                await Db.client
+                await db.connection
                     .QuerySingleOrDefaultAsync<AccountInformationEntry>(@"SELECT 
                     user_id as userId, 
                     description, 
@@ -41,7 +48,7 @@ namespace Roblox.Services.Database
         {
             var inCache = await dbCache.GetAccountInformation(userId);
             if (inCache != null) return true;
-            var exists = await Db.client.QuerySingleOrDefaultAsync(
+            var exists = await db.connection.QuerySingleOrDefaultAsync(
                 "SELECT user_id FROM account_information WHERE user_id = @user_id", new
                 {
                     user_id = userId,
@@ -59,7 +66,7 @@ namespace Roblox.Services.Database
                 birth = birth.Value.AddMonths(entry.birthMonth.Value);
                 birth = birth.Value.AddDays(entry.birthDay.Value);
             }
-            await Db.client.ExecuteAsync("INSERT INTO account_information (user_id, birthdate, gender, description) VALUES (@user_id, @birthdate, @gender, @description)", new 
+            await db.connection.ExecuteAsync("INSERT INTO account_information (user_id, birthdate, gender, description) VALUES (@user_id, @birthdate, @gender, @description)", new 
             {
                 user_id = entry.userId,
                 description = entry.description,
@@ -73,7 +80,7 @@ namespace Roblox.Services.Database
         {
             var updatedAt = DateTime.Now;
             await dbCache.SetDescription(userId, description, updatedAt);
-            await Db.client.ExecuteAsync(
+            await db.connection.ExecuteAsync(
                 "UPDATE account_information SET description = @description, updated_at = @updated_at WHERE user_id = @user_id", new
                 {
                     user_id = userId,

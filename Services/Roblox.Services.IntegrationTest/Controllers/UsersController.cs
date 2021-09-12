@@ -15,7 +15,7 @@ namespace Roblox.Services.IntegrationTest.Controllers
         [Fact]
         public async Task Get_User_Description_Exists()
         {
-            var db = new UsersDatabase();
+            var db = new UsersDatabase(new DatabaseConfiguration<IUsersDatabaseCache>(new PostgresDatabaseProvider(), new UsersDatabaseCache()));
             var userId = 1;
             var desc = "This is an integration test description.";
             
@@ -41,7 +41,7 @@ namespace Roblox.Services.IntegrationTest.Controllers
         [Fact]
         public async Task Get_User_Description_Not_Exists()
         {
-            var db = new UsersDatabase();
+            var db = new UsersDatabase(new DatabaseConfiguration<IUsersDatabaseCache>(new PostgresDatabaseProvider(), new UsersDatabaseCache()));
             var userId = 1;
             var defaultCacheProvider = new UsersDatabaseCache();
             await defaultCacheProvider.DeleteAccountInformation(userId);
@@ -60,7 +60,7 @@ namespace Roblox.Services.IntegrationTest.Controllers
         [Fact]
         public async Task Set_User_Description_Not_Exists()
         {
-            var db = new UsersDatabase();
+            var db = new UsersDatabase(new DatabaseConfiguration<IUsersDatabaseCache>(new PostgresDatabaseProvider(), new UsersDatabaseCache()));
             var userId = 1;
             var defaultCacheProvider = new UsersDatabaseCache();
             await defaultCacheProvider.DeleteAccountInformation(userId);
@@ -85,7 +85,7 @@ namespace Roblox.Services.IntegrationTest.Controllers
         [Fact]
         public async Task Set_User_Description_Exists()
         {
-            var db = new UsersDatabase();
+            var db = new UsersDatabase(new DatabaseConfiguration<IUsersDatabaseCache>(new PostgresDatabaseProvider(), new UsersDatabaseCache()));
             var userId = 1;
             var defaultCacheProvider = new UsersDatabaseCache();
             await defaultCacheProvider.DeleteAccountInformation(userId);

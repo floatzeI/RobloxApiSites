@@ -1,20 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Roblox.Services.Database;
+using Roblox.Services.DatabaseCache;
 using Roblox.Services.Services;
 
 namespace Roblox.Services
@@ -43,8 +38,10 @@ namespace Roblox.Services
             // connection strings
             SetConnectionStrings();
             // services
-            services.AddSingleton<IUsersService, UsersService>(c => new (new UsersDatabase()));
-            services.AddSingleton<ISessionsService, SessionsService>(c => new (new SessionsDatabase()));
+            IDatabaseConnectionProvider defaultDatabaseProvider = new PostgresDatabaseProvider();
+            services.AddSingleton<IUsersService, UsersService>(c => new (new UsersDatabase(new(defaultDatabaseProvider, new UsersDatabaseCache()))));
+            
+            services.AddSingleton<ISessionsService, SessionsService>(c => new (new SessionsDatabase(new (defaultDatabaseProvider, null))));
         }
 
         public void SetConnectionStrings()
