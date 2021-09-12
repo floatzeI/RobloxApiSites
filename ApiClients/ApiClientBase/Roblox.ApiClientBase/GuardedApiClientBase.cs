@@ -14,13 +14,14 @@ namespace Roblox.ApiClientBase
         
         public GuardedApiClientBase(string serviceBaseUrl, string serviceVersion, string apiKey)
         {
+            this.apiKey = apiKey;
             clientBase = new ApiClientBase(serviceBaseUrl, serviceVersion);
         }
         
         public void OnRequestFailed(ApiResponseException ex, long requestId, string actionName, int? statusCode, string statusDescription,
             string actionPath)
         {
-            if (ex.response.url.Contains(apiKey))
+            if (ex.response.url != null && ex.response.url.Contains(apiKey))
             {
                 ex.response.url = ex.response.url.Replace(apiKey, "********");
             }
