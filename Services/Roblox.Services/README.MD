@@ -4,6 +4,4 @@ This is a general re-creation of Roblox's micro services. Since so little is kno
 
 ## Design Notes
 
-- Controllers directly access the database for ease of use. This would be horrible in a real world scenario (since testing would be difficult or impossible), however, this is just a fun little project that will never see real use, so I don't care enough to split up everything.
-
-- Do not use tables not specific to the controller. For instance, you cannot inner join with the users table in the AccountInformation controller.
+- Do not use tables not specific to the controller. For instance, you cannot inner join with the users table in the AccountInformation controller/service, since this would make de-coupling impossible in the future (and is not realistic).
