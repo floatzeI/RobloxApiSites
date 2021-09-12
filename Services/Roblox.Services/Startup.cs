@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Roblox.Services.Services;
 
 namespace Roblox.Services
 {
@@ -32,6 +33,10 @@ namespace Roblox.Services
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Roblox.Services", Version = "v1" });
             });
+            // configuration strings
+            Roblox.Services.Db.SetConnectionString(Configuration.GetSection("Postgres").Value);
+            // services
+            services.AddSingleton<IAccountInformationService, AccountInformationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,8 +48,10 @@ namespace Roblox.Services
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Roblox.Services v1"));
             }
-
-            app.UseHttpsRedirection();
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
 
