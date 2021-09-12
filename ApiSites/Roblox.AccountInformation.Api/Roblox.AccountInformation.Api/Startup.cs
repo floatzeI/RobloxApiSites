@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Roblox.Users.Client;
 
 namespace Roblox.AccountInformation.Api
 {
@@ -32,6 +33,8 @@ namespace Roblox.AccountInformation.Api
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Account Information Api v1", Version = "v1" });
             });
+            // services
+            services.AddScoped<IUsersV1Client, UsersV1Client>(_ => new (Configuration.GetSection("ApiClients:Users:BaseUrl").Value, Configuration.GetSection("ApiClients:Users:ApiKey").Value));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,9 +46,11 @@ namespace Roblox.AccountInformation.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Account Information Api v1"));
             }
-
-            app.UseHttpsRedirection();
-
+            else
+            {
+                app.UseHttpsRedirection();
+            }
+            
             app.UseRouting();
 
             app.UseAuthorization();
