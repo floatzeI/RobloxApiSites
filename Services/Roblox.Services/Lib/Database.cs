@@ -12,7 +12,9 @@ namespace Roblox.Services
     {
         private static string connectionString { get; set; }
         private static PostgresCompiler compiler { get; set; }
-        public static NpgsqlConnection client => new NpgsqlConnection(connectionString);
+        private static NpgsqlConnection integrationTestConnection { get; set; }
+
+        public static NpgsqlConnection client => integrationTestConnection ?? new NpgsqlConnection(connectionString);
 
         public static void SetConnectionString(string newConnectionString)
         {
@@ -22,6 +24,11 @@ namespace Roblox.Services
             }
 
             connectionString = newConnectionString;
+        }
+
+        public static void SetConnectionForIntegrationTests(NpgsqlConnection conn)
+        {
+            integrationTestConnection = conn;
         }
     }
 }
