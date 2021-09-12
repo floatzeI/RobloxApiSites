@@ -10,6 +10,10 @@ namespace Roblox.Services.Models
         /// </summary>
         public ErrorCode code { get; set; }
         /// <summary>
+        /// The <see cref="ErrorCode" /> serialized as string
+        /// </summary>
+        public string codeDescription => code.ToString();
+        /// <summary>
         /// This will include a stack trace in development
         /// </summary>
         public string message { get; set; }
