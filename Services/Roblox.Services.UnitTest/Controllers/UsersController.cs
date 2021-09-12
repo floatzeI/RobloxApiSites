@@ -43,5 +43,20 @@ namespace Roblox.Services.UnitTest.Controllers
                 await controller.GetUserDescription(1);
             });
         }
+
+        [Fact]
+        public async Task Set_User_Description()
+        {
+            var userId = 1;
+            var newDescription = "This is a new test description";
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.SetUserDescription(userId, newDescription));
+            var controller = new UsersController(mock.Object);
+            await controller.SetUserDescription(new()
+            {
+                userId = userId,
+                description = newDescription,
+            });
+        }
     }
 }
