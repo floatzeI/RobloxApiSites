@@ -71,12 +71,14 @@ namespace Roblox.Services.Database
 
         public async Task UpdateUserDescription(long userId, string description)
         {
-            await dbCache.SetDescription(userId, description);
+            var updatedAt = DateTime.Now;
+            await dbCache.SetDescription(userId, description, updatedAt);
             await Db.client.ExecuteAsync(
-                "UPDATE account_information SET description = @description WHERE user_id = @user_id", new
+                "UPDATE account_information SET description = @description, updated_at = @updated_at WHERE user_id = @user_id", new
                 {
                     user_id = userId,
                     description = description,
+                    updated_at = updatedAt,
                 });
         }
     }

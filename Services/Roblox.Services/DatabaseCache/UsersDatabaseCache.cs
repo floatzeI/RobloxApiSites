@@ -28,7 +28,7 @@ namespace Roblox.Services.DatabaseCache
             });
         }
 
-        public async Task SetDescription(long userId, string description)
+        public async Task SetDescription(long userId, string description, DateTime updatedAt)
         {
             var key = accountInformationCacheKey + userId;
             await GetLock(key, async () =>
@@ -40,6 +40,7 @@ namespace Roblox.Services.DatabaseCache
                     var parse = JsonSerializer.Deserialize<AccountInformationEntry>(existingEntry);
                     if (parse == null) return false;
                     parse.description = description;
+                    parse.updated = updatedAt;
                     await db.StringSetAsync(key, JsonSerializer.Serialize(parse));
                 }
                 return true;
