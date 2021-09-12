@@ -28,5 +28,17 @@ namespace Roblox.Users.Client
                 "GetUserDescription");
             return JsonSerializer.Deserialize<DescriptionResponse>(response.body);
         }
+        
+                
+        public async Task SetDescription(long agentId, string newDescription)
+        {
+            var query = new Dictionary<string, string>()
+            {
+                { "userId", agentId.ToString() },
+                { "description", newDescription }
+            };
+            await _base.ExecuteHttpRequest("", HttpMethod.Post, null, query, null, null, null,
+                "SetUserDescription");
+        }
     }
 }
