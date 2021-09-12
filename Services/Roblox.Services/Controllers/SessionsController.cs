@@ -24,5 +24,11 @@ namespace Roblox.Services.Controllers
         {
             return await sessionService.CreateSession(userId);
         }
+
+        [HttpPost("DeleteSessionForAccount")]
+        public async Task DeleteSession([Required] string sessionId)
+        {
+            await sessionService.DeleteSession(sessionId);
+        }
     }
 }
