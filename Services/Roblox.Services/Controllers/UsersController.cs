@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Roblox.Services.Models;
@@ -25,7 +26,7 @@ namespace Roblox.Services.Controllers
         /// RecordNotFound: Could not find a record for an account with the userId
         /// </response>
         [HttpGet("GetUserDescription")]
-        public async Task<Models.Users.UserDescriptionEntry> GetUserDescription(long userId)
+        public async Task<Models.Users.UserDescriptionEntry> GetUserDescription([Required] long userId)
         {
             return  await usersService.GetDescription(userId);
         }
