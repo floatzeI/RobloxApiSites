@@ -28,7 +28,17 @@ namespace Roblox.Services.Controllers
         [HttpGet("GetUserDescription")]
         public async Task<Models.Users.UserDescriptionEntry> GetUserDescription([Required] long userId)
         {
-            return  await usersService.GetDescription(userId);
+            return await usersService.GetDescription(userId);
+        }
+
+        /// <summary>
+        /// Insert or update the description for the provided account ID
+        /// </summary>
+        /// <param name="request">The description request</param>
+        [HttpPost]
+        public async Task SetUserDescription([Required, FromBody] Models.Users.SetDescriptionRequest request)
+        {
+            await usersService.SetUserDescription(request.userId, request.description);
         }
     }
 }
