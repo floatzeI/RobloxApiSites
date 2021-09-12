@@ -27,6 +27,16 @@ namespace Roblox.Services.DatabaseCache
                 return true;
             });
         }
+        
+        public async Task DeleteAccountInformation(long userId)
+        {
+            var key = accountInformationCacheKey + userId;
+            await GetLock(key, async () =>
+            {
+                await Redis.client.GetDatabase(0).KeyDeleteAsync(key);
+                return true;
+            });
+        }
 
         public async Task SetDescription(long userId, string description, DateTime updatedAt)
         {
