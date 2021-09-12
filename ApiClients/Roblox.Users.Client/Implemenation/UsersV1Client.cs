@@ -15,7 +15,6 @@ namespace Roblox.Users.Client
 
         public UsersV1Client(string baseUrl, string apiKey)
         {
-            Console.WriteLine("Base is {0}", baseUrl);
             _base = new GuardedApiClientBase(baseUrl, "V1", apiKey);
         }
         
