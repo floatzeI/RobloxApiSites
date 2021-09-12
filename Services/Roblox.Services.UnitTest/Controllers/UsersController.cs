@@ -12,7 +12,7 @@ namespace Roblox.Services.UnitTest.Controllers
         private static UsersController controller = new(service);
         
         [Fact]
-        public async Task GetUserDescription()
+        public async Task Return_Mock_User_Description()
         {
             var userId = 1;
             var expectedDescription = "This is an example description for a unit test.";
