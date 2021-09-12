@@ -5,5 +5,6 @@ namespace Roblox.Services.Services
     public interface IUsersService
     {
         Task<Models.Users.UserDescriptionEntry> GetDescription(long userId);
+        Task SetUserDescription(long userId, string description);
     }
 }

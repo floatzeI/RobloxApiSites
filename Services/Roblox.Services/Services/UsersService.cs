@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Dapper;
+using Roblox.Services.Database;
 using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.Users;
 
@@ -8,23 +9,46 @@ namespace Roblox.Services.Services
 {
     public class UsersService : IUsersService
     {
+        private IUsersDatabase db { get; set; }
+
+        public UsersService(IUsersDatabase db)
+        {
+            this.db = db;
+        }
+        
         public async Task<UserDescriptionEntry> GetDescription(long userId)
         {
-            var result =
-                await Db.client
-                    .QuerySingleOrDefaultAsync<Models.Users.UserDescriptionEntry>(@"SELECT 
-                    user_id as userId, 
-                    description, 
-                    created_at as created, 
-                    updated_at as updated 
-                FROM account_information 
-                WHERE user_id = @user_id", new
-                    {
-                        user_id = userId,
-                    });
+            var result = await db.GetAccountInformationEntry(userId);
             if (result == null) throw new RecordNotFoundException(userId);
 
-            return result;
+            return new()
+            {
+                userId = result.userId,
+                description = result.description,
+                created = result.created,
+                updated = result.updated,
+            };
+        }
+        
+        public async Task SetUserDescription(long userId, string description)
+        {
+            var exists = await db.DoesHaveAccountInformationEntry(userId);
+            if (exists)
+            {
+                await db.UpdateUserDescription(userId, description);
+            }
+            else
+            {
+                await db.InsertAccountInformationEntry(new()
+                {
+                    userId = userId,
+                    description = description,
+                    birthDay = null,
+                    birthMonth = null,
+                    birthYear = null,
+                    gender = null,
+                });
+            }
         }
     }
 }
