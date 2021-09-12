@@ -20,6 +20,12 @@ namespace Roblox.Services.DatabaseCache
         Task SetAccountInformation(AccountInformationEntry entry);
 
         /// <summary>
+        /// Delete cache entry for the userId
+        /// </summary>
+        /// <param name="userId">The userId to delete the accountinformation for</param>
+        Task DeleteAccountInformation(long userId);
+
+        /// <summary>
         /// Set the accountInformation cache description entry for the userId. This will do nothing if the AccountInformation entry is not already cached.
         /// </summary>
         /// <param name="userId">The userId to set the description for</param>
