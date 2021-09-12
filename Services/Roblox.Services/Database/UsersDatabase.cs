@@ -20,13 +20,20 @@ namespace Roblox.Services.Database
                     .QuerySingleOrDefaultAsync<AccountInformationEntry>(@"SELECT 
                     user_id as userId, 
                     description, 
+                    gender,
                     created_at as created, 
-                    updated_at as updated 
+                    updated_at as updated,
+                    EXTRACT(YEAR FROM birthdate) as birthYear,
+                    EXTRACT(MONTH FROM birthdate) as birthMonth,
+                    EXTRACT(DAY FROM birthdate) as birthDay
                 FROM account_information 
                 WHERE user_id = @user_id", new
                     {
                         user_id = userId,
                     });
+            if (result == null) return null;
+            
+            await dbCache.SetAccountInformation(result);
             return result;
         }
 
@@ -69,6 +76,7 @@ namespace Roblox.Services.Database
                 "UPDATE account_information SET description = @description WHERE user_id = @user_id", new
                 {
                     user_id = userId,
+                    description = description,
                 });
         }
     }
