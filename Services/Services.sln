@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Services", "Roblox.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Services.UnitTest", "Roblox.Services.UnitTest\Roblox.Services.UnitTest.csproj", "{6D3ECCF6-5324-4D7D-800B-9CD4EBADFA08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Services.IntegrationTest", "Roblox.Services.IntegrationTest\Roblox.Services.IntegrationTest.csproj", "{19D48A46-973A-49CE-9CF1-C78A1951FF4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,5 +34,17 @@ Global
 		{6D3ECCF6-5324-4D7D-800B-9CD4EBADFA08}.Release|x64.Build.0 = Release|Any CPU
 		{6D3ECCF6-5324-4D7D-800B-9CD4EBADFA08}.Release|x86.ActiveCfg = Release|Any CPU
 		{6D3ECCF6-5324-4D7D-800B-9CD4EBADFA08}.Release|x86.Build.0 = Release|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Debug|x64.Build.0 = Debug|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Debug|x86.Build.0 = Debug|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Release|x64.ActiveCfg = Release|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Release|x64.Build.0 = Release|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Release|x86.ActiveCfg = Release|Any CPU
+		{19D48A46-973A-49CE-9CF1-C78A1951FF4B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
