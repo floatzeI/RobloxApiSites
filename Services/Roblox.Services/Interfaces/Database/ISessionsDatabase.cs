@@ -6,5 +6,6 @@ namespace Roblox.Services.Database
     public interface ISessionsDatabase
     {
         Task<SessionEntry> InsertSession(long userId, string sessionId);
+        Task DeleteSession(string sessionId);
     }
 }
