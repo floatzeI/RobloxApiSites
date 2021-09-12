@@ -40,12 +40,18 @@ namespace Roblox.Services
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            // configuration strings
-            Roblox.Services.Db.SetConnectionString(Configuration.GetSection("Postgres").Value);
-            Roblox.Services.Redis.SetConnectionString(Configuration.GetSection("Redis").Value);
+            // connection strings
+            SetConnectionStrings();
             // services
             services.AddSingleton<IUsersService, UsersService>(c => new (new UsersDatabase()));
             services.AddSingleton<ISessionsService, SessionsService>(c => new (new SessionsDatabase()));
+        }
+
+        public void SetConnectionStrings()
+        {
+            // configuration strings
+            Roblox.Services.Db.SetConnectionString(Configuration.GetSection("Postgres").Value);
+            Roblox.Services.Redis.SetConnectionString(Configuration.GetSection("Redis").Value);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
