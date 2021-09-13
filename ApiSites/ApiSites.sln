@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Users.Client", "..\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.ApiClientBase", "..\ApiClients\ApiClientBase\Roblox.ApiClientBase\Roblox.ApiClientBase.csproj", "{0FC1D099-5A3A-4325-BBF9-690DA7618A2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Sessions.Client", "..\ApiClients\Roblox.Sessions.Client\Roblox.Sessions.Client.csproj", "{428D794C-FAA9-4AEB-A341-F8A0B060BFA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Authentication.Api", "Roblox.Authentication.Api\Roblox.Authentication.Api\Roblox.Authentication.Api.csproj", "{7D28C035-A725-4A26-8E56-611693A35CC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,5 +32,13 @@ Global
 		{0FC1D099-5A3A-4325-BBF9-690DA7618A2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FC1D099-5A3A-4325-BBF9-690DA7618A2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FC1D099-5A3A-4325-BBF9-690DA7618A2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{428D794C-FAA9-4AEB-A341-F8A0B060BFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{428D794C-FAA9-4AEB-A341-F8A0B060BFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{428D794C-FAA9-4AEB-A341-F8A0B060BFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{428D794C-FAA9-4AEB-A341-F8A0B060BFA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D28C035-A725-4A26-8E56-611693A35CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D28C035-A725-4A26-8E56-611693A35CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D28C035-A725-4A26-8E56-611693A35CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D28C035-A725-4A26-8E56-611693A35CC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
