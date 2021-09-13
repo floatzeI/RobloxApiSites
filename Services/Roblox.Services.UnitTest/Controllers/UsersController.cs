@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Roblox.Services.Controllers;
 using Xunit;
 using Moq;
+using Roblox.Platform.Membership;
 using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.Users;
 using Roblox.Services.Services;
@@ -81,6 +82,7 @@ namespace Roblox.Services.UnitTest.Controllers
             Assert.Equal(name, result.username);
             Assert.Equal(userId, result.userId);
         }
+        
         [Fact]
         public async Task Get_User_By_Id_Non_Existent()
         {
@@ -92,6 +94,43 @@ namespace Roblox.Services.UnitTest.Controllers
             {
                 await controller.GetUserById(userId);
             });
+        }
+
+        [Fact]
+        public async Task Create_User_With_Valid_Args()
+        {
+            // args
+            var expectedId = 123;
+            var req = new CreateUserRequest()
+            {
+                username = "GoodName123",
+                birthDay = 1,
+                birthMonth = 1,
+                birthYear = 2000,
+            };
+            var birthDateAsTime = new DateTime(req.birthYear, req.birthMonth, req.birthDay);
+            // mocks
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.GetDateTimeFromBirthDate(req.birthYear, req.birthMonth, req.birthDay))
+                .Returns(birthDateAsTime);
+            mock.Setup(c => c.CreateUser(req.username)).ReturnsAsync(new UserAccountEntry()
+            {
+                username = req.username,
+                userId = expectedId,
+                accountStatus = AccountStatus.Ok,
+            });
+            mock.Setup(c => c.SetUserBirthDate(expectedId, birthDateAsTime));
+            // test code
+            var controller = new UsersController(mock.Object);
+            var result = await controller.CreateUser(req);
+            // assertions
+            Assert.Equal(expectedId, result.userId);
+            Assert.Equal(req.username, result.username);
+            Assert.Equal(AccountStatus.Ok, result.accountStatus);
+            // mock verify
+            mock.Verify(c => c.GetDateTimeFromBirthDate(req.birthYear, req.birthMonth, req.birthDay), Times.Once);
+            mock.Verify(c => c.CreateUser(req.username), Times.Once);
+            mock.Verify(c => c.SetUserBirthDate(expectedId, birthDateAsTime), Times.Once);
         }
     }
 }
