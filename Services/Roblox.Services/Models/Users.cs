@@ -52,4 +52,50 @@ namespace Roblox.Services.Models.Users
         public DateTime created { get; set; }
         public DateTime updated { get; set; }
     }
+
+    public class SkinnyUserAccountEntry
+    {
+        public long userId { get; set; }
+        public string username { get; set; }
+        public string displayName { get; set; }
+    }
+
+    public class CreateUserRequest
+    {
+        public string username { get; set; }
+        public int birthYear { get; set; }
+        public int birthMonth { get; set; }
+        public int birthDay { get; set; }
+        /// <summary>
+        /// Get whether the request is valid
+        /// </summary>
+        /// <returns>Returns the invalid parameter as a string, or null if everything is OK</returns>
+        public string Validate()
+        {
+            // validate birth
+            var maxYear = DateTime.Now.Year;
+            var minYear = maxYear - 100;
+            if (birthYear > maxYear || birthYear < minYear)
+            {
+                return "birthYear";
+            }
+
+            if (birthMonth is < 1 or > 12)
+            {
+                return "birthMonth";
+            }
+
+            if (birthDay is < 1 or > 31)
+            {
+                return "birthDay";
+            }
+
+            // validate name
+            if (string.IsNullOrEmpty(username) || username.Length is > 20 or < 3)
+            {
+                return "username";
+            }
+            return null; // OK
+        }
+    }
 }
