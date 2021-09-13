@@ -39,5 +39,23 @@ namespace Roblox.Services.Database
                 id = sessionId,
             });
         }
+
+        public async Task<SessionEntry> GetSession(string sessionId)
+        {
+            return await db.connection.QuerySingleOrDefaultAsync<SessionEntry>(
+                "SELECT id, user_id as userId, created_at as created, updated_at as updated FROM account_session WHERE id = @id", new
+                {
+                    id = sessionId,
+                });
+        }
+
+        public async Task SetSessionUpdatedAt(string sessionId, DateTime updatedAt)
+        {
+            await db.connection.ExecuteAsync("UPDATE account_session SET updated_at = @updated_at WHERE id = @id", new
+            {
+                id = sessionId,
+                updated_at = updatedAt,
+            });
+        }
     }
 }
