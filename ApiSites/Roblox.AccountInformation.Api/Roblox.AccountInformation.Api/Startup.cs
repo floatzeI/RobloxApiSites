@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,8 +32,10 @@ namespace Roblox.AccountInformation.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            webApi.RegisterApiConfiguration("Account Information Api", "All endpoints for accessing/modifying account information", new[] { "v1" }, xmlPath);
             webApi.RegisterServices(Configuration, services);
-            webApi.RegisterApiConfiguration("Account Information API", "", new[] { "v1" });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
