@@ -57,6 +57,7 @@ namespace Roblox.Services.Services
             var id = sessionIdWithPrefix[sessionCookiePrefix.Length..];
             var result = await db.GetSession(id);
             if (result == null) throw new RecordNotFoundException();
+            result.id = sessionCookiePrefix + result.id;
             return result;
         }
 
