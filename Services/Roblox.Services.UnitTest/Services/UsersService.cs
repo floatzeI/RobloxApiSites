@@ -82,5 +82,62 @@ namespace Roblox.Services.UnitTest.Services
             
             mock.VerifyAll();
         }
+
+        [Fact]
+        public async Task Get_User_By_Id()
+        {
+            var userId = 1;
+            var name = "UnitTest1234";
+            var desc = "Unit test description";
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.GetUserAccountById(userId)).ReturnsAsync(new UserAccountEntry()
+            {
+                username = name,
+                userId = 1,
+            });
+            mock.Setup(c => c.GetAccountInformationEntry(userId)).ReturnsAsync(new AccountInformationEntry()
+            {
+                description = desc
+            });
+
+            var service = new UsersService(mock.Object);
+            var result = await service.GetUserById(userId);
+            Assert.Equal(userId, result.userId);
+            Assert.Equal(name, result.username);
+            Assert.Equal(desc, result.description);
+        }
+        
+        [Fact]
+        public async Task Get_User_By_Id_With_Null_Account_Information()
+        {
+            var userId = 1;
+            var name = "UnitTest1234";
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.GetUserAccountById(userId)).ReturnsAsync(new UserAccountEntry()
+            {
+                username = name,
+                userId = 1,
+            });
+            mock.Setup(c => c.GetAccountInformationEntry(userId)).ReturnsAsync((AccountInformationEntry)null);
+
+            var service = new UsersService(mock.Object);
+            var result = await service.GetUserById(userId);
+            Assert.Equal(userId, result.userId);
+            Assert.Equal(name, result.username);
+            Assert.Null(result.description);
+        }
+                
+        [Fact]
+        public async Task Get_User_By_Id_Non_Existent()
+        {
+            var userId = 1;
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.GetUserAccountById(userId)).ReturnsAsync((UserAccountEntry)null);
+            var service = new UsersService(mock.Object);
+            await Assert.ThrowsAsync<RecordNotFoundException>(async () =>
+            {
+                await service.GetUserById(userId);
+            });
+        }
     }
 }

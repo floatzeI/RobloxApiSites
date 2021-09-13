@@ -64,5 +64,34 @@ namespace Roblox.Services.UnitTest.Controllers
             
             mock.VerifyAll();
         }
+
+        [Fact]
+        public async Task Get_User_By_Id()
+        {
+            var userId = 1;
+            var name = "UnitTest5356";
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.GetUserById(userId)).ReturnsAsync(new UserInformationResponse()
+            {
+                username = name,
+                userId = userId,
+            });
+            var controller = new UsersController(mock.Object);
+            var result = await controller.GetUserById(userId);
+            Assert.Equal(name, result.username);
+            Assert.Equal(userId, result.userId);
+        }
+        [Fact]
+        public async Task Get_User_By_Id_Non_Existent()
+        {
+            var userId = 1;
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.GetUserById(userId)).ThrowsAsync(new RecordNotFoundException());
+            var controller = new UsersController(mock.Object);
+            await Assert.ThrowsAsync<RecordNotFoundException>(async () =>
+            {
+                await controller.GetUserById(userId);
+            });
+        }
     }
 }
