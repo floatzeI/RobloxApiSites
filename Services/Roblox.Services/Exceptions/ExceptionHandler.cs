@@ -27,6 +27,15 @@ namespace Roblox.Services.Exceptions
                 });
             }
 
+            if (errors.Count == 0)
+            {
+                errors.Add(new()
+                {
+                    code = ErrorCode.InternalServerError,
+                    message = "Internal server error"
+                });
+            }
+
             context.Response.StatusCode = statusCode;
             await context.Response.WriteAsJsonAsync(new ErrorResponse()
             {
