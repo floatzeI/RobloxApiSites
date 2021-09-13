@@ -50,5 +50,21 @@ namespace Roblox.Services.Services
                 });
             }
         }
+
+        public async Task<Models.Users.UserInformationResponse> GetUserById(long userId)
+        {
+            var userInfo = await db.GetUserAccountById(userId);
+            if (userInfo == null) throw new RecordNotFoundException(userId);
+            var accountInformation = await db.GetAccountInformationEntry(userId);
+            return new()
+            {
+                userId = userInfo.userId,
+                username = userInfo.username,
+                displayName = userInfo.displayName,
+                description = accountInformation.description,
+                accountStatus = userInfo.accountStatus,
+                created = userInfo.created,
+            };
+        }
     }
 }
