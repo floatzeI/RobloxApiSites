@@ -72,7 +72,7 @@ namespace Roblox.Services.Controllers
         /// <response code="400">
         /// Birth date is not valid. It must be less than 100 years ago, and correspond to an actual date.
         /// </response>
-        [HttpPost]
+        [HttpPost("SetUserBirthDate")]
         public async Task SetUserBirthDate([Required] Models.Users.SetBirthDateRequest request)
         {
             var error = request.Validate();
