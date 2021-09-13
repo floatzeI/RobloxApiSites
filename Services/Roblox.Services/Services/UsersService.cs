@@ -104,7 +104,7 @@ namespace Roblox.Services.Services
         public async Task<Models.Users.UserAccountEntry> CreateUser(string username)
         {
             var resource = "CreateUserWithName:v1:" + username.ToLower();
-            await using var creationLock = await Redis.redlockFactory.CreateLockAsync(resource, TimeSpan.FromSeconds(5));
+            await using var creationLock = await db.CreateLock(resource, TimeSpan.FromSeconds(5));
             
             var alreadyExists = await db.GetUsersByUsername(username);
             if (alreadyExists.Any()) throw new RecordAlreadyExistsException("username");
