@@ -120,7 +120,11 @@ namespace Roblox.Services.Database
         public async Task<Models.Users.UserAccountEntry> InsertUser(string username)
         {
             var res = await db.connection.QuerySingleOrDefaultAsync<UserAccountEntry>(
-                "INSERT INTO account (username, display_name, account_status) VALUES (@username, null, @account_status) RETURNING id as userId, created_at as created, updated_at as updated, account_status as accountStatus");
+                "INSERT INTO account (username, display_name, account_status) VALUES (@username, null, @account_status) RETURNING id as userId, created_at as created, updated_at as updated, account_status as accountStatus", new
+                {
+                    username = username,
+                    account_status = AccountStatus.Ok,
+                });
             res.username = username;
             res.displayName = username;
             return res;
