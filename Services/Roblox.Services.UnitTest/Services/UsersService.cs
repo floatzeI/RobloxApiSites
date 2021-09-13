@@ -219,5 +219,44 @@ namespace Roblox.Services.UnitTest.Services
             // verify
             mock.Verify(c => c.InsertUser(username), Times.Never);
         }
+
+        [Fact]
+        public async Task Set_Birth_Date_With_Valid_Args_And_Existing_Entry()
+        {
+            var userId = 1;
+            var newBirthDate = new DateTime(2000, 1, 3);
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.UpdateUserBirthDate(userId, newBirthDate));
+            mock.Setup(c => c.DoesHaveAccountInformationEntry(userId)).ReturnsAsync(true);
+            var service = new UsersService(mock.Object);
+            await service.SetUserBirthDate(userId, newBirthDate);
+            mock.Verify(c => c.UpdateUserBirthDate(userId, newBirthDate), Times.Once);
+            mock.Verify(c => c.InsertAccountInformationEntry(It.IsAny<AccountInformationEntry>()), Times.Never);
+        }
+        
+        [Fact]
+        public async Task Set_Birth_Date_With_Valid_Args_And_No_Existing_Entry()
+        {
+            var userId = 1;
+            var newBirthDate = new DateTime(2000, 1, 3);
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.UpdateUserBirthDate(userId, newBirthDate));
+            mock.Setup(c => c.DoesHaveAccountInformationEntry(userId)).ReturnsAsync(false);
+            var service = new UsersService(mock.Object);
+            await service.SetUserBirthDate(userId, newBirthDate);
+            mock.Verify(c => c.UpdateUserBirthDate(userId, newBirthDate), Times.Never);
+            mock.Verify(c => c.InsertAccountInformationEntry(It.IsAny<AccountInformationEntry>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task Delete_User_By_Id()
+        {
+            var userId = 123;
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.DeleteUser(userId));
+            var service = new UsersService(mock.Object);
+            await service.DeleteUser(userId);
+            mock.Verify(c => c.DeleteUser(userId), Times.Once);
+        }
     }
 }
