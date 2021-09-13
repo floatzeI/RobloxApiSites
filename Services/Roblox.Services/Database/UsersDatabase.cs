@@ -1,7 +1,10 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Dapper;
+using Roblox.Platform.Membership;
 using Roblox.Services.DatabaseCache;
 using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.Users;
@@ -97,6 +100,33 @@ namespace Roblox.Services.Database
                 {
                     id = userId,
                 });
+        }
+
+        public async Task<IEnumerable<Models.Users.SkinnyUserAccountEntry>> GetUsersByUsername(string username)
+        {
+            return await db.connection.QueryAsync<Models.Users.SkinnyUserAccountEntry>(
+                "SELECT id as userId, username, display_name as displayName FROM account WHERE lower(username) = @username",
+                new
+                {
+                    username = username.ToLower(),
+                });
+        }
+
+        public async Task<Models.Users.UserAccountEntry> InsertUser(string username)
+        {
+            var res = await db.connection.QuerySingleOrDefaultAsync<UserAccountEntry>(
+                "INSERT INTO account (username, display_name, account_status) VALUES (@username, null, @account_status) RETURNING id as userId, created_at as created, updated_at as updated, account_status as accountStatus");
+            res.username = username;
+            res.displayName = username;
+            return res;
+        }
+
+        public async Task DeleteUser(long userId)
+        {
+            await db.connection.ExecuteAsync("DELETE FROM account WHERE id = @id", new
+            {
+                id = userId,
+            });
         }
     }
 }
