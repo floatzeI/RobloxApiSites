@@ -84,4 +84,22 @@ namespace Roblox.Services.Models.Users
             return null; // OK
         }
     }
+    
+    public class SetBirthDateRequest
+    {
+        public long userId { get; set; }
+        public int birthYear { get; set; }
+        public int birthMonth { get; set; }
+        public int birthDay { get; set; }
+        public string Validate()
+        {
+            // validate birth
+            var birthCheck = Validators.Users.ValidateBirthDate(birthYear, birthMonth, birthDay);
+            if (birthCheck != null) return birthCheck;
+
+            // validate id
+            if (userId <= 0) return "username";
+            return null; // OK
+        }
+    }
 }
