@@ -26,9 +26,33 @@ namespace Roblox.Services.Controllers
         }
 
         [HttpPost("DeleteSessionForAccount")]
-        public async Task DeleteSession([Required] string sessionId)
+        public async Task DeleteSession([Required, MinLength(500)] string sessionId)
         {
             await sessionService.DeleteSession(sessionId);
+        }
+
+        /// <summary>
+        /// Get a session by its ID (aka the cookie value)
+        /// </summary>
+        /// <param name="sessionId">The sessionId, with prefix</param>
+        /// <returns>The <see cref="SessionEntry"/> corresponding to this id</returns>
+        /// <response code="400">
+        /// The session does not exist
+        /// </response>
+        [HttpGet("GetSessionById")]
+        public async Task<SessionEntry> GetSession([Required, MinLength(500)] string sessionId)
+        {
+            return await sessionService.GetSession(sessionId);
+        }
+
+        /// <summary>
+        /// Update the "updated_at" value for the sessionId
+        /// </summary>
+        /// <param name="sessionId">The id of the session, with prefix</param>
+        [HttpGet("ReportSessionUsage")]
+        public async Task ReportSessionUsage([Required, MinLength(500)] string sessionId)
+        {
+            await sessionService.ReportSessionUsage(sessionId);
         }
     }
 }
