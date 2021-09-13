@@ -33,7 +33,7 @@ namespace Roblox.Sessions.Client
             }
             catch (ApiClientException e)
             {
-                if (e.statusCode == HttpStatusCode.BadRequest)
+                if (e.statusCode == HttpStatusCode.BadRequest && e.HasError("RecordNotFound"))
                 {
                     throw new InvalidSessionIdException();
                 }
