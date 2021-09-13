@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Roblox.ApiClientBase;
+using Roblox.Sessions.Client.Exceptions;
 
 namespace Roblox.Sessions.Client
 {
@@ -21,11 +23,23 @@ namespace Roblox.Sessions.Client
             {
                 { "sessionId", sessionId },
             };
-            var result =
-                await clientBase.ExecuteHttpRequest("", HttpMethod.Get, query, null, null, null, null,
-                    "GetSessionById");
-            
-            return JsonSerializer.Deserialize<Models.Responses.GetSessionByIdResponse>(result.body);
+            try
+            {
+                var result =
+                    await clientBase.ExecuteHttpRequest("", HttpMethod.Get, query, null, null, null, null,
+                        "GetSessionById");
+
+                return JsonSerializer.Deserialize<Models.Responses.GetSessionByIdResponse>(result.body);
+            }
+            catch (ApiClientException e)
+            {
+                if (e.statusCode == HttpStatusCode.BadRequest)
+                {
+                    throw new InvalidSessionIdException();
+                }
+
+                throw;
+            }
         }
     }
 }
