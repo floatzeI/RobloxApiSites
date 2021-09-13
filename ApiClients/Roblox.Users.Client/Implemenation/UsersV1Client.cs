@@ -40,5 +40,16 @@ namespace Roblox.Users.Client
             await _base.ExecuteHttpRequest("", HttpMethod.Post, null, query, null, null, null,
                 "SetUserDescription");
         }
+
+        public async Task<Models.Responses.GetUserByIdEntry> GetUserById(long agentId)
+        {
+            var query = new Dictionary<string, string>()
+            {
+                { "userId", agentId.ToString() }
+            };
+            var result =
+                await _base.ExecuteHttpRequest("", HttpMethod.Get, query, null, null, null, null, "GetUserById");
+            return JsonSerializer.Deserialize<GetUserByIdEntry>(result.body);
+        }
     }
 }
