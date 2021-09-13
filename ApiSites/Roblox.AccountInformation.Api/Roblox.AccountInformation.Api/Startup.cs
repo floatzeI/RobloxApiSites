@@ -11,7 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Roblox.Sessions.Client;
 using Roblox.Users.Client;
+using Roblox.Web.WebAPI;
 
 namespace Roblox.AccountInformation.Api
 {
@@ -23,42 +25,19 @@ namespace Roblox.AccountInformation.Api
         }
 
         public IConfiguration Configuration { get; }
+        public Roblox.Web.WebAPI.WebApiStartup webApi { get; set; } = new();
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Account Information Api v1", Version = "v1" });
-            });
-            // services
-            services.AddScoped<IUsersV1Client, UsersV1Client>(_ => new (Configuration.GetSection("ApiClients:Users:BaseUrl").Value, Configuration.GetSection("ApiClients:Users:ApiKey").Value));
+            webApi.RegisterServices(Configuration, services);
+            webApi.RegisterApiConfiguration("Account Information API", "", new[] { "v1" });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Account Information Api v1"));
-            }
-            else
-            {
-                app.UseHttpsRedirection();
-            }
-            
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            webApi.RegisterConfiguration(app, env);
         }
     }
 }
