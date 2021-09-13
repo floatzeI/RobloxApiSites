@@ -128,5 +128,15 @@ namespace Roblox.Services.Database
                 id = userId,
             });
         }
+
+        public async Task UpdateUserBirthDate(long userId, DateTime birthDate)
+        {
+            await db.connection.ExecuteAsync(
+                "UPDATE account_information SET birthdate = @birthdate WHERE user_id = @user_id", new
+                {
+                    user_id = userId,
+                    birthdate = birthDate,
+                });
+        }
     }
 }
