@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -78,7 +80,8 @@ namespace Roblox.ApiClientBase
         private async Task<ApiClientResponse> DoPost(HttpClient httpClient, string requestUrl, Dictionary<string, string> formData)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            request.Content = new FormUrlEncodedContent(formData);
+            var content = JsonSerializer.Serialize(formData);
+            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
             var result = await httpClient.SendAsync(request);
             var body = await result.Content.ReadAsStringAsync();
             return new()
