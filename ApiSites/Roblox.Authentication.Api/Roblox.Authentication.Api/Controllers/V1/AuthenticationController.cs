@@ -5,6 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Roblox.Authentication.Api.Exceptions;
+using Roblox.Platform.Authentication;
+using Roblox.Users.Client;
+using Roblox.Users.Client.Exceptions;
 
 namespace Roblox.Authentication.Api.Controllers
 {
@@ -12,6 +16,13 @@ namespace Roblox.Authentication.Api.Controllers
     [Route("/v1/")]
     public class AuthenticationController : ControllerBase
     {
+        private IUsersV1Client usersClient { get; set; }
+
+        public AuthenticationController(IUsersV1Client usersClient)
+        {
+            this.usersClient = usersClient;
+        }
+        
         /// <summary>
         /// Authenticates a user.
         /// </summary>
@@ -40,8 +51,24 @@ namespace Roblox.Authentication.Api.Controllers
         /// 11: Service unavailable. Please try again.
         /// </response>
         [HttpPost("login")]
-        public async Task Login([Required, FromBody] Models.LoginRequest request)
+        public async Task<Models.LoginResponse> Login([Required, FromBody] Models.LoginRequest request)
         {
+            // temporary until other methods are added...
+            if (request.ctype != CredentialsType.Username)
+            {
+                throw new CredentialsNotSuitableForLogin();
+            }
+
+            Users.Client.Models.Responses.SkinnyUserEntry userInfo;
+            try
+            {
+                userInfo = await usersClient.GetUserByUsername(request.cvalue);
+            }
+            catch (UserNotFoundException)
+            {
+                throw new IncorrectCredentialsException();
+            }
+
             throw new NotImplementedException();
         }
     }
