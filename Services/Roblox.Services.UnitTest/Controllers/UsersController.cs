@@ -154,5 +154,50 @@ namespace Roblox.Services.UnitTest.Controllers
                 await controller.CreateUser(req);
             });
         }
+                
+        [Fact]
+        public async Task Delete_User_Created_5_Minutes_Ago()
+        {
+            // args
+            var userId = 1;
+            // mocks
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.DeleteUser(userId));
+            mock.Setup(c => c.GetUserById(userId)).ReturnsAsync(new UserInformationResponse()
+            {
+                created = DateTime.Now.Subtract(TimeSpan.FromMinutes(15)),
+                userId = userId,
+            });
+            // test code
+            var controller = new UsersController(mock.Object);
+            await Assert.ThrowsAsync<ParameterException>(async () =>
+            {
+                await controller.DeleteUser(userId);
+            });
+            // verify
+            mock.Verify(c => c.DeleteUser(userId), Times.Never);
+            mock.Verify(c => c.GetUserById(userId), Times.Once);
+        }
+                        
+        [Fact]
+        public async Task Delete_User_Created_15_Minutes_Ago_And_Fail()
+        {
+            // args
+            var userId = 1;
+            // mocks
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.DeleteUser(userId));
+            mock.Setup(c => c.GetUserById(userId)).ReturnsAsync(new UserInformationResponse()
+            {
+                created = DateTime.Now.Subtract(TimeSpan.FromMinutes(5)),
+                userId = userId,
+            });
+            // test code
+            var controller = new UsersController(mock.Object);
+            await controller.DeleteUser(userId);
+            // verify
+            mock.Verify(c => c.DeleteUser(userId), Times.Once);
+            mock.Verify(c => c.GetUserById(userId), Times.Once);
+        }
     }
 }
