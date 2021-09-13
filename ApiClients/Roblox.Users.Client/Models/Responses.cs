@@ -20,4 +20,10 @@ namespace Roblox.Users.Client.Models.Responses
         public DateTime birthDate { get; set; }
         public DateTime created { get; set; }
     }
+
+    public class SkinnyUserEntry
+    {
+        public long userId { get; set; }
+        public string username { get; set; }
+    }
 }
