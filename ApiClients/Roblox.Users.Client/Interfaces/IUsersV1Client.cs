@@ -25,5 +25,12 @@ namespace Roblox.Users.Client
         /// <param name="agentId">The ID of the user</param>
         /// <returns>The <see cref="GetUserByIdEntry" /></returns>
         Task<Models.Responses.GetUserByIdEntry> GetUserById(long agentId);
+
+        /// <summary>
+        /// Get a user by their username. This is case-insensitive, and does not check previous usernames.
+        /// </summary>
+        /// <param name="username">The username to lookup</param>
+        /// <returns>The <see cref="SkinnyUserEntry"/></returns>
+        Task<Models.Responses.SkinnyUserEntry> GetUserByUsername(string username);
     }
 }
