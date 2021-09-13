@@ -71,83 +71,19 @@ namespace Roblox.Services.UnitTest.Models.Users
             };
             Assert.Equal("username", m.Validate());
         }
+        
                 
         [Fact]
-        public void Return_BirthDay_On_Negative_Day()
+        public void Return_Date_On_Bad_Birth_Date()
         {
             var m = new CreateUserRequest
             {
-                username = "Username123",
-                birthDay = -1,
+                username = "User123",
+                birthDay = 40,
                 birthMonth = 1,
                 birthYear = 1990
             };
             Assert.Equal("birthDay", m.Validate());
-        }
-                        
-        [Fact]
-        public void Return_BirthDay_On_Too_Big_Day()
-        {
-            var m = new CreateUserRequest
-            {
-                username = "Username123",
-                birthDay = 34,
-                birthMonth = 1,
-                birthYear = 1990
-            };
-            Assert.Equal("birthDay", m.Validate());
-        }
-        
-        [Fact]
-        public void Return_BirthMonth_On_Negative_Month()
-        {
-            var m = new CreateUserRequest
-            {
-                username = "Username123",
-                birthDay = 10,
-                birthMonth = -1,
-                birthYear = 1990
-            };
-            Assert.Equal("birthMonth", m.Validate());
-        }
-        
-        [Fact]
-        public void Return_BirthMonth_On_Too_Big_Month()
-        {
-            var m = new CreateUserRequest
-            {
-                username = "Username123",
-                birthDay = 10,
-                birthMonth = 15,
-                birthYear = 1990
-            };
-            Assert.Equal("birthMonth", m.Validate());
-        }
-                
-        [Fact]
-        public void Return_BirthYear_On_Too_Small_Year()
-        {
-            var m = new CreateUserRequest
-            {
-                username = "Username123",
-                birthDay = 10,
-                birthMonth = 10,
-                birthYear = 1900
-            };
-            Assert.Equal("birthYear", m.Validate());
-        }
-                        
-        [Fact]
-        public void Return_BirthYear_On_Too_Big_Year()
-        {
-            var m = new CreateUserRequest
-            {
-                username = "Username123",
-                birthDay = 10,
-                birthMonth = 10,
-                birthYear = DateTime.Now.Year + 1,
-            };
-            Assert.Equal("birthYear", m.Validate());
         }
     }
 }
