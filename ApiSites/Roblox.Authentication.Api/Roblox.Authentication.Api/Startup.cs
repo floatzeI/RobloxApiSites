@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,13 +29,9 @@ namespace Roblox.Authentication.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Roblox.Web.WebAPI.Pages.Docs.versions = new string[] { "v1" };
-            Roblox.Web.WebAPI.Pages.Docs.pageTitle = "Authentication Api";
-            Web.WebAPI.Pages.Docs.pageDescription = "All endpoints that tamper with authentication sessions.";
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Authentication Api V1", Version = "v1"});
-            });
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            webApi.RegisterApiConfiguration("Authentication Api", "All endpoints that tamper with authentication sessions.", new string[] {"v1"}, xmlPath);
             webApi.RegisterServices(Configuration, services);
         }
 
