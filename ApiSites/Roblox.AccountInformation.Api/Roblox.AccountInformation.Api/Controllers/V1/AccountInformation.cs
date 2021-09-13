@@ -2,12 +2,14 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Roblox.Users.Client;
+using Roblox.Web.WebAPI;
+using Roblox.Web.WebAPI.Controllers;
 
 namespace Roblox.AccountInformation.Api.Controllers.V1 {
     /// <summary>Account Information Api v1</summary>
     [ApiController]
     [Route("/v1/")]
-    public class AccountInformationController
+    public class AccountInformationController : ApiControllerBase
     {
         private IUsersV1Client usersV1Client { get; }
         public AccountInformationController(IUsersV1Client usersV1Client)
@@ -30,9 +32,10 @@ namespace Roblox.AccountInformation.Api.Controllers.V1 {
         
         /// <summary>Get the user's description</summary>
         [HttpGet("description")]
+        [LoggedIn]
         public async Task<AccountInformation.Api.Models.DescriptionResponse> GetDescription()
         {
-            var result = await usersV1Client.GetDescription(1);
+            var result = await usersV1Client.GetDescription(authenticatedUser.id);
             return new()
             {
                 description = result.description,
