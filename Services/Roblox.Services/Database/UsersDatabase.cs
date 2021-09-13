@@ -20,7 +20,12 @@ namespace Roblox.Services.Database
             db = config.dbConnection;
             dbCache = config.dbCache;
         }
-        
+
+        public async Task<IAsyncDisposable> CreateLock(string resource, TimeSpan maxWaitTime)
+        {
+            return await Redis.redlockFactory.CreateLockAsync(resource, maxWaitTime);
+        }
+
         public async Task<AccountInformationEntry> GetAccountInformationEntry(long userId)
         {
             var cache = await dbCache.GetAccountInformation(userId);
