@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Moq;
-using Roblox.Services.Controllers;
+using Roblox.Services.Controllers.V1;
 using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.Sessions;
 using Roblox.Services.Services;

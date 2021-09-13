@@ -6,7 +6,7 @@ using Roblox.Services.Models;
 using Roblox.Services.Models.Sessions;
 using Roblox.Services.Services;
 
-namespace Roblox.Services.Controllers
+namespace Roblox.Services.Controllers.V1
 {
     [ApiController]
     [Route("/Sessions/v1")]

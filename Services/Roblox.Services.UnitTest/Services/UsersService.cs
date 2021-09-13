@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Roblox.Services.Controllers;
+using Roblox.Services.Controllers.V1;
 using Xunit;
 using Moq;
 using Roblox.Platform.Membership;
