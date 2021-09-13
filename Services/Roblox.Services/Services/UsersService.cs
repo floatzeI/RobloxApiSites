@@ -61,7 +61,7 @@ namespace Roblox.Services.Services
                 userId = userInfo.userId,
                 username = userInfo.username,
                 displayName = userInfo.displayName,
-                description = accountInformation.description,
+                description = accountInformation?.description,
                 accountStatus = userInfo.accountStatus,
                 created = userInfo.created,
             };
