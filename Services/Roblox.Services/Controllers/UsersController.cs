@@ -17,6 +17,16 @@ namespace Roblox.Services.Controllers
         {
             usersService = service;
         }
+
+        /// <summary>
+        /// Get information for an account from their userId
+        /// </summary>
+        /// <param name="userId"></param>
+        [HttpGet("GetUserInformation")]
+        public async Task<Models.Users.UserInformationResponse> GetUserById(long userId)
+        {
+            return await usersService.GetUserById(userId);
+        }
         
         /// <summary>
         /// Get the description of an account by its ID
