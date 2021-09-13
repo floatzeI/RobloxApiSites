@@ -66,10 +66,22 @@ namespace Roblox.Services.Controllers
             }
         }
 
+        /// <summary>
+        /// Set the user's birth date
+        /// </summary>
+        /// <response code="400">
+        /// Birth date is not valid. It must be less than 100 years ago, and correspond to an actual date.
+        /// </response>
         [HttpPost]
-        public async Task SetUserBirthDate()
+        public async Task SetUserBirthDate([Required] Models.Users.SetBirthDateRequest request)
         {
-            throw new NotImplementedException();
+            var error = request.Validate();
+            if (error != null)
+            {
+                throw new ParameterException(error);
+            }
+            var date = usersService.GetDateTimeFromBirthDate(request.birthYear, request.birthMonth, request.birthDay);
+            await usersService.SetUserBirthDate(request.userId, date);
         }
         
         /// <summary>
