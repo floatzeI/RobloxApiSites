@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Platform\Membership\Roblox.Platform.Membership\Roblox.Platform.Membership.csproj" />
     <ProjectReference Include="..\ApiClientBase\Roblox.ApiClientBase\Roblox.ApiClientBase.csproj" />
   </ItemGroup>
 
