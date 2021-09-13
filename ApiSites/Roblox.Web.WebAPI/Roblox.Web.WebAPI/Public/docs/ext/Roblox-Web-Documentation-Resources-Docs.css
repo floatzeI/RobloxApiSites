@@ -95,3 +95,7 @@ body {
 	text-align: center;
 	cursor: pointer;
 }
+
+span.hljs-string {
+	white-space: pre-wrap!important;
+}
