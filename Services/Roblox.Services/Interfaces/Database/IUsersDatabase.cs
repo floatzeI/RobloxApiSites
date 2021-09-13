@@ -9,5 +9,6 @@ namespace Roblox.Services.Database
         Task<bool> DoesHaveAccountInformationEntry(long userId);
         Task InsertAccountInformationEntry(Models.Users.AccountInformationEntry entry);
         Task UpdateUserDescription(long userId, string description);
+        Task<Models.Users.UserAccountEntry> GetUserAccountById(long userId);
     }
 }
