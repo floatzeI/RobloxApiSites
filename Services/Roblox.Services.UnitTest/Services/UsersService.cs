@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Roblox.Services.Controllers;
 using Xunit;
 using Moq;
+using Roblox.Platform.Membership;
 using Roblox.Services.Database;
 using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.Users;
@@ -162,6 +163,35 @@ namespace Roblox.Services.UnitTest.Services
             {
                 service.GetDateTimeFromBirthDate(2021, 2, 31);
             });
+        }
+
+        [Fact]
+        public async Task Create_User_With_Good_Args()
+        {
+            // arguments
+            var username = "GoodName123";
+            // expectations
+            var expectedUserId = 456;
+            // mocks
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.CreateLock(It.IsAny<string>(), It.IsAny<TimeSpan>()));
+            mock.Setup(c => c.GetUsersByUsername(username)).ReturnsAsync(new SkinnyUserAccountEntry[] { });
+            mock.Setup(c => c.InsertUser(username)).ReturnsAsync(new UserAccountEntry()
+            {
+                username = username,
+                userId = expectedUserId,
+                accountStatus = AccountStatus.Ok
+            });
+            // test
+            var service = new UsersService(mock.Object);
+            var result = await service.CreateUser(username);
+            // assertions
+            Assert.Equal(expectedUserId, result.userId);
+            Assert.Equal(username, result.username);
+            Assert.Equal(AccountStatus.Ok, result.accountStatus);
+            // verify
+            mock.Verify(c => c.CreateLock(It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
+            mock.Verify(c => c.GetUsersByUsername(username), Times.Once);
         }
     }
 }
