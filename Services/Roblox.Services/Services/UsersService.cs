@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Roblox.Services.Database;
@@ -30,6 +31,26 @@ namespace Roblox.Services.Services
             };
         }
         
+        public async Task SetUserBirthDate(long userId, DateTime birthDate)
+        {
+            var exists = await db.DoesHaveAccountInformationEntry(userId);
+            if (exists)
+            {
+                await db.UpdateUserBirthDate(userId, birthDate);
+            }
+            else
+            {
+                await db.InsertAccountInformationEntry(new()
+                {
+                    userId = userId,
+                    description = null,
+                    birthDay = birthDate.Day,
+                    birthMonth = birthDate.Month,
+                    birthYear = birthDate.Year,
+                    gender = null,
+                });
+            }
+        }
         public async Task SetUserDescription(long userId, string description)
         {
             var exists = await db.DoesHaveAccountInformationEntry(userId);
@@ -65,6 +86,36 @@ namespace Roblox.Services.Services
                 accountStatus = userInfo.accountStatus,
                 created = userInfo.created,
             };
+        }
+
+        public DateTime GetDateTimeFromBirthDate(int birthYear, int birthMonth, int birthDay)
+        {
+            try
+            {
+                var dt = new DateTime(birthYear, birthMonth, birthDay);
+                return dt;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw new ParameterException("birthDay");
+            }
+        }
+
+        public async Task<Models.Users.UserAccountEntry> CreateUser(string username)
+        {
+            var resource = "CreateUserWithName:v1:" + username.ToLower();
+            await using var creationLock = await Redis.redlockFactory.CreateLockAsync(resource, TimeSpan.FromSeconds(5));
+            
+            var alreadyExists = await db.GetUsersByUsername(username);
+            if (alreadyExists.Any()) throw new RecordAlreadyExistsException("username");
+            
+            var creation = await db.InsertUser(username);
+            return creation;
+        }
+
+        public async Task DeleteUser(long userId)
+        {
+            await db.DeleteUser(userId);
         }
     }
 }
