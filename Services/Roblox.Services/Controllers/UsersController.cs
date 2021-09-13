@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models;
 using Roblox.Services.Services;
 
@@ -26,6 +27,24 @@ namespace Roblox.Services.Controllers
         public async Task<Models.Users.UserInformationResponse> GetUserById(long userId)
         {
             return await usersService.GetUserById(userId);
+        }
+
+        /// <summary>
+        /// Create a new account and account_information
+        /// </summary>
+        /// <returns>The created user's details</returns>
+        [HttpPost("CreateUser")]
+        public async Task<Models.Users.UserAccountEntry> CreateUser([Required] Models.Users.CreateUserRequest request)
+        {
+            var staticValidationError = request.Validate();
+            if (staticValidationError != null)
+            {
+                throw new ParameterException(staticValidationError);
+            }
+            var birth = usersService.GetDateTimeFromBirthDate(request.birthYear, request.birthMonth, request.birthDay);
+            var user = await usersService.CreateUser(request.username);
+            await usersService.SetUserBirthDate(user.userId, birth);
+            return user;
         }
         
         /// <summary>
