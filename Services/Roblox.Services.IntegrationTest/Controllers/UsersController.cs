@@ -163,8 +163,13 @@ namespace Roblox.Services.IntegrationTest.Controllers
             });
             Assert.Equal(username, result.username);
 
-            // await controller;
-            // todo
+            await controller.SetUserBirthDate(new()
+            {
+                userId = result.userId,
+                birthDay = 1,
+                birthMonth = 1,
+                birthYear = 2001,
+            });
         }
     }
 }
