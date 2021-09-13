@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Roblox.ApiClientBase;
+using Roblox.Users.Client.Exceptions;
 using Roblox.Users.Client.Models.Responses;
 
 namespace Roblox.Users.Client
@@ -50,6 +52,31 @@ namespace Roblox.Users.Client
             var result =
                 await _base.ExecuteHttpRequest("", HttpMethod.Get, query, null, null, null, null, "GetUserInformation");
             return JsonSerializer.Deserialize<GetUserByIdEntry>(result.body);
+        }
+
+        public async Task<Models.Responses.SkinnyUserEntry> GetUserByUsername(string username)
+        {
+            var query = new Dictionary<string, string>()
+            {
+                { "username", username }
+            };
+            
+            try
+            {
+                var result =
+                    await _base.ExecuteHttpRequest("", HttpMethod.Get, query, null, null, null, null,
+                        "GetUserByUsername");
+                return JsonSerializer.Deserialize<SkinnyUserEntry>(result.body);
+            }
+            catch (ApiClientException e)
+            {
+                if (e.statusCode == HttpStatusCode.BadRequest && e.HasError("RecordNotFound"))
+                {
+                    throw new UserNotFoundException();
+                }
+
+                throw;
+            }
         }
     }
 }
