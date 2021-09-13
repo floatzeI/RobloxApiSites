@@ -12,5 +12,6 @@ namespace Roblox.Services.Services
         DateTime GetDateTimeFromBirthDate(int birthYear, int birthMonth, int birthDay);
         Task<Models.Users.UserAccountEntry> CreateUser(string username);
         Task DeleteUser(long userId);
+        Task<Models.Users.SkinnyUserAccountEntry> GetUserByUsername(string username);
     }
 }

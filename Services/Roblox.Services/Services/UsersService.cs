@@ -117,5 +117,13 @@ namespace Roblox.Services.Services
         {
             await db.DeleteUser(userId);
         }
+
+        public async Task<SkinnyUserAccountEntry> GetUserByUsername(string username)
+        {
+            var result = await db.GetUsersByUsername(username);
+            var arr = result.ToArray();
+            if (arr.Length == 0) throw new RecordNotFoundException();
+            return arr[0];
+        }
     }
 }

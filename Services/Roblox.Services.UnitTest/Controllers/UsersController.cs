@@ -239,5 +239,21 @@ namespace Roblox.Services.UnitTest.Controllers
             });
             mock.Verify(c => c.SetUserBirthDate(req.userId, dt), Times.Never);
         }
+
+        [Fact]
+        public async Task Get_User_By_Username()
+        {
+            var user = "Roblox";
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.GetUserByUsername(user)).ReturnsAsync(new SkinnyUserAccountEntry()
+            {
+                username = user,
+                userId = 123,
+            });
+            var controller = new UsersController(mock.Object);
+            var result = await controller.GetUserByName(user);
+            Assert.Equal(123, result.userId);
+            Assert.Equal(user, result.username);
+        }
     }
 }

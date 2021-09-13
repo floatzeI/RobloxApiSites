@@ -258,5 +258,25 @@ namespace Roblox.Services.UnitTest.Services
             await service.DeleteUser(userId);
             mock.Verify(c => c.DeleteUser(userId), Times.Once);
         }
+
+        [Fact]
+        public async Task Get_User_By_Name()
+        {
+            var username = "hello";
+            var mock = new Mock<IUsersDatabase>();
+            var request = new SkinnyUserAccountEntry[]
+            {
+                new SkinnyUserAccountEntry()
+                {
+                    username = "hello",
+                    userId = 123,
+                },
+            };
+            mock.Setup(c => c.GetUsersByUsername(username)).ReturnsAsync(request);
+            var service = new UsersService(mock.Object);
+            var resp = await service.GetUserByUsername(username);
+            Assert.Equal(123, resp.userId);
+            Assert.Equal(username, resp.username);
+        }
     }
 }
