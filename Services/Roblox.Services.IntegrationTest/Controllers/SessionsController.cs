@@ -47,6 +47,18 @@ namespace Roblox.Services.IntegrationTest.Controllers
             Assert.Equal(sessionUserId, data.userId);
             Assert.Equal(mySession.sessionId, data.id);
         }
+        
+                
+        [Fact]
+        public async Task Get_Session_By_Id_Not_Exists()
+        {
+            var sessionId =
+                "13789589y3gj8924gh2994gwhgs4gse742gjn8se47shg7jubr8hy47w9hg8sh94wg8sgsgsj8sg9jg8s9h8s9xergh478w9gs4he78s4thj0782943h84gw78wq43ghywj8hq0ju89rhw444444440j84ehyj089";
+            await Assert.ThrowsAsync<RecordNotFoundException>(async () =>
+            {
+                await controller.GetSession(sessionId);
+            });
+        }
 
         [Fact]
         public async Task Report_Session_Usage()
