@@ -36,6 +36,7 @@ $(function () {
             swaggerApi.apisArray.forEach(function (api) {
                 api.operationsArray.forEach(function (operation) {
                     var id = operation.encodedParentId + "_" + operation.nickname;
+                    if (!properties) return; // properties is some sort of Roblox extension
                     var properties = operation.operation.properties;
 
                     if (properties.internal) {
