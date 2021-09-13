@@ -1,8 +1,10 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Roblox.Services.Database;
+using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.Sessions;
 
 namespace Roblox.Services.Services
@@ -48,6 +50,20 @@ namespace Roblox.Services.Services
         {
             var id = sessionIdWithPrefix[sessionCookiePrefix.Length..];
             await db.DeleteSession(id);
+        }
+
+        public async Task<SessionEntry> GetSession(string sessionIdWithPrefix)
+        {
+            var id = sessionIdWithPrefix[sessionCookiePrefix.Length..];
+            var result = await db.GetSession(id);
+            if (result == null) throw new RecordNotFoundException();
+            return result;
+        }
+
+        public async Task ReportSessionUsage(string sessionIdWithPrefix)
+        {
+            var id = sessionIdWithPrefix[sessionCookiePrefix.Length..];
+            await db.SetSessionUpdatedAt(id, DateTime.Now);
         }
     }
 }
