@@ -46,6 +46,31 @@ namespace Roblox.Services.Controllers
             await usersService.SetUserBirthDate(user.userId, birth);
             return user;
         }
+
+        /// <summary>
+        /// Delete a user account by its ID. The account must be less than 10 minutes old.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <exception cref="ParameterException"></exception>
+        [HttpPost("DeleteUser")]
+        public async Task DeleteUser([Required] long userId)
+        {
+            var userInfo = await usersService.GetUserById(userId);
+            if (userInfo.created > DateTime.Now.Subtract(TimeSpan.FromMinutes(10)))
+            {
+                await usersService.DeleteUser(userId);
+            }
+            else
+            {
+                throw new ParameterException("userId");
+            }
+        }
+
+        [HttpPost]
+        public async Task SetUserBirthDate()
+        {
+            throw new NotImplementedException();
+        }
         
         /// <summary>
         /// Get the description of an account by its ID
