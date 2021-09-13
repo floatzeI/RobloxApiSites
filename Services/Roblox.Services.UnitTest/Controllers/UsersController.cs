@@ -132,5 +132,27 @@ namespace Roblox.Services.UnitTest.Controllers
             mock.Verify(c => c.CreateUser(req.username), Times.Once);
             mock.Verify(c => c.SetUserBirthDate(expectedId, birthDateAsTime), Times.Once);
         }
+        
+        [Fact]
+        public async Task Create_User_With_Bad_Username()
+        {
+            // args
+            var req = new CreateUserRequest()
+            {
+                username = "A",
+                birthDay = 1,
+                birthMonth = 1,
+                birthYear = 2000,
+            };
+            // mocks
+            var mock = new Mock<IUsersService>();
+            // test code
+            var controller = new UsersController(mock.Object);
+            // assertions
+            await Assert.ThrowsAsync<ParameterException>(async () =>
+            {
+                await controller.CreateUser(req);
+            });
+        }
     }
 }
