@@ -8,5 +8,6 @@ namespace Roblox.Services.Models
         InternalServerError = 1,
         RecordNotFound,
         InvalidParameter,
+        RecordAlreadyExists,
     }
 }
