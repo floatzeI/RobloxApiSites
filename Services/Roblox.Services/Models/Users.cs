@@ -73,22 +73,8 @@ namespace Roblox.Services.Models.Users
         public string Validate()
         {
             // validate birth
-            var maxYear = DateTime.Now.Year;
-            var minYear = maxYear - 100;
-            if (birthYear > maxYear || birthYear < minYear)
-            {
-                return "birthYear";
-            }
-
-            if (birthMonth is < 1 or > 12)
-            {
-                return "birthMonth";
-            }
-
-            if (birthDay is < 1 or > 31)
-            {
-                return "birthDay";
-            }
+            var birthCheck = Validators.Users.ValidateBirthDate(birthYear, birthMonth, birthDay);
+            if (birthCheck != null) return birthCheck;
 
             // validate name
             if (string.IsNullOrEmpty(username) || username.Length is > 20 or < 3)
