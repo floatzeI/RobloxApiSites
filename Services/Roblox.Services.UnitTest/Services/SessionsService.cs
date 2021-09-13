@@ -74,7 +74,7 @@ namespace Roblox.Services.UnitTest.Services
             });
             var service = new SessionsService(mock.Object);
             var result = await service.GetSession(SessionsService.sessionCookiePrefix + sessionId);
-            Assert.Equal(sessionId, result.id);
+            Assert.Equal(SessionsService.sessionCookiePrefix + sessionId, result.id);
             Assert.Equal(userId, result.userId);
             mock.Verify(c => c.GetSession(sessionId), Times.Once);
         }
