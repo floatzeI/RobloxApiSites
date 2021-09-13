@@ -112,6 +112,7 @@ namespace Roblox.Services.Controllers.V1
         /// </summary>
         /// <param name="username">The username to check</param>
         /// <returns>The <see cref="Models.Users.SkinnyUserAccountEntry"/>, or RecordNotFound if does not exist</returns>
+        [HttpGet("GetUserByUsername")]
         public async Task<Models.Users.SkinnyUserAccountEntry> GetUserByName(string username)
         {
             return await usersService.GetUserByUsername(username);
