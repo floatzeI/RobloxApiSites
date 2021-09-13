@@ -88,5 +88,15 @@ namespace Roblox.Services.Database
                     updated_at = updatedAt,
                 });
         }
+
+        public async Task<Models.Users.UserAccountEntry> GetUserAccountById(long userId)
+        {
+            return await db.connection.QuerySingleOrDefaultAsync<Models.Users.UserAccountEntry>(
+                "SELECT id as userId, username, display_name as displayName, account_status as accountStatus, created_at as created, updated_at as updated FROM account WHERE id = @id",
+                new
+                {
+                    id = userId,
+                });
+        }
     }
 }
