@@ -139,5 +139,29 @@ namespace Roblox.Services.UnitTest.Services
                 await service.GetUserById(userId);
             });
         }
+
+        [Fact]
+        public void Get_Date_Time_From_Valid_Date()
+        {
+            var service = new UsersService(null);
+            var result = service.GetDateTimeFromBirthDate(2000, 1, 2);
+            Assert.Equal(2000, result.Year);
+            Assert.Equal(1, result.Month);
+            Assert.Equal(2, result.Day);
+            Assert.Equal(0, result.Hour);
+            Assert.Equal(0, result.Minute);
+            Assert.Equal(0, result.Second);
+            Assert.Equal(0, result.Millisecond);
+        }
+        
+        [Fact]
+        public void Get_Date_Time_From_Bad_Date_And_Throw()
+        {
+            var service = new UsersService(null);
+            Assert.Throws<ParameterException>(() =>
+            {
+                service.GetDateTimeFromBirthDate(2021, 2, 31);
+            });
+        }
     }
 }
