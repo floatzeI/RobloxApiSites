@@ -1,3 +1,5 @@
+using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Dapper;
 using Roblox.Services.Controllers;
@@ -108,6 +110,22 @@ namespace Roblox.Services.IntegrationTest.Controllers
             var latestDesc = await controller.GetUserDescription(userId);
             Assert.Equal(userId, latestDesc.userId);
             Assert.Equal(newDesc, latestDesc.description);
+        }
+
+        [Fact]
+        public async Task Create_Random_User()
+        {
+            var username = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
+            var controller = new UsersController(new UsersService(new UsersDatabase(new(new PostgresDatabaseProvider(), new UsersDatabaseCache()))));
+            var result = await controller.CreateUser(new()
+            {
+                username = username,
+                birthYear = 2000,
+                birthDay = 20,
+                birthMonth = 4,
+            });
+            Assert.Equal(username, result.username);
+            // todo: check birthdate
         }
     }
 }
