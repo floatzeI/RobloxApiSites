@@ -42,11 +42,45 @@ namespace Roblox.AccountInformation.Api.Controllers.V1 {
             };
         }
         
-        /// <summary>Update the user's description</summary>
+        /// <summary>
+        /// Update the user's description
+        /// </summary>
+        /// <response code="400">
+        /// 1: User Not Found
+        /// </response>
+        /// <response code="401">
+        /// 0: Authorization has been denied for this request.
+        /// </response>
+        /// <response code="403">
+        /// 0: Token Validation Failed
+        /// 2: PIN is locked.
+        /// </response>
+        /// <response code="503">
+        /// 3: This feature is currently disabled. Please try again later.
+        /// </response>
         [HttpPost("description")]
+        [LoggedIn]
         public async Task<AccountInformation.Api.Models.DescriptionResponse> SetDescription(AccountInformation.Api.Models.DescriptionRequest request)
         {
-            throw new NotImplementedException();
+            var newDescription = request.description;
+            if (newDescription != null)
+            {
+                if (newDescription.Length > 999)
+                {
+                    newDescription = newDescription.Substring(0, 999);
+                }   
+                
+                if (newDescription.Trim() == "")
+                {
+                    newDescription = null;
+                }
+            }
+
+            await usersV1Client.SetDescription(authenticatedUser.id, newDescription);
+            return new()
+            {
+                description = newDescription
+            };
         }
         
         /// <summary>Get the user's gender</summary>
