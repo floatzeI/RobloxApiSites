@@ -7,6 +7,7 @@ namespace Roblox.Services.Database
 {
     public interface IUsersDatabase
     {
+        Task<IAsyncDisposable> CreateLock(string resource, TimeSpan maxWaitTime);
         Task<AccountInformationEntry> GetAccountInformationEntry(long userId);
         Task<bool> DoesHaveAccountInformationEntry(long userId);
         Task InsertAccountInformationEntry(Models.Users.AccountInformationEntry entry);
