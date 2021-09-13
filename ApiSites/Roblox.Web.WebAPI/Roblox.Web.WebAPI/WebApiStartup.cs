@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +60,14 @@ namespace Roblox.Web.WebAPI
             }
 
             app.UseHttpsRedirection();
+            
+            app.UseExceptionHandler(errorApp => {
+                errorApp.Run(async context =>
+                {
+                    var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
+                    await WebApiExceptionHandler.OnError(exceptionHandlerPathFeature.Error, context);
+                }); 
+            });
 
             app.UseRouting();
             
