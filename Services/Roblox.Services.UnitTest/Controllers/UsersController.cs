@@ -199,5 +199,45 @@ namespace Roblox.Services.UnitTest.Controllers
             mock.Verify(c => c.DeleteUser(userId), Times.Once);
             mock.Verify(c => c.GetUserById(userId), Times.Once);
         }
+
+        [Fact]
+        public async Task Set_User_Birth_Date()
+        {
+            var req = new SetBirthDateRequest()
+            {
+                userId = 1,
+                birthDay = 1,
+                birthMonth = 2,
+                birthYear = 2003,
+            };
+            var dt = new DateTime(req.birthYear, req.birthMonth, req.birthDay);
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.SetUserBirthDate(req.userId, dt));
+            mock.Setup(c => c.GetDateTimeFromBirthDate(req.birthYear, req.birthMonth, req.birthDay)).Returns(dt);
+            var controller = new UsersController(mock.Object);
+            await controller.SetUserBirthDate(req);
+            mock.Verify(c => c.SetUserBirthDate(req.userId, dt), Times.Once);
+        }
+        
+        [Fact]
+        public async Task Set_User_Birth_Date_With_Invalid_Date()
+        {
+            var req = new SetBirthDateRequest()
+            {
+                userId = 1,
+                birthDay = 1,
+                birthMonth = 2,
+                birthYear = 1900,
+            };
+            var dt = new DateTime(req.birthYear, req.birthMonth, req.birthDay);
+            var mock = new Mock<IUsersService>();
+            mock.Setup(c => c.GetDateTimeFromBirthDate(req.birthYear, req.birthMonth, req.birthDay)).Returns(dt);
+            var controller = new UsersController(mock.Object);
+            await Assert.ThrowsAsync<ParameterException>(async () =>
+            {
+                await controller.SetUserBirthDate(req);
+            });
+            mock.Verify(c => c.SetUserBirthDate(req.userId, dt), Times.Never);
+        }
     }
 }
