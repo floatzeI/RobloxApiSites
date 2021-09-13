@@ -127,5 +127,44 @@ namespace Roblox.Services.IntegrationTest.Controllers
             Assert.Equal(username, result.username);
             // todo: check birthdate
         }
+        
+        [Fact]
+        public async Task Create_Random_User_And_Delete()
+        {
+            var username = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
+            var controller = new UsersController(new UsersService(new UsersDatabase(new(new PostgresDatabaseProvider(), new UsersDatabaseCache()))));
+            var result = await controller.CreateUser(new()
+            {
+                username = username,
+                birthYear = 2000,
+                birthDay = 20,
+                birthMonth = 4,
+            });
+            Assert.Equal(username, result.username);
+
+            await controller.DeleteUser(result.userId);
+            await Assert.ThrowsAsync<RecordNotFoundException>(async () =>
+            {
+                await controller.GetUserById(result.userId);
+            });
+        }
+                
+        [Fact]
+        public async Task Create_Random_User_And_Set_Birth_Date()
+        {
+            var username = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 20);
+            var controller = new UsersController(new UsersService(new UsersDatabase(new(new PostgresDatabaseProvider(), new UsersDatabaseCache()))));
+            var result = await controller.CreateUser(new()
+            {
+                username = username,
+                birthYear = 2000,
+                birthDay = 20,
+                birthMonth = 4,
+            });
+            Assert.Equal(username, result.username);
+
+            // await controller;
+            // todo
+        }
     }
 }
