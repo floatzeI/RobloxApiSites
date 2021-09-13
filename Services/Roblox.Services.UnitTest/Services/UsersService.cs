@@ -193,5 +193,31 @@ namespace Roblox.Services.UnitTest.Services
             mock.Verify(c => c.CreateLock(It.IsAny<string>(), It.IsAny<TimeSpan>()), Times.Once);
             mock.Verify(c => c.GetUsersByUsername(username), Times.Once);
         }
+        
+        [Fact]
+        public async Task Create_User_With_Already_Taken_Username()
+        {
+            // arguments
+            var username = "GoodName123";
+            // mocks
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.CreateLock(It.IsAny<string>(), It.IsAny<TimeSpan>()));
+            mock.Setup(c => c.GetUsersByUsername(username)).ReturnsAsync(new SkinnyUserAccountEntry[]
+            {
+                new SkinnyUserAccountEntry()
+                {
+                    userId = 123,
+                    username = username.ToLower(),
+                }
+            });
+            // test
+            var service = new UsersService(mock.Object);
+            await Assert.ThrowsAsync<RecordAlreadyExistsException>(async () =>
+            {
+                await service.CreateUser(username);
+            });
+            // verify
+            mock.Verify(c => c.InsertUser(username), Times.Never);
+        }
     }
 }
