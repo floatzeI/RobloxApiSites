@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\ApiClients\Roblox.Sessions.Client\Roblox.Sessions.Client.csproj" />
+      <ProjectReference Include="..\..\..\ApiClients\Roblox.Users.Client\Roblox.Users.Client.csproj" />
+      <ProjectReference Include="..\..\..\Platform\Membership\Roblox.Platform.Membership\Roblox.Platform.Membership.csproj" />
+      <ProjectReference Include="..\..\Roblox.Web.WebAPI\Roblox.Web.WebAPI\Roblox.Web.WebAPI.csproj" />
+    </ItemGroup>
+
+</Project>
