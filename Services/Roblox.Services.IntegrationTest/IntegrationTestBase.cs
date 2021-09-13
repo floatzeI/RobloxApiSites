@@ -7,9 +7,7 @@ using Xunit;
 namespace Roblox.Services.IntegrationTest
 {
     public class IntegrationTestBase : IDisposable
-    { 
-        private static NpgsqlTransaction trx { get; set; }
-
+    {
         static IntegrationTestBase()
         {
             var config = new ConfigurationBuilder()
@@ -22,7 +20,7 @@ namespace Roblox.Services.IntegrationTest
 
             var cl = Roblox.Services.Db.client;
             cl.Open();
-            trx = cl.BeginTransaction();
+            cl.BeginTransaction();
             Roblox.Services.Db.SetConnectionForIntegrationTests(cl);
         }
         
