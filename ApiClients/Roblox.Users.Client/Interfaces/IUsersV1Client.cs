@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Roblox.Users.Client.Models.Responses;
+using Roblox.Web.Enums;
 
 namespace Roblox.Users.Client
 {
@@ -49,5 +50,7 @@ namespace Roblox.Users.Client
         /// </summary>
         /// <param name="userId">The ID of the account to delete</param>
         Task DeleteUser(long userId);
+        
+        Task SetGender(long userId, Gender gender);
     }
 }
