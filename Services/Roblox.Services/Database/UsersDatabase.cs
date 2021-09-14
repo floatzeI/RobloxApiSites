@@ -84,6 +84,15 @@ namespace Roblox.Services.Database
             await dbCache.SetAccountInformation(entry);
         }
 
+        public async Task UpdateUserGender(long userId, int gender)
+        {
+            await db.connection.ExecuteAsync("UPDATE account_information SET gender = @gender WHERE user_id = @user_id",
+                new
+                {
+                    gender = gender,
+                });
+        }
+
         public async Task UpdateUserDescription(long userId, string description)
         {
             var updatedAt = DateTime.Now;
