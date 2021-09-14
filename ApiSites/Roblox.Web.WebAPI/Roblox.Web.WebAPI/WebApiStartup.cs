@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using Roblox.Passwords.Client;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Roblox.Web.WebAPI
 {
@@ -56,6 +57,7 @@ namespace Roblox.Web.WebAPI
             LoggedInAttribute.SetClients(new SessionsV1Client(config.GetSection("ApiClients:Sessions:BaseUrl").Value, config.GetSection("ApiClients:Sessions:ApiKey").Value), new UsersV1Client(config.GetSection("ApiClients:Users:BaseUrl").Value, config.GetSection("ApiClients:Users:ApiKey").Value));
             services.AddSwaggerGen(c =>
             {
+                c.CustomSchemaIds(type => type.ToString());
                 foreach (var item in Pages.Docs.versions)
                 {
                     c.SwaggerDoc(item, new OpenApiInfo { Title = Pages.Docs.pageTitle + " " + item.ToUpper() , Version = item});
