@@ -23,7 +23,7 @@ namespace Roblox.Passwords.Client
             var body = new Dictionary<string, string>()
             {
                 { "userId", accountId.ToString() },
-                { "password", userProvidedPassword.ToString() },
+                { "password", userProvidedPassword },
             };
             try
             {
@@ -41,6 +41,17 @@ namespace Roblox.Passwords.Client
 
                 throw;
             }
+        }
+
+        public async Task SetPassword(long accountId, string password)
+        {
+            var body = new Dictionary<string, string>()
+            {
+                { "userId", accountId.ToString() },
+                { "password", password },
+            };
+            await clientBase.ExecuteHttpRequest("", HttpMethod.Post, null, body, null, null, null,
+                    "SetUserPassword");
         }
     }
 }
