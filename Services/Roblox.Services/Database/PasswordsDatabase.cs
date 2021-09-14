@@ -35,7 +35,7 @@ namespace Roblox.Services.Database
         public async Task SetPassword(long accountId, string passwordHash)
         {
             await db.connection.ExecuteAsync(
-                "UPDATE account_password SET password = @password WHERE user_id = @user_id", new
+                "UPDATE account_password SET password = @password, updated_at = now() WHERE user_id = @user_id", new
                 {
                     user_id = accountId,
                     password = passwordHash,
