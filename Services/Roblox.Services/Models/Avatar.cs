@@ -28,12 +28,16 @@ namespace Roblox.Services.Models.Avatar
         public decimal bodyType { get; set; }
     }
 
-    public class SetAvatarRequest
+    public class AvatarEntry
     {
-        public long userId { get; set; }
         public AvatarType type { get; set; }
         public AvatarColor colors { get; set; }
         public AvatarScale scales { get; set; }
         public IEnumerable<long> assetIds { get; set; }
+    }
+
+    public class SetAvatarRequest : AvatarEntry
+    {
+        public long userId { get; set; }
     }
 }
