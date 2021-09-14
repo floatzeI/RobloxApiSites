@@ -149,10 +149,7 @@ namespace Roblox.Authentication.Api.Controllers
         {
             var cookieValue = HttpContext.Request.Cookies[".ROBLOSECURITY"];
             await sessionsClient.DeleteSession(cookieValue);
-            return new()
-            {
-
-            };
+            return new();
         }
     }
 }
