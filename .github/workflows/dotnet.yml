@@ -16,7 +16,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Delete global.json files
-      run: rm **/global.json
+      run: rm **/global.json && rm -f global.json
     - name: Restore dependencies
       run: cd Services/Roblox.Services && dotnet restore
     - name: Build
