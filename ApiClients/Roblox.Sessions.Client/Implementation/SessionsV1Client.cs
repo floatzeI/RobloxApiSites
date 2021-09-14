@@ -55,5 +55,15 @@ namespace Roblox.Sessions.Client
             var response = JsonSerializer.Deserialize<Models.Responses.CreateSessionResponse>(result.body);
             return response.sessionId;
         }
+
+        public async Task DeleteSession(string sessionId)
+        {
+            var body = new Dictionary<string, string>()
+            {
+                { "sessionId", sessionId }
+            };
+            await clientBase.ExecuteHttpRequest("", HttpMethod.Post, null, body, null, null, null,
+                "DeleteSessionForAccount");
+        }
     }
 }
