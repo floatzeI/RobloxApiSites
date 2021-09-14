@@ -115,7 +115,7 @@ namespace Roblox.Authentication.Api.Controllers
             var userSession = await sessionsClient.CreateSession(userInfo.userId);
             // set cookie
             var expiration = DateTime.Now.AddYears(10);
-            HttpContext.Response.Cookies.Append(".ROBLOSECURITY", userSession, new CookieOptions()
+            var cookieOpts = new CookieOptions()
             {
                 HttpOnly = true,
                 Expires = new DateTimeOffset(expiration),
@@ -124,7 +124,9 @@ namespace Roblox.Authentication.Api.Controllers
                 // TODO: get domain from appsettings or something?
                 // Domain = "roblox.com",
                 // Secure = true, // roblox doesn't actually set the secure flag, probably for backwards compatability
-            });
+            };
+            HttpContext?.Response.Cookies.Append(".ROBLOSECURITY", userSession, cookieOpts);
+
             // return result
             return new()
             {
