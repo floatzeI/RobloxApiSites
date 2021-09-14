@@ -1,6 +1,14 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Roblox.Authentication.Api.Models;
+using Roblox.Authentication.Api.Validators;
+using Roblox.Passwords.Client;
+using Roblox.Sessions.Client;
+using Roblox.Users.Client;
+using Roblox.Users.Client.Exceptions;
+using Roblox.Web.Authentication.Signup;
+using Roblox.Web.WebAPI.Exceptions;
 
 namespace Roblox.Authentication.Api.Controllers
 {
@@ -8,6 +16,17 @@ namespace Roblox.Authentication.Api.Controllers
     [Route("/v1/signup")]
     public class SignupController
     {
+        private IUsersV1Client usersClient { get; set; }
+        private IPasswordsV1Client passwordsClient { get; set; }
+        private ISessionsV1Client sessionsClient { get; set; }
+
+        public SignupController(IUsersV1Client users, IPasswordsV1Client passwords, ISessionsV1Client sessions)
+        {
+            usersClient = users;
+            passwordsClient = passwords;
+            sessionsClient = sessions;
+        }
+        
         /// <summary>
         /// Endpoint for signing up a new user
         /// </summary>
@@ -47,16 +66,63 @@ namespace Roblox.Authentication.Api.Controllers
         {
             // todo: what has to be called:
             // 1. Create user with UsersService
-            // 2. Insert locale info for that user
-            // 3. Insert birthday for that user
+            // 2. insert gender
+            // 3. Insert locale info for that user
             // 4. Insert password for that user
             // 5. If email specified, insert email record
             // 6. Create avatar (go off params if specified, otherwise use default specified in AppSettings)
             // 7. Add default avatar items to inventory, plus items specified in request.assetIds (as long as they're free items)
-            // 8. Create default place and universe for the user
-            // 9. Finally, Create session and set cookie
+            // 8. add thumbnail and headshot
+            // 9. Create default place and universe for the user
+            // 10. Finally, Create session and set cookie
             
             // In the future, we may also want to look into captcha verification (mostly for realism)
+            
+            // implementation start
+            try
+            {
+                await usersClient.GetUserByUsername(request.username);
+                throw new ForbiddenException(SignupResponseCodes.UsernameTaken, "Username already taken.");
+            }
+            catch (UserNotFoundException)
+            {
+                // Good
+            }
+
+            DateTime birthDate;
+            try
+            {
+                birthDate = DateTime.Parse(request.birthday);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                throw new ForbiddenException(SignupResponseCodes.InvalidBirthDay, "Invalid Birthday.");
+            }
+
+            var birthdayErrors = BirthdayValidator.ValidateBirthday(birthDate);
+            if (birthdayErrors != null)
+            {
+                throw new ForbiddenException(SignupResponseCodes.InvalidBirthDay, "Invalid Birthday.");
+            }
+
+            var passwordErrors = PasswordValidator.GetPasswordStatus(request.username, request.password);
+            if (passwordErrors.code != PasswordValidationStatus.ValidPassword)
+            {
+                throw new ForbiddenException(SignupResponseCodes.PasswordTooSimple, "Password is too simple.");
+            }
+
+            var user = await usersClient.InsertUser(request.username, birthDate.Year, birthDate.Month, birthDate.Day);
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception e)
+            {
+                // capture, then rollback
+                await usersClient.DeleteUser(user.userId);
+
+                throw new Exception("Signup Failed", e);
+            }
             throw new NotImplementedException();
         }
     }
