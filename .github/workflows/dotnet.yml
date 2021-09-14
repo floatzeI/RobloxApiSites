@@ -16,8 +16,8 @@ jobs:
       with:
         dotnet-version: 5.0.301
     - name: Restore dependencies
-      run: dotnet restore
+      run: cd Roblox.Services && dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: cd ../ && cd Roblox.Services.UnitTest && dotnet test --no-build --verbosity normal
