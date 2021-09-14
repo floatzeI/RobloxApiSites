@@ -58,11 +58,11 @@ namespace Roblox.Sessions.Client
 
         public async Task DeleteSession(string sessionId)
         {
-            var body = new Dictionary<string, string>()
+            var query = new Dictionary<string, string>()
             {
                 { "sessionId", sessionId }
             };
-            await clientBase.ExecuteHttpRequest("", HttpMethod.Post, null, body, null, null, null,
+            await clientBase.ExecuteHttpRequest("", HttpMethod.Post, query, null, null, null, null,
                 "DeleteSessionForAccount");
         }
     }
