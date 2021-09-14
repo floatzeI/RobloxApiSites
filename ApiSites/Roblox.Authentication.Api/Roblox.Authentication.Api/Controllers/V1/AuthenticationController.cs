@@ -14,6 +14,7 @@ using Roblox.Platform.Membership;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
 using Roblox.Users.Client.Exceptions;
+using Roblox.Web.WebAPI;
 
 namespace Roblox.Authentication.Api.Controllers
 {
@@ -30,6 +31,15 @@ namespace Roblox.Authentication.Api.Controllers
             this.usersClient = usersClient;
             this.passwordsClient = passwordsClient;
             this.sessionsClient = sessionsClient;
+        }
+
+        /// <summary>
+        /// Gets Auth meta data
+        /// </summary>
+        [HttpGet("auth/metadata")]
+        public Models.AuthMetaDataResponse GetMetaData()
+        {
+            return new();
         }
         
         /// <summary>
@@ -128,6 +138,17 @@ namespace Roblox.Authentication.Api.Controllers
                 identityVerificationLoginTicket = null,
                 isBanned = extendedUserDetails.accountStatus != AccountStatus.Ok,
             };
+        }
+
+        /// <summary>
+        /// Destroys the current authentication session.
+        /// </summary>
+        [HttpPost("logout")]
+        [LoggedIn]
+        public async Task<ApiEmptyResponseModel> LogOut()
+        {
+            var cookieValue = HttpContext.Request.Cookies[".ROBLOSECURITY"];
+            throw new NotImplementedException();
         }
     }
 }
