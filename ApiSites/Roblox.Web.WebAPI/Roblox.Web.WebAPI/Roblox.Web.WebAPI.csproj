@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\ApiClients\Roblox.Passwords.Client\Roblox.Passwords.Client.csproj" />
     <ProjectReference Include="..\..\..\ApiClients\Roblox.Sessions.Client\Roblox.Sessions.Client.csproj" />
     <ProjectReference Include="..\..\..\ApiClients\Roblox.Users.Client\Roblox.Users.Client.csproj" />
     <ProjectReference Include="..\..\..\Platform\Membership\Roblox.Platform.Membership\Roblox.Platform.Membership.csproj" />
