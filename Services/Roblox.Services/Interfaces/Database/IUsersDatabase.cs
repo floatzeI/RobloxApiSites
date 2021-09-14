@@ -12,6 +12,7 @@ namespace Roblox.Services.Database
         Task<bool> DoesHaveAccountInformationEntry(long userId);
         Task InsertAccountInformationEntry(Models.Users.AccountInformationEntry entry);
         Task UpdateUserBirthDate(long userId, DateTime birthDate);
+        Task UpdateUserGender(long userId, int gender);
         Task UpdateUserDescription(long userId, string description);
         Task<Models.Users.UserAccountEntry> GetUserAccountById(long userId);
         Task<Models.Users.UserAccountEntry> InsertUser(string username);
