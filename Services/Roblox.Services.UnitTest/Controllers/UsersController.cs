@@ -255,5 +255,19 @@ namespace Roblox.Services.UnitTest.Controllers
             Assert.Equal(123, result.userId);
             Assert.Equal(user, result.username);
         }
+
+        [Fact]
+        public async Task Set_User_Gender()
+        {
+            var request = new SetGenderRequest()
+            {
+                userId = 1,
+                gender = Gender.Male,
+            };
+            var mock = new Mock<IUsersService>();
+            var controller = new UsersController(mock.Object);
+            await controller.SetUserGender(request);
+            mock.Verify(c => c.SetUserGender(request.userId, request.gender), Times.Once);
+        }
     }
 }
