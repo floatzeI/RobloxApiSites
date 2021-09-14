@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Roblox.Passwords.Client;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
 
@@ -33,8 +34,24 @@ namespace Roblox.Web.WebAPI
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
             // services
-            services.AddScoped<IUsersV1Client, UsersV1Client>(_ => new (config.GetSection("ApiClients:Users:BaseUrl").Value, config.GetSection("ApiClients:Users:ApiKey").Value));
-            services.AddScoped<ISessionsV1Client, SessionsV1Client>(_ => new (config.GetSection("ApiClients:Sessions:BaseUrl").Value, config.GetSection("ApiClients:Sessions:ApiKey").Value));
+            services.AddScoped<IUsersV1Client, UsersV1Client>(_ => 
+                new (
+                    config.GetSection("ApiClients:Users:BaseUrl").Value, 
+                    config.GetSection("ApiClients:Users:ApiKey").Value
+                )
+            );
+            services.AddScoped<ISessionsV1Client, SessionsV1Client>(_ => 
+                new (
+                    config.GetSection("ApiClients:Sessions:BaseUrl").Value, 
+                    config.GetSection("ApiClients:Sessions:ApiKey").Value
+                )
+            );
+            services.AddScoped<IPasswordsV1Client, PasswordsV1Client>(_ =>
+                new (
+                    config.GetSection("ApiClients:Passwords:BaseUrl").Value,
+                    config.GetSection("ApiClients:Passwords:ApiKey").Value
+                )
+            );
             // config attributes
             LoggedInAttribute.SetClients(new SessionsV1Client(config.GetSection("ApiClients:Sessions:BaseUrl").Value, config.GetSection("ApiClients:Sessions:ApiKey").Value), new UsersV1Client(config.GetSection("ApiClients:Users:BaseUrl").Value, config.GetSection("ApiClients:Users:ApiKey").Value));
             services.AddSwaggerGen(c =>
