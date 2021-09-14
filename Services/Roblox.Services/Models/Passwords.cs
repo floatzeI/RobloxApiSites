@@ -20,4 +20,10 @@ namespace Roblox.Services.Models.Passwords
     {
         public bool isCorrect { get; set; }
     }
+
+    public class SetPasswordRequest
+    {
+        public string password { get; set; }
+        public long userId { get; set; }
+    }
 }
