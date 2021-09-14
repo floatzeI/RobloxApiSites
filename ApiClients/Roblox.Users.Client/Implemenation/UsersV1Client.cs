@@ -78,5 +78,28 @@ namespace Roblox.Users.Client
                 throw;
             }
         }
+
+        public async Task<GetUserByIdEntry> InsertUser(string username, int birthYear, int birthMonth, int birthDay)
+        {
+            var body = new Dictionary<string, string>()
+            {
+                { "username", username },
+                { "birthYear", birthYear.ToString() },
+                { "birthMonth", birthMonth.ToString() },
+                { "birthDay", birthDay.ToString() },
+            };
+            var result =
+                await _base.ExecuteHttpRequest("", HttpMethod.Post, null, body, null, null, null, "CreateUser");
+            return JsonSerializer.Deserialize<GetUserByIdEntry>(result.body);
+        }
+
+        public async Task DeleteUser(long userId)
+        {
+            var query = new Dictionary<string, string>()
+            {
+                { "userId", userId.ToString() },
+            };
+            await _base.ExecuteHttpRequest("", HttpMethod.Post, query, null, null, null, null, "DeleteUser");
+        }
     }
 }
