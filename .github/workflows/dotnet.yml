@@ -22,4 +22,4 @@ jobs:
     - name: Build
       run: cd Services/Roblox.Services && dotnet build --no-restore
     - name: Test
-      run: cd cd Services/Roblox.Services.UnitTest && dotnet test --no-build --verbosity normal
+      run: cd Services/Roblox.Services.UnitTest && dotnet test --no-build --verbosity normal
