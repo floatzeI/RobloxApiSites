@@ -278,5 +278,22 @@ namespace Roblox.Services.UnitTest.Services
             Assert.Equal(123, resp.userId);
             Assert.Equal(username, resp.username);
         }
+        
+        [Fact]
+        public async Task Get_User_By_Name_Not_Exists()
+        {
+            var username = "hello";
+            var mock = new Mock<IUsersDatabase>();
+            var request = new SkinnyUserAccountEntry[]
+            {
+
+            };
+            mock.Setup(c => c.GetUsersByUsername(username)).ReturnsAsync(request);
+            var service = new UsersService(mock.Object);
+            await Assert.ThrowsAsync<RecordNotFoundException>(async () =>
+            {
+                await service.GetUserByUsername(username);
+            });
+        }
     }
 }
