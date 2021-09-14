@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Roblox.ApiClientBase;
 using Roblox.Users.Client.Exceptions;
 using Roblox.Users.Client.Models.Responses;
+using Roblox.Web.Enums;
 
 namespace Roblox.Users.Client
 {
@@ -100,6 +101,16 @@ namespace Roblox.Users.Client
                 { "userId", userId.ToString() },
             };
             await _base.ExecuteHttpRequest("", HttpMethod.Post, query, null, null, null, null, "DeleteUser");
+        }
+
+        public async Task SetGender(long userId, Gender gender)
+        {
+            var body = new Dictionary<string, string>()
+            {
+                { "userId", userId.ToString() },
+                { "gender", gender.ToString() },
+            };
+            await _base.ExecuteHttpRequest("", HttpMethod.Post, null, body, null, null, null, "SetUserGender");
         }
     }
 }
