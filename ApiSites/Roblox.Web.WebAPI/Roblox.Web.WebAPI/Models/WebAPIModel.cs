@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Roblox.Web.WebAPI
 {
-    public abstract class ApiEmptyResponseModel { }
+    public class ApiEmptyResponseModel { }
 
     public class ErrorResponse
     {
