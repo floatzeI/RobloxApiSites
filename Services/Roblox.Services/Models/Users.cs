@@ -102,4 +102,10 @@ namespace Roblox.Services.Models.Users
             return null; // OK
         }
     }
+
+    public class SetGenderRequest
+    {
+        public long userId { get; set; }
+        public Gender gender { get; set; }
+    }
 }
