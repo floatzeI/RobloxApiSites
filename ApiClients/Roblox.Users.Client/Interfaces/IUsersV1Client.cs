@@ -31,6 +31,23 @@ namespace Roblox.Users.Client
         /// </summary>
         /// <param name="username">The username to lookup</param>
         /// <returns>The <see cref="SkinnyUserEntry"/></returns>
+        /// <exception cref="Exceptions.UserNotFoundException">User could not be found</exception>
         Task<Models.Responses.SkinnyUserEntry> GetUserByUsername(string username);
+
+        /// <summary>
+        /// Add a user to the store.
+        /// </summary>
+        /// <param name="username">The username to create the user with</param>
+        /// <param name="birthYear">The year the user was born</param>
+        /// <param name="birthMonth">The month the user was born</param>
+        /// <param name="birthDay">The day the user was born</param>
+        /// <returns>The <see cref="GetUserByIdEntry"/> for the newly created user</returns>
+        Task<GetUserByIdEntry> InsertUser(string username, int birthYear, int birthMonth, int birthDay);
+        
+        /// <summary>
+        /// Delete a user by their ID. The user must have been created less than 10 minutes ago.
+        /// </summary>
+        /// <param name="userId">The ID of the account to delete</param>
+        Task DeleteUser(long userId);
     }
 }
