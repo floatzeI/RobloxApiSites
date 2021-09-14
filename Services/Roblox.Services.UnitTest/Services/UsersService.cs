@@ -295,5 +295,36 @@ namespace Roblox.Services.UnitTest.Services
                 await service.GetUserByUsername(username);
             });
         }
+
+        [Fact]
+        public async Task Set_User_Gender_With_Previous_Entry()
+        {
+            var userId = 1;
+            var gender = Gender.Male;
+            
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.DoesHaveAccountInformationEntry(userId)).ReturnsAsync(true);
+            var service = new UsersService(mock.Object);
+            await service.SetUserGender(userId, gender);
+
+            mock.Verify(c => c.DoesHaveAccountInformationEntry(userId), Times.Once);
+            mock.Verify(c => c.UpdateUserGender(userId, (int)gender), Times.Once);
+        }
+        
+        
+        [Fact]
+        public async Task Set_User_Gender_No_Previous_Entry()
+        {
+            var userId = 1;
+            var gender = Gender.Male;
+            
+            var mock = new Mock<IUsersDatabase>();
+            mock.Setup(c => c.DoesHaveAccountInformationEntry(userId)).ReturnsAsync(false);
+            var service = new UsersService(mock.Object);
+            await service.SetUserGender(userId, gender);
+
+            mock.Verify(c => c.DoesHaveAccountInformationEntry(userId), Times.Once);
+            mock.Verify(c => c.InsertAccountInformationEntry(It.IsAny<AccountInformationEntry>()), Times.Once);
+        }
     }
 }
