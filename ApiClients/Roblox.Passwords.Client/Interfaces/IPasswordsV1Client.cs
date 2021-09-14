@@ -13,5 +13,12 @@ namespace Roblox.Passwords.Client
         /// <returns>true if the password is correct, false otherwise</returns>
         /// <exception cref="UserHasNoPasswordException">User does not have a password set</exception>
         Task<bool> IsPasswordCorrect(long accountId, string userProvidedPassword);
+        
+        /// <summary>
+        /// Set the password for the userId.
+        /// </summary>
+        /// <param name="accountId">The userId</param>
+        /// <param name="password">The new password</param>
+        Task SetPassword(long accountId, string password);
     }
 }
