@@ -42,6 +42,9 @@ namespace Roblox.Services
             services.AddSingleton<IUsersService, UsersService>(c => new (new UsersDatabase(new(defaultDatabaseProvider, new UsersDatabaseCache()))));
             
             services.AddSingleton<ISessionsService, SessionsService>(c => new (new SessionsDatabase(new (defaultDatabaseProvider, null))));
+
+            services.AddSingleton<IPasswordsService, PasswordsService>(c =>
+                new(new PasswordsDatabase(new(defaultDatabaseProvider, null))));
         }
 
         public void SetConnectionStrings()
