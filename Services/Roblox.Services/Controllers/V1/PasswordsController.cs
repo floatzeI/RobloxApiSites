@@ -32,5 +32,15 @@ namespace Roblox.Services.Controllers.V1
                 isCorrect = status,
             };
         }
+
+        /// <summary>
+        /// Insert or update the password for the user.
+        /// </summary>
+        /// <param name="request">The update request</param>
+        [HttpPost("SetUserPassword")]
+        public async Task SetUserPassword([Required] Models.Passwords.SetPasswordRequest request)
+        {
+            await service.SetPasswordForUser(request.userId, request.password);
+        }
     }
 }
