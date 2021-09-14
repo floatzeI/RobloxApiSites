@@ -148,7 +148,11 @@ namespace Roblox.Authentication.Api.Controllers
         public async Task<ApiEmptyResponseModel> LogOut()
         {
             var cookieValue = HttpContext.Request.Cookies[".ROBLOSECURITY"];
-            throw new NotImplementedException();
+            await sessionsClient.DeleteSession(cookieValue);
+            return new()
+            {
+
+            };
         }
     }
 }
