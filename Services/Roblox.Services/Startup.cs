@@ -45,6 +45,8 @@ namespace Roblox.Services
 
             services.AddSingleton<IPasswordsService, PasswordsService>(c =>
                 new(new PasswordsDatabase(new(defaultDatabaseProvider, null))));
+
+            services.AddSingleton<IAvatarService, AvatarService>(c => new(new AvatarDatabase(new(defaultDatabaseProvider, new AvatarDatabaseCache()))));
         }
 
         public void SetConnectionStrings()
