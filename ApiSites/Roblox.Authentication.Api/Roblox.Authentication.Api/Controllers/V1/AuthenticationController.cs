@@ -149,6 +149,13 @@ namespace Roblox.Authentication.Api.Controllers
         {
             var cookieValue = HttpContext.Request.Cookies[".ROBLOSECURITY"];
             await sessionsClient.DeleteSession(cookieValue);
+            HttpContext.Response.Cookies.Append(".ROBLOSECURITY", "", new CookieOptions()
+            {
+                HttpOnly = true,
+                Path = "/",
+                IsEssential = true,
+                Expires = new DateTimeOffset(DateTime.Now.Add(TimeSpan.FromSeconds(3))),
+            });
             return new();
         }
     }
