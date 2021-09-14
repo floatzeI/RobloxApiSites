@@ -20,6 +20,6 @@ jobs:
     - name: Restore dependencies
       run: cd Services/Roblox.Services && dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: cd Services/Roblox.Services && dotnet build --no-restore
     - name: Test
-      run: cd ../Roblox.Services.UnitTest && dotnet test --no-build --verbosity normal
+      run: cd cd Services/Roblox.Services.UnitTest && dotnet test --no-build --verbosity normal
