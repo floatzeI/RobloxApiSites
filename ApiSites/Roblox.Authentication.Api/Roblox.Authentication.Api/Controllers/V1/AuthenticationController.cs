@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Roblox.Authentication.Api.Exceptions;
+using Roblox.Passwords.Client;
+using Roblox.Passwords.Client.Exceptions;
 using Roblox.Platform.Authentication;
+using Roblox.Platform.Membership;
+using Roblox.Sessions.Client;
 using Roblox.Users.Client;
 using Roblox.Users.Client.Exceptions;
 
@@ -17,10 +22,14 @@ namespace Roblox.Authentication.Api.Controllers
     public class AuthenticationController : ControllerBase
     {
         private IUsersV1Client usersClient { get; set; }
+        private IPasswordsV1Client passwordsClient { get; set; }
+        private ISessionsV1Client sessionsClient { get; set; }
 
-        public AuthenticationController(IUsersV1Client usersClient)
+        public AuthenticationController(IUsersV1Client usersClient, IPasswordsV1Client passwordsClient, ISessionsV1Client sessionsClient)
         {
             this.usersClient = usersClient;
+            this.passwordsClient = passwordsClient;
+            this.sessionsClient = sessionsClient;
         }
         
         /// <summary>
@@ -58,7 +67,7 @@ namespace Roblox.Authentication.Api.Controllers
             {
                 throw new CredentialsNotSuitableForLogin();
             }
-
+            // convert username to userId
             Users.Client.Models.Responses.SkinnyUserEntry userInfo;
             try
             {
@@ -68,8 +77,57 @@ namespace Roblox.Authentication.Api.Controllers
             {
                 throw new IncorrectCredentialsException();
             }
-
-            throw new NotImplementedException();
+            // check if password is correct
+            try
+            {
+                var passwordCorrect = await passwordsClient.IsPasswordCorrect(userInfo.userId, request.password);
+                if (passwordCorrect != true)
+                {
+                    throw new IncorrectCredentialsException();
+                }
+            }
+            catch (UserHasNoPasswordException)
+            {
+                throw new LoginAccountIssueException();
+            }
+            // password is correct... get extended details
+            var extendedUserDetails = await usersClient.GetUserById(userInfo.userId);
+            if (extendedUserDetails.accountStatus == AccountStatus.Forgotten)
+            {
+                throw new IncorrectCredentialsException();
+            }
+            // check if account is locked
+            if (extendedUserDetails.accountStatus == AccountStatus.MustValidateEmail)
+            {
+                throw new LockedAccountException();
+            }
+            // create a session
+            var userSession = await sessionsClient.CreateSession(userInfo.userId);
+            // set cookie
+            var expiration = DateTime.Now.AddYears(10);
+            HttpContext.Response.Cookies.Append(".ROBLOSECURITY", userSession, new CookieOptions()
+            {
+                HttpOnly = true,
+                Expires = new DateTimeOffset(expiration),
+                Path = "/",
+                IsEssential = true,
+                // TODO: get domain from appsettings or something?
+                // Domain = "roblox.com",
+                // Secure = true, // roblox doesn't actually set the secure flag, probably for backwards compatability
+            });
+            // return result
+            return new()
+            {
+                user = new()
+                {
+                    id = extendedUserDetails.userId,
+                    name = extendedUserDetails.username,
+                    displayName = extendedUserDetails.displayName,
+                },
+                twoStepVerificationData = null,
+                identityVerificationLoginTicket = null,
+                isBanned = extendedUserDetails.accountStatus != AccountStatus.Ok,
+            };
         }
     }
 }
