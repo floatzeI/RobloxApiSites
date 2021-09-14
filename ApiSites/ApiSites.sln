@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Authenticat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Web", "Roblox.Web\Roblox.Web\Roblox.Web.csproj", "{84E12D09-1D5C-48DA-A8F4-BB85FA3A2A18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Passwords.Client", "..\ApiClients\Roblox.Passwords.Client\Roblox.Passwords.Client.csproj", "{A17FC145-29F7-42B0-B153-0DA87DAE37BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,5 +54,9 @@ Global
 		{84E12D09-1D5C-48DA-A8F4-BB85FA3A2A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84E12D09-1D5C-48DA-A8F4-BB85FA3A2A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84E12D09-1D5C-48DA-A8F4-BB85FA3A2A18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A17FC145-29F7-42B0-B153-0DA87DAE37BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A17FC145-29F7-42B0-B153-0DA87DAE37BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A17FC145-29F7-42B0-B153-0DA87DAE37BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A17FC145-29F7-42B0-B153-0DA87DAE37BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
