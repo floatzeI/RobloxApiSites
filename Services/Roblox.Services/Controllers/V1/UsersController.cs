@@ -83,6 +83,15 @@ namespace Roblox.Services.Controllers.V1
             var date = usersService.GetDateTimeFromBirthDate(request.birthYear, request.birthMonth, request.birthDay);
             await usersService.SetUserBirthDate(request.userId, date);
         }
+
+        /// <summary>
+        /// Set the gender for the userId
+        /// </summary>
+        [HttpPost("SetUserGender")]
+        public async Task SetUserGender([Required] Models.Users.SetGenderRequest request)
+        {
+            await usersService.SetUserGender(request.userId, request.gender);
+        }
         
         /// <summary>
         /// Get the description of an account by its ID
