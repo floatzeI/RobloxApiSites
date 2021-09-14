@@ -81,6 +81,11 @@ namespace Roblox.Web.WebAPI
         {
             var ctx = context.HttpContext;
             var value = GetCookieFromContext(ctx);
+            if (value == null)
+            {
+                OnAuthenticationFail(context);
+                return;
+            }
 
             IUser userData;
             try
