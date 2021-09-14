@@ -65,16 +65,16 @@ namespace Roblox.Authentication.Api.Controllers
         public async Task<Models.SignupResponse> Signup(Models.SignupRequest request)
         {
             // todo: what has to be called:
-            // 1. Create user with UsersService
-            // 2. insert gender
+            // Done: 1. Create user with UsersService
+            // Done: 2. insert gender
             // 3. Insert locale info for that user
-            // 4. Insert password for that user
+            // Done: 4. Insert password for that user
             // 5. If email specified, insert email record
             // 6. Create avatar (go off params if specified, otherwise use default specified in AppSettings)
             // 7. Add default avatar items to inventory, plus items specified in request.assetIds (as long as they're free items)
             // 8. add thumbnail and headshot
             // 9. Create default place and universe for the user
-            // 10. Finally, Create session and set cookie
+            // Done: 10. Finally, Create session and set cookie
             
             // In the future, we may also want to look into captcha verification (mostly for realism)
             
@@ -114,6 +114,8 @@ namespace Roblox.Authentication.Api.Controllers
             var user = await usersClient.InsertUser(request.username, birthDate.Year, birthDate.Month, birthDate.Day);
             try
             {
+                // set account gender
+                await usersClient.SetGender(user.userId, request.gender);
                 throw new NotImplementedException();
             }
             catch (Exception e)
