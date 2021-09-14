@@ -41,5 +41,19 @@ namespace Roblox.Sessions.Client
                 throw;
             }
         }
+
+        public async Task<string> CreateSession(long userId)
+        {
+            var body = new Dictionary<string, string>()
+            {
+                { "userId", userId.ToString() },
+            };
+            var result =
+                await clientBase.ExecuteHttpRequest("", HttpMethod.Post, null, body, null, null, null,
+                    "CreateSessionForAccount");
+
+            var response = JsonSerializer.Deserialize<Models.Responses.CreateSessionResponse>(result.body);
+            return response.sessionId;
+        }
     }
 }
