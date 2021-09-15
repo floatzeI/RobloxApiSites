@@ -33,5 +33,32 @@ namespace Roblox.Services.UnitTest.Controllers
             Assert.Equal(456, result.scales.head);
             Assert.Equal(AvatarType.R15, result.type);
         }
+        
+        [Fact]
+        public async Task set_User_Avatar()
+        {
+            var userId = 1;
+            var request = new SetAvatarRequest()
+            {
+                userId = userId,
+                colors = new()
+                {
+                    headColorId = 123,
+                },
+                scales = new()
+                {
+                    head = 456,
+                },
+                type = AvatarType.R15,
+            };
+            
+            var mock = new Mock<IAvatarService>();
+            mock.Setup(c => c.SetUserAvatar(It.IsAny<SetAvatarRequest>()));
+
+            var controller = new AvatarController(mock.Object);
+            await controller.SetUserAvatar(request);
+            
+            mock.Verify(c => c.SetUserAvatar(request), Times.Once);
+        }
     }
 }
