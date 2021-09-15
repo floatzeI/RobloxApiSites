@@ -37,6 +37,34 @@ namespace Roblox.Authentication.Api.Controllers
             assetsClient = assets;
             marketplaceClient = marketplace;
         }
+
+        private SignupRequest ValidateScales(Models.SignupRequest request)
+        {
+            if (!AvatarValidator.IsScaleValid(AvatarValidator.scaleRules.head, request.headScale))
+            {
+                request.headScale = 1;
+            }
+
+            if (!AvatarValidator.IsScaleValid(AvatarValidator.scaleRules.height, request.heightScale))
+            {
+                request.heightScale = 1;
+            }
+            if (!AvatarValidator.IsScaleValid(AvatarValidator.scaleRules.width, request.widthScale))
+            {
+                request.widthScale = 1;
+            }
+
+            if (!AvatarValidator.IsScaleValid(AvatarValidator.scaleRules.proportion, request.proportionScale))
+            {
+                request.proportionScale = 0;
+            }
+            if (!AvatarValidator.IsScaleValid(AvatarValidator.scaleRules.bodyType, request.bodyTypeScale))
+            {
+                request.bodyTypeScale = 0;
+            }
+
+            return request;
+        }
         
         /// <summary>
         /// Endpoint for signing up a new user
@@ -81,7 +109,7 @@ namespace Roblox.Authentication.Api.Controllers
             // 3. Insert locale info for that user
             // Done: 4. Insert password for that user
             // 5. If email specified, insert email record
-            // 6. Create avatar (go off params if specified, otherwise use default specified in AppSettings)
+            // Done: 6. Create avatar (go off params if specified, otherwise use default)
             // 7. Add default avatar items to inventory, plus items specified in request.assetIds (as long as they're free items)
             // 8. add thumbnail and headshot
             // 9. Create default place and universe for the user
@@ -123,7 +151,7 @@ namespace Roblox.Authentication.Api.Controllers
             }
             
             // validate scales
-            var isHeadOk = AvatarValidator.IsScaleValid(AvatarValidator.scaleRules.head, request.headScale);
+            request = ValidateScales(request);
 
             var user = await usersClient.InsertUser(request.username, birthDate.Year, birthDate.Month, birthDate.Day);
             try
@@ -141,28 +169,30 @@ namespace Roblox.Authentication.Api.Controllers
                 // Create a new array of valid items the user can have
                 // TODO: for each of these, add to user assets
                 var acceptedAssetIds = productDetails.Select(c => c.assetId);
-                // this is default male:
+
+                var colorId = request.bodyColorId;
+                var colorOk = AvatarValidator.IsBrickColorValid(colorId);
                 await avatarClient.SetUserAvatar(new()
                 {
                     userId = user.userId,
                     scales = new()
                     {
-                        proportion = 0,
-                        bodyType = 0,
-                        height = 1,
-                        width = 1,
-                        head = 1,
+                        proportion = request.proportionScale,
+                        bodyType = request.bodyTypeScale,
+                        height = request.heightScale,
+                        width = request.widthScale,
+                        head = request.headScale,
                         depth = 1,
                     },
                     type = AvatarType.R15,
                     colors = new()
                     {
-                        headColorId = 208,
-                        torsoColorId = 21,
-                        rightArmColorId = 208,
-                        leftArmColorId = 208,
-                        rightLegColorId = 102,
-                        leftLegColorId = 102,
+                        headColorId = colorOk ? colorId : 208,
+                        torsoColorId = colorOk ? colorId : 21,
+                        rightArmColorId = colorOk ? colorId : 208,
+                        leftArmColorId = colorOk ? colorId : 208,
+                        rightLegColorId = colorOk ? colorId : 102,
+                        leftLegColorId = colorOk ? colorId : 102,
                     },
                     assetIds = acceptedAssetIds,
                     /*
