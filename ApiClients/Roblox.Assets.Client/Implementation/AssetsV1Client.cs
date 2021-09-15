@@ -33,7 +33,7 @@ namespace Roblox.Assets.Client
                 { "assetIds", string.Join(",", assetId) }
             };
             var result =
-                await clientBase.ExecuteHttpRequest("", HttpMethod.Get, query, null, null, null, null, "MultiGetAsset");
+                await clientBase.ExecuteHttpRequest("", HttpMethod.Get, query, null, null, null, null, "MultiGetDetails");
             return JsonSerializer.Deserialize<IEnumerable<Models.AssetDetailsEntry>>(result.body);
         }
     }
