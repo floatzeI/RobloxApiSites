@@ -23,7 +23,7 @@ namespace Roblox.Services.Controllers.V1
         [HttpPost("SetUserAvatar")]
         public async Task SetUserAvatar([Required] Models.Avatar.SetAvatarRequest request)
         {
-            throw new NotImplementedException();
+            await avatarService.SetUserAvatar(request);
         }
 
         /// <summary>
