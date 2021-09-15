@@ -44,23 +44,23 @@ namespace Roblox.Authentication.Api.Models
         /// <summary>
         /// The Body Type Scale
         /// </summary>
-        public double bodyTypeScale { get; set; }
+        public decimal bodyTypeScale { get; set; }
         /// <summary>
         /// The Head Scale
         /// </summary>
-        public double headScale { get; set; }
+        public decimal headScale { get; set; }
         /// <summary>
         /// The Height Scale
         /// </summary>
-        public double heightScale { get; set; }
+        public decimal heightScale { get; set; }
         /// <summary>
         /// The Width Scale
         /// </summary>
-        public double widthScale { get; set; }
+        public decimal widthScale { get; set; }
         /// <summary>
         /// The Proportion Scale
         /// </summary>
-        public double proportionScale { get; set; }
+        public decimal proportionScale { get; set; }
         /// <summary>
         /// Referral data
         /// </summary>
