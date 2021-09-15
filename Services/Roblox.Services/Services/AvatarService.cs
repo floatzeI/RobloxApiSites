@@ -76,7 +76,7 @@ namespace Roblox.Services.Services
                 await db.InsertAvatarAsset(userId, item);
             }
 
-            var hasPreviousAvatar = assets.Count > 0 || await db.GetUserAvatar(userId) != null;
+            var hasPreviousAvatar = current.Count > 0 || await db.GetUserAvatar(userId) != null;
             if (hasPreviousAvatar)
             {
                 await db.UpdateUserAvatar(request);
