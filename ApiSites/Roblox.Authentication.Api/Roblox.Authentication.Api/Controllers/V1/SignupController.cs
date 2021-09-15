@@ -1,9 +1,14 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Roblox.Assets.Client;
 using Roblox.Authentication.Api.Models;
 using Roblox.Authentication.Api.Validators;
+using Roblox.Avatar.Client;
+using Roblox.Marketplace.Client;
 using Roblox.Passwords.Client;
+using Roblox.Platform.Avatar;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
 using Roblox.Users.Client.Exceptions;
@@ -16,15 +21,21 @@ namespace Roblox.Authentication.Api.Controllers
     [Route("/v1/signup")]
     public class SignupController
     {
-        private IUsersV1Client usersClient { get; set; }
-        private IPasswordsV1Client passwordsClient { get; set; }
-        private ISessionsV1Client sessionsClient { get; set; }
+        private IUsersV1Client usersClient { get; }
+        private IPasswordsV1Client passwordsClient { get; }
+        private ISessionsV1Client sessionsClient { get; }
+        private IAvatarV1Client avatarClient { get; }
+        private IAssetsV1Client assetsClient { get; set; }
+        private IMarketplaceV1Client marketplaceClient { get; set; }
 
-        public SignupController(IUsersV1Client users, IPasswordsV1Client passwords, ISessionsV1Client sessions)
+        public SignupController(IUsersV1Client users, IPasswordsV1Client passwords, ISessionsV1Client sessions, IAvatarV1Client avatar, IAssetsV1Client assets, IMarketplaceV1Client marketplace)
         {
             usersClient = users;
             passwordsClient = passwords;
             sessionsClient = sessions;
+            avatarClient = avatar;
+            assetsClient = assets;
+            marketplaceClient = marketplace;
         }
         
         /// <summary>
@@ -110,12 +121,66 @@ namespace Roblox.Authentication.Api.Controllers
             {
                 throw new ForbiddenException(SignupResponseCodes.PasswordTooSimple, "Password is too simple.");
             }
+            
+            // validate scales
+            var isHeadOk = AvatarValidator.IsScaleValid(AvatarValidator.scaleRules.head, request.headScale);
 
             var user = await usersClient.InsertUser(request.username, birthDate.Year, birthDate.Month, birthDate.Day);
             try
             {
                 // set account gender
                 await usersClient.SetGender(user.userId, request.gender);
+                // set avatar
+                // first, filter out the assets request to only include items that are for sale, exist, and are free
+                // Remove items that are not wearable
+                var assetDetails = await assetsClient.MultiGetAssetById(request.assetIds);
+                assetDetails = assetDetails.Where(c => AvatarValidator.IsWearable(c.assetType));
+                // Remove items that are not free and not for sale
+                var productDetails = await marketplaceClient.GetProductsByAssetId(assetDetails.Select(c => c.assetId));
+                productDetails = productDetails.Where(c => c.isFree && c.isForSale);
+                // Create a new array of valid items the user can have
+                // TODO: for each of these, add to user assets
+                var acceptedAssetIds = productDetails.Select(c => c.assetId);
+                // this is default male:
+                await avatarClient.SetUserAvatar(new()
+                {
+                    userId = user.userId,
+                    scales = new()
+                    {
+                        proportion = 0,
+                        bodyType = 0,
+                        height = 1,
+                        width = 1,
+                        head = 1,
+                        depth = 1,
+                    },
+                    type = AvatarType.R15,
+                    colors = new()
+                    {
+                        headColorId = 208,
+                        torsoColorId = 21,
+                        rightArmColorId = 208,
+                        leftArmColorId = 208,
+                        rightLegColorId = 102,
+                        leftLegColorId = 102,
+                    },
+                    assetIds = acceptedAssetIds,
+                    /*
+                    assetIds = new long[]
+                    {
+                        // 63690008, // Pal hair
+                        // 86498048, // man head
+                        // 86500008, // man torso
+                        // 86500036, // man right arm
+                        // 86500054, // man left arm
+                        // 86500064, // man left leg
+                        // 86500078, // man right leg
+                        // 144075659, // smile
+                        // 144076358, // blue and black motorcycle shirt
+                        // 144076760, // dark green jeans
+                    },
+                    */
+                });
                 throw new NotImplementedException();
             }
             catch (Exception e)
