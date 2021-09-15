@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ApiSites\Roblox.Web\Roblox.Web\Roblox.Web.csproj" />
+    <ProjectReference Include="..\..\Platform\Avatar\Roblox.Platform.Avatar\Roblox.Platform.Avatar.csproj" />
     <ProjectReference Include="..\ApiClientBase\Roblox.ApiClientBase\Roblox.ApiClientBase.csproj" />
   </ItemGroup>
 
