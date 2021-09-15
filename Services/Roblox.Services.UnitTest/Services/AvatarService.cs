@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Moq;
 using Roblox.Services.Database;
@@ -43,6 +44,91 @@ namespace Roblox.Services.UnitTest.Services
             {
                 await service.GetUserAvatar(userId);
             });
+        }
+
+        [Fact]
+        public async Task Update_Avatar_With_All_New_Assets()
+        {
+            var userId = 1;
+            var newAssets = new List<long>()
+            {
+                1, 2, 3
+            };
+            var mock = new Mock<IAvatarDatabase>();
+            mock.Setup(c => c.GetAvatarAssets(userId)).ReturnsAsync(System.Array.Empty<long>());
+            mock.Setup(c => c.GetUserAvatar(userId)).ReturnsAsync(new DbAvatarEntry()
+            {
+                
+            });
+
+            var service = new AvatarService(mock.Object);
+            await service.SetUserAvatar(new()
+            {
+                userId = userId,
+                assetIds = newAssets,
+            });
+            
+            foreach (var item in newAssets)
+            {
+                mock.Verify(c => c.InsertAvatarAsset(userId, item), Times.Once);
+            }
+            mock.Verify(c => c.UpdateUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task Update_Avatar_With_No_New_Assets()
+        {
+            var userId = 1;
+            var newAssets = new List<long>()
+            {
+                1, 2, 3
+            };
+            var mock = new Mock<IAvatarDatabase>();
+            mock.Setup(c => c.GetAvatarAssets(userId)).ReturnsAsync(new long[]
+            {
+                1,2,3
+            });
+            mock.Setup(c => c.GetUserAvatar(userId)).ReturnsAsync(new DbAvatarEntry()
+            {
+                
+            });
+
+            var service = new AvatarService(mock.Object);
+            await service.SetUserAvatar(new()
+            {
+                userId = userId,
+                assetIds = newAssets,
+            });
+            
+            mock.Verify(c => c.InsertAvatarAsset(userId, It.IsAny<long>()), Times.Never);
+            mock.Verify(c => c.UpdateUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Once);
+        }
+        
+        [Fact]
+        public async Task Insert_Avatar_With_New_Assets()
+        {
+            var userId = 1;
+            var newAssets = new List<long>()
+            {
+                1, 2, 3
+            };
+            var mock = new Mock<IAvatarDatabase>();
+            mock.Setup(c => c.GetAvatarAssets(userId)).ReturnsAsync(new long[] {});
+            mock.Setup(c => c.GetUserAvatar(userId)).ReturnsAsync((DbAvatarEntry)null);
+
+            var service = new AvatarService(mock.Object);
+            await service.SetUserAvatar(new()
+            {
+                userId = userId,
+                assetIds = newAssets,
+            });
+            
+            foreach (var item in newAssets)
+            {
+                mock.Verify(c => c.InsertAvatarAsset(userId, item), Times.Once);
+            }
+            mock.Verify(c => c.UpdateUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Never);
+            mock.Verify(c => c.InsertUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Once);
         }
     }
 }
