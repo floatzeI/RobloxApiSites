@@ -36,7 +36,7 @@ namespace Roblox.Services.Controllers.V1
         [HttpGet("GetUserAvatar")]
         public async Task<Models.Avatar.AvatarEntry> GetUserAvatar([Required] long userId)
         {
-            throw new NotImplementedException();
+            return await avatarService.GetUserAvatar(userId);
         }
     }
 }
