@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Roblox.Platform.Avatar;
 using Roblox.Web.Enums;
 
 namespace Roblox.Avatar.Client.Models
