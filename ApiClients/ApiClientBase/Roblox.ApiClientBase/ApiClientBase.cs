@@ -58,7 +58,8 @@ namespace Roblox.ApiClientBase
             }
             if (method == HttpMethod.Post)
             {
-                return await DoPost(cl, url, formParameters);
+                var content = formParameters != null ? JsonSerializer.Serialize(formParameters) : rawPostData;
+                return await DoPost(cl, url, content);
             }
             throw new System.NotImplementedException();
         }
@@ -77,11 +78,10 @@ namespace Roblox.ApiClientBase
             };
         }
         
-        private async Task<ApiClientResponse> DoPost(HttpClient httpClient, string requestUrl, Dictionary<string, string> formData)
+        private async Task<ApiClientResponse> DoPost(HttpClient httpClient, string requestUrl, string jsonData)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            var content = JsonSerializer.Serialize(formData);
-            request.Content = new StringContent(content, Encoding.UTF8, "application/json");
+            request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var result = await httpClient.SendAsync(request);
             var body = await result.Content.ReadAsStringAsync();
             return new()
