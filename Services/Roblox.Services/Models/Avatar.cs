@@ -40,4 +40,20 @@ namespace Roblox.Services.Models.Avatar
     {
         public long userId { get; set; }
     }
+
+    public class DbAvatarEntry : AvatarColor
+    {
+        public AvatarType type { get; set; }
+        public decimal height { get; set; }
+        public decimal width { get; set; }
+        public decimal head { get; set; }
+        public decimal depth { get; set; }
+        public decimal proportion { get; set; }
+        public decimal bodyType { get; set; }
+    }
+
+    public class DbAssetEntry
+    {
+        public long assetId { get; set; }
+    }
 }
