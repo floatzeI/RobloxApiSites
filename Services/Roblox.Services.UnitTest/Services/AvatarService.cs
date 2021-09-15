@@ -130,5 +130,47 @@ namespace Roblox.Services.UnitTest.Services
             mock.Verify(c => c.UpdateUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Never);
             mock.Verify(c => c.InsertUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Once);
         }
+        
+                
+        [Fact]
+        public async Task Update_Avatar_With_New_And_Removed_Assets()
+        {
+            // 4 is removed, 3 is added
+            var userId = 1;
+            var newAssets = new List<long>()
+            {
+                1, 
+                2, 
+                3,
+            };
+            var mock = new Mock<IAvatarDatabase>();
+            mock.Setup(c => c.GetAvatarAssets(userId)).ReturnsAsync(new long[]
+            {
+                1,
+                2,
+                4,
+            });
+            mock.Setup(c => c.GetUserAvatar(userId)).ReturnsAsync(new DbAvatarEntry()
+            {
+                
+            });
+
+            var service = new AvatarService(mock.Object);
+            await service.SetUserAvatar(new()
+            {
+                userId = userId,
+                assetIds = newAssets,
+            });
+            
+            // must be called - 4 is removed, 3 is added
+            mock.Verify(c => c.DeleteAvatarAsset(userId, 4), Times.Once);
+            mock.Verify(c => c.InsertAvatarAsset(userId, 3), Times.Once);
+            // not modified, so should not be called
+            mock.Verify(c => c.InsertAvatarAsset(userId, 1), Times.Never);
+            mock.Verify(c => c.InsertAvatarAsset(userId, 2), Times.Never);
+            // convert update was requested
+            mock.Verify(c => c.UpdateUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Once);
+            mock.Verify(c => c.InsertUserAvatar(It.IsAny<SetAvatarRequest>()), Times.Never);
+        }
     }
 }
