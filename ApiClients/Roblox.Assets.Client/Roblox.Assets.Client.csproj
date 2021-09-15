@@ -7,6 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ApiSites\Roblox.Web.Authentication\Roblox.Web.Authentication\Roblox.Web.Authentication.csproj" />
     <ProjectReference Include="..\..\ApiSites\Roblox.Web\Roblox.Web\Roblox.Web.csproj" />
+    <ProjectReference Include="..\ApiClientBase\Roblox.ApiClientBase\Roblox.ApiClientBase.csproj" />
   </ItemGroup>
 
 </Project>
