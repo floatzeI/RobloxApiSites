@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Roblox.Services.Lib.Extensions
 {
@@ -33,6 +34,29 @@ namespace Roblox.Services.Lib.Extensions
             }
 
             return notInSecondList;
+        }
+
+        /// <summary>
+        /// Convert a string csv (e.g. "1,2,3") to a List of longs
+        /// </summary>
+        /// <returns>The created list</returns>
+        public static List<long> CsvToLongList(string csv)
+        {
+            var newList = new List<long>();
+            var items = csv.Split(",");
+            foreach (var item in items)
+            {
+                try
+                {
+                    newList.Add(long.Parse(item));
+                }
+                catch (FormatException)
+                {
+                    // Don't care
+                }
+            }
+
+            return newList;
         }
     }
 }
