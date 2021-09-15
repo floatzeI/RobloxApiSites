@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Roblox.Services.Lib.Extensions;
 using Roblox.Services.Services;
 
 namespace Roblox.Services.Controllers.V1
@@ -20,9 +21,9 @@ namespace Roblox.Services.Controllers.V1
         }
         
         [HttpGet("MultiGetDetails")]
-        public async Task<IEnumerable<Models.Assets.AssetEntry>> MultiGetAssetsById(IEnumerable<long> ids)
+        public async Task<IEnumerable<Models.Assets.AssetEntry>> MultiGetAssetsById(string ids)
         {
-            return await assetsService.MultiGetAssetsById(ids);
+            return await assetsService.MultiGetAssetsById(ListExtensions.CsvToLongList(ids));
         }
 
         [HttpGet("GetDetails")]
