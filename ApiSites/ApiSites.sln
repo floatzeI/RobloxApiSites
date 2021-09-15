@@ -26,6 +26,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Authentication.Api.U
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Avatar.Client", "..\ApiClients\Roblox.Avatar.Client\Roblox.Avatar.Client.csproj", "{26121069-5538-4F33-9548-977569DB99EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Assets.Client", "..\ApiClients\Roblox.Assets.Client\Roblox.Assets.Client.csproj", "{ED7E43D5-B69B-4564-A141-4A9EFB33E623}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Marketplace.Client", "..\ApiClients\Roblox.Marketplace.Client\Roblox.Marketplace.Client.csproj", "{D8E42E85-0494-44EB-99E5-B40FBD83AE65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Avatar", "..\Platform\Avatar\Roblox.Platform.Avatar\Roblox.Platform.Avatar.csproj", "{9717149A-83B9-45FA-948F-8092ADCE74FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Avatar.UnitTest", "..\Platform\Avatar\Roblox.Platform.Avatar.UnitTest\Roblox.Platform.Avatar.UnitTest.csproj", "{3C4A1378-6138-445A-B7EA-7CF74D6E8FE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,5 +84,21 @@ Global
 		{26121069-5538-4F33-9548-977569DB99EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26121069-5538-4F33-9548-977569DB99EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26121069-5538-4F33-9548-977569DB99EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED7E43D5-B69B-4564-A141-4A9EFB33E623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED7E43D5-B69B-4564-A141-4A9EFB33E623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED7E43D5-B69B-4564-A141-4A9EFB33E623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED7E43D5-B69B-4564-A141-4A9EFB33E623}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8E42E85-0494-44EB-99E5-B40FBD83AE65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8E42E85-0494-44EB-99E5-B40FBD83AE65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8E42E85-0494-44EB-99E5-B40FBD83AE65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E42E85-0494-44EB-99E5-B40FBD83AE65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9717149A-83B9-45FA-948F-8092ADCE74FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9717149A-83B9-45FA-948F-8092ADCE74FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9717149A-83B9-45FA-948F-8092ADCE74FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9717149A-83B9-45FA-948F-8092ADCE74FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C4A1378-6138-445A-B7EA-7CF74D6E8FE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C4A1378-6138-445A-B7EA-7CF74D6E8FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C4A1378-6138-445A-B7EA-7CF74D6E8FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C4A1378-6138-445A-B7EA-7CF74D6E8FE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
