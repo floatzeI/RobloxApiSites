@@ -106,5 +106,41 @@ namespace Roblox.Services.UnitTest.Lib
             var result = ListExtensions.GetItemsNotInSecondList(firstList, firstList, (l, l1) => l == l1);
             Assert.Empty(result);
         }
+
+        [Fact]
+        public void Convert_Csv_Of_Ints_To_Long_List()
+        {
+            var param = "1,2,3";
+            var expected = new List<long>()
+            {
+                1, 2, 3
+            };
+
+            var result = ListExtensions.CsvToLongList(param);
+            
+            Assert.Equal(expected.Count, expected.Count);
+            for (var i = 0; i < result.Count; i++)
+            {
+                Assert.Equal(expected[i], result[i]);
+            }
+        }
+        
+        [Fact]
+        public void Convert_Csv_Of_Ints_To_Long_List_With_Invalid_Params()
+        {
+            var param = "1,2,badstringshouldbeignored,3";
+            var expected = new List<long>()
+            {
+                1, 2, 3
+            };
+
+            var result = ListExtensions.CsvToLongList(param);
+            
+            Assert.Equal(expected.Count, expected.Count);
+            for (var i = 0; i < result.Count; i++)
+            {
+                Assert.Equal(expected[i], result[i]);
+            }
+        }
     }
 }
