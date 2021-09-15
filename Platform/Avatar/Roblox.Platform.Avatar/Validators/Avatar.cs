@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Roblox.Web.Enums;
 
 namespace Roblox.Platform.Avatar
@@ -87,6 +88,11 @@ namespace Roblox.Platform.Avatar
             if (incrementCheck % 1 != 0) return false;
             
             return userValue >= rule.minimum && userValue <= rule.maximum;
+        }
+
+        public static bool IsBrickColorValid(int brickColorId)
+        {
+            return BrickColorList.colorList.Any(item => item.brickColorId == brickColorId);
         }
     }
 }
