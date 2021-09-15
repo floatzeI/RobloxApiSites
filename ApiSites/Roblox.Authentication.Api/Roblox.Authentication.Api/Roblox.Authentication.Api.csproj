@@ -11,7 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\ApiClients\Roblox.Assets.Client\Roblox.Assets.Client.csproj" />
       <ProjectReference Include="..\..\..\ApiClients\Roblox.Avatar.Client\Roblox.Avatar.Client.csproj" />
+      <ProjectReference Include="..\..\..\ApiClients\Roblox.Marketplace.Client\Roblox.Marketplace.Client.csproj" />
       <ProjectReference Include="..\..\..\ApiClients\Roblox.Passwords.Client\Roblox.Passwords.Client.csproj" />
       <ProjectReference Include="..\..\..\ApiClients\Roblox.Sessions.Client\Roblox.Sessions.Client.csproj" />
       <ProjectReference Include="..\..\..\ApiClients\Roblox.Users.Client\Roblox.Users.Client.csproj" />
