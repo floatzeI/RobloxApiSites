@@ -34,9 +34,6 @@ namespace Roblox.Services.Validators
             try
             {
                 var data = new DateTime(birthYear, birthMonth, birthDay);
-                if (data.Year != birthYear) return "birthYear";
-                if (data.Month != birthMonth) return "birthMonth";
-                if (data.Day != birthDay) return "birthDay";
                 return null;
             }
             catch (ArgumentOutOfRangeException)
