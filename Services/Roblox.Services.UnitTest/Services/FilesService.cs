@@ -90,5 +90,20 @@ namespace Roblox.Services.UnitTest.Services
             var result = await service.CreateFileHash(stream);
             Assert.Equal(expectedHash, result);
         }
+
+        [Fact]
+        public async Task Get_One_File()
+        {
+            var fileId = "fileidhere1234";
+            var stream = new MemoryStream(new UTF8Encoding().GetBytes("Example file here 123"));
+
+            var mock = new Mock<IFilesStorageDatabase>();
+            mock.Setup(c => c.GetFileById(fileId)).ReturnsAsync(stream);
+            
+            var service = new FilesService(null, mock.Object);
+            var result = await service.GetFile(fileId);
+            
+            Assert.Equal(stream, result);
+        }
     }
 }

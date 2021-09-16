@@ -45,5 +45,10 @@ namespace Roblox.Services.Services
                 throw;
             }
         }
+
+        public async Task<Stream> GetFile(string fileId)
+        {
+            return await storageDatabase.GetFileById(fileId);
+        }
     }
 }

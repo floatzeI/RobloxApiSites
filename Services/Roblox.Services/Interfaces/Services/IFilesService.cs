@@ -8,5 +8,6 @@ namespace Roblox.Services.Services
         Task<string> CreateFileHash(Stream fileStream);
 
         Task UploadFile(Stream fileStream, string fileHash, string mimeOverride);
+        Task<Stream> GetFile(string fileId);
     }
 }
