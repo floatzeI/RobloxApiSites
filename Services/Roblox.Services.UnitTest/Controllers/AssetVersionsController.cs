@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Moq;
 using Roblox.Services.Controllers.V1;
+using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Models.AssetVersions;
 using Roblox.Services.Services;
 using Xunit;
@@ -29,7 +30,7 @@ namespace Roblox.Services.UnitTest.Controllers
             Assert.Equal(assetVersion, response.assetVersionId);
             mock.Verify(c => c.GetLatestAssetVersion(assetId), Times.Once);
         }
-        
+
         [Fact]
         public async Task Insert_Asset_Version()
         {
