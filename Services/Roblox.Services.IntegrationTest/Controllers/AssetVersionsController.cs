@@ -50,6 +50,15 @@ namespace Roblox.Services.IntegrationTest.Controllers.V1
             var response = await controller.InsertAssetVersion(request);
             Assert.Equal(2, response.versionNumber);
             Assert.Equal(1234, response.assetId);
+            
+            // get the second one, purely to test GetLatestAssetVersion()
+            var secondAsset = await controller.GetLatestAssetVersion(request.assetId);
+            Assert.Equal(2, secondAsset.versionNumber);
+            Assert.Equal(1234, secondAsset.assetId);
+            Assert.Equal(response.assetVersionId, secondAsset.assetVersionId);
+            
+            // delete the second one, purely to test DeleteAssetVersion() method
+            await controller.DeleteAssetVersion(response.assetVersionId);
         }
     }
 }
