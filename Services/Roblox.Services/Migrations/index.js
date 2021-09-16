@@ -117,7 +117,7 @@ const main = async () => {
                 process.exit(0);
             }
         }
-        console.error('[error] Migration', item.migration_name, 'Could not be found');
+        console.error('[error] Migration', name, 'Could not be found');
         process.exit(1);
     } else if (mode === 'make') {
         const name = process.argv[3];
