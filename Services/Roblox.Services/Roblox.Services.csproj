@@ -21,4 +21,8 @@
     <ProjectReference Include="..\..\Platform\Membership\Roblox.Platform.Membership\Roblox.Platform.Membership.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Files" />
+  </ItemGroup>
+
 </Project>
