@@ -15,10 +15,22 @@ namespace Roblox.Services.Database
 
         static LocalFilesStorageDatabase()
         {
-            if (!Directory.Exists(basePath))
+            try
             {
-                Directory.CreateDirectory(basePath);
-                Console.WriteLine("Created local files directory at: {0}", basePath);
+                if (!Directory.Exists(basePath))
+                {
+                    Directory.CreateDirectory(basePath);
+                    Console.WriteLine("Created local files directory at: {0}", basePath);
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                // Probably just running in a test
+                // https://stackoverflow.com/a/59025847/7841868
+                if (!AppDomain.CurrentDomain.IsDefaultAppDomain())
+                {
+                    throw;
+                }
             }
         }
 
