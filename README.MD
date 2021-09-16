@@ -1,3 +1,6 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/c1e6ff9283e40b3db80d/maintainability)](https://codeclimate.com/github/floatzeI/RobloxApiSites/maintainability)
+![Dotnet Workflow](https://github.com/floatzeI/RobloxApiSites/actions/workflows/dotnet.yml/badge.svg)
+
 # RobloxWeb
 
 An attempt to (sort of) re-create the Roblox ApiSites based off swagger documentation, leaked stack traces/paths, comments in JS source code, comments by Roblox staff, etc. This project is not sponsored, endorsed, or in any way affiliated with Roblox corporation.
