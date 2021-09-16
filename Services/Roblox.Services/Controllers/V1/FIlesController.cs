@@ -24,7 +24,7 @@ namespace Roblox.Services.Controllers.V1
             var stream = request.file.OpenReadStream();
             var hash = await filesService.CreateFileHash(stream);
             
-            await filesService.UploadFile(stream, hash, request.file.ContentType);
+            await filesService.UploadFile(stream, hash, request.mime ?? request.file.ContentType);
             
             return new()
             {
