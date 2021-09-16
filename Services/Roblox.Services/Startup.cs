@@ -50,6 +50,10 @@ namespace Roblox.Services
 
             services.AddSingleton<IAssetsService, AssetsService>(c =>
                 new(new AssetsDatabase(new(defaultDatabaseProvider, null))));
+
+            services.AddSingleton<IFilesService, FilesService>(c =>
+                new(new FilesDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null)),
+                    new LocalFilesStorageDatabase()));
         }
 
         public void SetConnectionStrings()
