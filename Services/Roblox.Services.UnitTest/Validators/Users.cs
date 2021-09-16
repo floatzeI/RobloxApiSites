@@ -46,6 +46,12 @@ namespace Roblox.Services.UnitTest.Validators
             Assert.Equal("birthYear", Roblox.Services.Validators.Users.ValidateBirthDate(10000, 1, 1));
         }
 
+        [Fact] 
+        public void Return_BirthDay_On_Invalid_Date()
+        {
+            Assert.Equal("birthDay", Roblox.Services.Validators.Users.ValidateBirthDate(2020, 2, 31));
+        }
+
         [Fact]
         public void Return_Null_For_Valid_Name()
         {
