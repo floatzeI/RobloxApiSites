@@ -11,7 +11,7 @@ namespace Roblox.Services.Controllers
         {
             return new()
             {
-                name = "Roblox.Services.Files",
+                name = "Roblox.Files.Service",
                 status = "OK"
             };
         }
