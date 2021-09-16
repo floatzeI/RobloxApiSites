@@ -55,6 +55,15 @@ namespace Roblox.Services.IntegrationTest.Controllers.V1
             Assert.Equal(6, result.colors.rightLegColorId);
             Assert.Equal(1, result.assetIds.ToArray()[0]);
             Assert.Equal(2, result.assetIds.ToArray()[1]);
+            
+            // Now, update it, and remove an assetId
+            insertionRequest.assetIds = new long[] { 1 }; // we removed id 2
+            await controller.SetUserAvatar(insertionRequest);
+            var newResult = await controller.GetUserAvatar(insertionRequest.userId);
+            var assetIds = newResult.assetIds.ToArray();
+            Assert.Single(assetIds);
+            Assert.Equal(1, assetIds[0]);
+            
         }
     }
 }
