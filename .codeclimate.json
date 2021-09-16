@@ -9,6 +9,9 @@
     },
     "exclude_patterns": [
         "**/*.UnitTest/*",
-        "**/*.IntegrationTest/*"
+        "**/*.IntegrationTest/*",
+        "**/Program.cs",
+        "**/Startup.cs",
+        "**/Services/Roblox.Services/Migrations/sql/*"
     ]
 }
