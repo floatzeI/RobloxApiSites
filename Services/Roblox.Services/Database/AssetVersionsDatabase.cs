@@ -38,7 +38,7 @@ namespace Roblox.Services.Database
         public async Task<AssetVersionEntry> GetLatestAssetVersion(long assetId)
         {
             return await db.connection.QuerySingleOrDefaultAsync<AssetVersionEntry>(
-                "SELECT id as assetVersionId, asset_id as assetId, file_id as fileId, user_id as userId, version_number as versionNumber, created_at as created FROM asset_version WHERE asset_id = @asset_id ORDER BY created_at DESC LIMIT 1",
+                "SELECT id as assetVersionId, asset_id as assetId, file_id as fileId, user_id as userId, version_number as versionNumber, created_at as created FROM asset_version WHERE asset_id = @asset_id ORDER BY id DESC LIMIT 1",
                 new
                 {
                     asset_id = assetId,
