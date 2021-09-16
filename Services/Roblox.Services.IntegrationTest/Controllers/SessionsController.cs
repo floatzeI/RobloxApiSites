@@ -8,7 +8,7 @@ using Roblox.Services.Exceptions.Services;
 using Roblox.Services.Services;
 using Xunit;
 
-namespace Roblox.Services.IntegrationTest.Controllers
+namespace Roblox.Services.IntegrationTest.Controllers.V1
 {
     public class IntegrationTestSessionsController : IntegrationTestBase
     {
