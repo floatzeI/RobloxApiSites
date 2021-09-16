@@ -26,13 +26,24 @@ namespace Roblox.Services.Services
             // - 4df253f22f492b2199ba8c48d8cb0269
             using var md5 = MD5.Create();
             var hash = await md5.ComputeHashAsync(fileStream);
-            return Convert.ToHexString(hash);
+            return Convert.ToHexString(hash).ToLower();
         }
 
         public async Task UploadFile(Stream fileStream, string fileHash, string mimeType)
         {
+            var exists = await filesDatabase.DoesFileExist(fileHash);
+            if (exists) return;
+            
             await storageDatabase.UploadFile(fileHash, fileStream, mimeType);
-            await filesDatabase.InsertFile(fileHash, mimeType, fileStream.Length);
+            try
+            {
+                await filesDatabase.InsertFile(fileHash, mimeType, fileStream.Length);
+            }
+            catch (Exception)
+            {
+                await storageDatabase.DeleteFile(fileHash);
+                throw;
+            }
         }
     }
 }
