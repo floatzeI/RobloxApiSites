@@ -14,7 +14,7 @@ CREATE TABLE asset_version (
 );
 
 -- For queries that want the latest version for a specific assetId (which will be common)
-create index asset_version_asset_id_created_at_desc on asset_version(asset_id, created_at DESC);
+create index asset_version_asset_id_id_desc on asset_version(asset_id, id DESC);
 
 `);
 }
