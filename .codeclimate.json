@@ -5,6 +5,11 @@
             "config": {
                 "threshold": 50
             }
+        },
+        "similar-code": {
+            "config": {
+                "threshold": 75
+            }
         }
     },
     "exclude_patterns": [
