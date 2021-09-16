@@ -20,13 +20,14 @@ namespace Roblox.Services.Services
 
         public async Task<string> CreateFileHash(Stream fileStream)
         {
+            // Correction: below comment applies to thumbnail ids only - it is irrelevant for Roblox.Files.Service
             // Roblox seems to use MD5 with hex encoding. Example hashes:
             // - a0b598f5ff327c27bbb45034f37b61d7
             // - b3db0d0d676c858c0249acd93504df10
             // - 4df253f22f492b2199ba8c48d8cb0269
-            using var md5 = MD5.Create();
-            var hash = await md5.ComputeHashAsync(fileStream);
-            return Convert.ToHexString(hash).ToLower();
+            using var sha = SHA512.Create();
+            var hash = await sha.ComputeHashAsync(fileStream);
+            return Convert.ToHexString(hash);
         }
 
         public async Task UploadFile(Stream fileStream, string fileHash, string mimeType)

@@ -84,7 +84,7 @@ namespace Roblox.Services.UnitTest.Services
         [Fact]
         public async Task Create_File_Hash()
         {
-            var expectedHash = "9e6865a0697646f7d2734846e229ec0a";
+            var expectedHash = "C627283515DAC6E1521930E514B0E1E003E8F32FA8BF51A9E47B8F27DF2E5595064DD24CBBD78702DE06F482B6B7F4A523D805991F6EC8436C68D423C7A22DCF";
             var stream = new MemoryStream(new UTF8Encoding().GetBytes("Example string for a file here"));
 
             var service = new FilesService(null, null);
