@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -104,6 +105,42 @@ namespace Roblox.Services.UnitTest.Services
             var result = await service.GetFile(fileId);
             
             Assert.Equal(stream, result);
+        }
+
+        [Fact]
+        public void LocalFileStorage_Get_Safe_File_Id()
+        {
+            var fileId = "safeexample123";
+            var result = LocalFilesStorageDatabase.GetFullPath(fileId);
+            Assert.EndsWith(fileId, result);
+        }
+        
+        [Fact]
+        public void LocalFileStorage_Throw_For_Unsafe_File_Id()
+        {
+            var bad = new List<string>()
+            {
+                "unsafe-example../../win32",
+                "hello../",
+                "badid.png",
+                "codeinjection.bat",
+                "codeinjection.sh",
+                "badfile.php",
+                "notanmd5hash.xml",
+                "../world",
+                "../hello",
+                "./hello",
+                "./this/isatest",
+                "/../escape",
+                "/escape",
+            };
+            foreach (var notSafe in bad)
+            {
+                Assert.Throws<ArgumentException>(() =>
+                {
+                    LocalFilesStorageDatabase.GetFullPath(notSafe);
+                });
+            }
         }
     }
 }
