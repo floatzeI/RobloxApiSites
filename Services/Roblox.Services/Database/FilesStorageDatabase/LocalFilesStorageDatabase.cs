@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Roblox.Services.Database
@@ -20,10 +21,20 @@ namespace Roblox.Services.Database
                 Console.WriteLine("Created local files directory at: {0}", basePath);
             }
         }
+
+        private static Regex fileIdRegex = new Regex("[a-z0-9]+");
+        
+        public static string GetFullPath(string fileId)
+        {
+            var safeId = fileIdRegex.Match(fileId);
+            if (!safeId.Success || safeId.Groups[0].Value != fileId)
+                throw new ArgumentException("fileId is Not Safe\nID = " + fileId + "\nExpected = " + safeId?.Groups?[0]?.Value);
+            return Path.Join(basePath, "./" + fileId);
+        }
         
         public async Task<Stream> GetFileById(string fileId)
         {
-            var filePath = Path.Join(basePath, "./" + fileId);
+            var filePath = GetFullPath(fileId);
             return new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 4096, true);
         }
 
@@ -34,7 +45,7 @@ namespace Roblox.Services.Database
 
         public async Task UploadFile(string id, Stream fileStream, string mimeType)
         {
-            var filePath = Path.Join(basePath, "./" + id);
+            var filePath = GetFullPath(id);
             await using var destinationFileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true);
             while (fileStream.Position < fileStream.Length)
             {
@@ -44,7 +55,7 @@ namespace Roblox.Services.Database
 
         public async Task DeleteFile(string id)
         {
-            var filePath = Path.Join(basePath, "./" + id);
+            var filePath = GetFullPath(id);
             await using (new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, 4096,
                 FileOptions.DeleteOnClose))
             {
