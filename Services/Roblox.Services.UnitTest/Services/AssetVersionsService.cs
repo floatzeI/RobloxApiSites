@@ -32,5 +32,36 @@ namespace Roblox.Services.UnitTest.Services
             Assert.Equal(12345, response.assetVersionId);
             mock.Verify(c => c.InsertAssetVersion(request), Times.Once);
         }
+        
+        [Fact]
+        public async Task Delete_Asset_Version()
+        {
+            var assetVersionId = 123;
+            
+            var mock = new Mock<IAssetVersionsDatabase>();
+
+            var service = new AssetVersionsService(mock.Object);
+            await service.DeleteAssetVersion(assetVersionId);
+            mock.Verify(c => c.DeleteAssetVersion(assetVersionId), Times.Once);
+        }
+
+        [Fact]
+        public async Task Get_Latest_Asset_Version_By_Asset_Id()
+        {
+            var assetId = 4;
+            var assetVersionId = 123;
+            var response = new AssetVersionEntry()
+            {
+                assetId = assetId,
+                assetVersionId = assetVersionId,
+            };
+            var mock = new Mock<IAssetVersionsDatabase>();
+            mock.Setup(c => c.GetLatestAssetVersion(assetId)).ReturnsAsync(response);
+            
+            var service = new AssetVersionsService(mock.Object);
+            var result = await service.GetLatestAssetVersion(assetId);
+            Assert.Equal(assetVersionId, result.assetVersionId);
+            Assert.Equal(assetId, result.assetId);
+        }
     }
 }
