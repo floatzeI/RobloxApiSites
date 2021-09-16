@@ -54,5 +54,18 @@ namespace Roblox.Services.UnitTest.Controllers
             mock.Verify(c => c.CreateFileHash(null), Times.Once);
             mock.Verify(c => c.UploadFile(It.IsAny<Stream>(), hash, mime), Times.Once);
         }
+
+        [Fact]
+        public async Task Get_File_By_Id()
+        {
+            var id = "fileid123";
+
+            var mock = new Mock<IFilesService>();
+
+            var controller = new FilesController(mock.Object);
+            var result = await controller.GetFile(id);
+            
+            mock.Verify(c => c.GetFile(id), Times.Once);
+        }
     }
 }
