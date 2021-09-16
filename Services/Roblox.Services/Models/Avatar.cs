@@ -39,6 +39,27 @@ namespace Roblox.Services.Models.Avatar
     public class SetAvatarRequest : AvatarEntry
     {
         public long userId { get; set; }
+
+        public object ToDatabaseEntry()
+        {
+            return new
+            {
+                user_id = userId,
+                head_color_id = colors.headColorId,
+                torso_color_id = colors.torsoColorId,
+                left_arm_color_id = colors.leftArmColorId,
+                right_arm_color_id = colors.rightArmColorId,
+                left_leg_color_id = colors.leftLegColorId,
+                right_leg_color_id = colors.rightLegColorId,
+                height_scale = scales.height,
+                width_scale = scales.width,
+                head_scale = scales.head,
+                depth_scale = scales.depth,
+                proportion_scale = scales.proportion,
+                body_type_scale = scales.bodyType,
+                avatar_type = type,
+            };
+        }
     }
 
     public class DbAvatarEntry : AvatarColor
