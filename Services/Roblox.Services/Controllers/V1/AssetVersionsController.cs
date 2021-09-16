@@ -24,7 +24,7 @@ namespace Roblox.Services.Controllers.V1
         }
         
         [HttpPost("DeleteAssetVersion")]
-        public async Task InsertAssetVersion([Required] long assetVersionId)
+        public async Task DeleteAssetVersion([Required] long assetVersionId)
         {
             await assetVersionsService.DeleteAssetVersion(assetVersionId);
         }
