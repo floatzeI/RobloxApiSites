@@ -1,0 +1,80 @@
+﻿@page "/Users/Lookup.aspx"
+@using Roblox.Administration.Partials
+@model Roblox.Administration.Pages.Users.Lookup
+
+@{
+    ViewData["Title"] = "Users > Lookup";
+    var breadcrumbs = new BreadcrumbsModel()
+    {
+        pageSections = new()
+        {
+            new()
+            {
+                url = "/Users",
+                name = "Users"
+            },
+            new()
+            {
+                url = "/Users/Lookup.aspx",
+                name = "Lookup",
+            },
+        }
+    };
+    if (Model.searchResults != null)
+    {
+        breadcrumbs.pageSections.Add(new ()
+        {
+            url = "",
+            name =  Model.searchField + " search results for \"" + Model.searchQuery + "\"",
+        });
+    }
+}
+
+<h1 class="page-title">User Lookup</h1>
+
+@if (Model.searchResults == null)
+{
+    <partial name="Components/Breadcrumb" model="@BreadcrumbsModel.FromTitle((string)ViewData["Title"])"/>
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-body">
+                <partial name="Components/LookupComponent" model="@(new LookupModel() { fieldName = "Username", fieldId = "username", fieldType = "username", minLength = 3, maxLength = 50 })"/>
+                <partial name="Components/LookupComponent" model="@(new LookupModel() { fieldName = "Email", fieldId = "emailAddress", fieldType = "email", minLength = 1 })"/>
+                <partial name="Components/LookupComponent" model="@(new LookupModel() { fieldName = "User ID", fieldId = "userId", fieldType = "number", minLength = 1 })"/>
+            </div>
+        </div>
+    </div>
+}else{
+
+    <partial name="Components/Breadcrumb" model="@breadcrumbs" />
+    if (Model.searchTotal == 0)
+    {
+        <div class="row">
+            <div class="col-12">
+                <p>Your query for "@Model.searchQuery" returned 0 results.</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="card card-body">
+            @foreach (var item in Model.searchResults)
+            {
+                <a href="/Users/Manage.aspx?ID=@item.userId">
+                    <div class="row">
+                        <div class="col-4 col-lg-1">
+                            <!-- Thumbnail Here -->
+                        </div>
+                        <div class="col-8 col-lg-10">
+                            <p>@item.username</p>
+                            <p>UserID #@item.userId</p>
+                        </div>
+                        <div class="col-12">
+                            <hr/>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+}

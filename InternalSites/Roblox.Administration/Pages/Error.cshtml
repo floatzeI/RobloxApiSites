@@ -1,0 +1,22 @@
+﻿@page "/Error"
+@model ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+@if (Model.statusCode == null)
+{
+    <h1 class="text-danger">Error</h1>
+    <h2 class="text-danger">An error occurred while processing your request.</h2>
+}
+else
+{
+    <h1>@((int)Model.statusCode) @Model.statusCode</h1>
+}
+
+@if (Model.showRequestId)
+{
+    <p>
+        <strong>Request ID:</strong> <code>@Model.requestId</code>
+    </p>
+}

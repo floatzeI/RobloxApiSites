@@ -1,0 +1,15 @@
+﻿@model Roblox.Administration.Partials.LookupModel
+
+<form method="GET">
+    <div class="row mt-2 mb-2">
+        <div class="col-12 col-lg-2">
+            <p class="mt-1">By @Model.fieldName</p>
+        </div>
+        <div class="col-12 col-lg-8">
+            <input type="@Model.fieldType" name="@Model.fieldId" class="form-control" placeholder="@Model.fieldName Query" minlength="@Model.minLength" max="@Model.maxLength" />
+        </div>
+        <div class="col-12 col-lg-2">
+            <input type="submit" class="btn btn-success w-100 mt-lg-0 mb-lg-0 mt-4 mb-4" value="Search"/>
+        </div>
+    </div>
+</form>
