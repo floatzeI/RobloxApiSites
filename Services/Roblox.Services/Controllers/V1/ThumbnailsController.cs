@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Roblox.Services.Services;
@@ -27,6 +28,13 @@ namespace Roblox.Services.Controllers.V1
         public async Task InsertThumbnail([Required, FromBody] Models.Thumbnails.ThumbnailEntry request)
         {
             await thumbnailsService.InsertThumbnail(request);
+        }
+
+        [HttpGet("GetThumbnailByHash")]
+        public async Task<Models.Thumbnails.ThumbnailEntry> GetThumbnailByHash([Required] string thumbnailHash,
+            [Required] int resolutionX, [Required] int resolutionY)
+        {
+            return await thumbnailsService.GetThumbnailByHash(thumbnailHash, resolutionX, resolutionY);
         }
     }
 }
