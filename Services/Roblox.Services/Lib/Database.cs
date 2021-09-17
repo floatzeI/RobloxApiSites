@@ -1,17 +1,11 @@
 using System;
 using Npgsql;
-using Dapper;
-using SqlKata;
-using SqlKata.Execution;
-using SqlKata.Compilers;
-using System.Data.SqlClient;
 
 namespace Roblox.Services
 {
     public static class Db
     {
         private static string connectionString { get; set; }
-        private static PostgresCompiler compiler { get; set; }
         private static NpgsqlConnection integrationTestConnection { get; set; }
 
         public static NpgsqlConnection client => integrationTestConnection ?? new NpgsqlConnection(connectionString);
