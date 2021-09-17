@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Roblox.Assets.Client;
+using Roblox.Files.Client;
 using Roblox.Passwords.Client;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
@@ -51,6 +53,18 @@ namespace Roblox.Web.WebAPI
                 new (
                     config.GetSection("ApiClients:Passwords:BaseUrl").Value,
                     config.GetSection("ApiClients:Passwords:ApiKey").Value
+                )
+            );
+            services.AddScoped<IAssetsV1Client, AssetsV1Client>(_ =>
+                new (
+                    config.GetSection("ApiClients:Assets:BaseUrl").Value,
+                    config.GetSection("ApiClients:Assets:ApiKey").Value
+                )
+            );
+            services.AddScoped<IFilesV1Client, FilesV1Client>(_ =>
+                new (
+                    config.GetSection("ApiClients:Files:BaseUrl").Value,
+                    config.GetSection("ApiClients:Files:ApiKey").Value
                 )
             );
             // config attributes
