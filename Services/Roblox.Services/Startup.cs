@@ -54,6 +54,9 @@ namespace Roblox.Services
             services.AddSingleton<IFilesService, FilesService>(c =>
                 new(new FilesDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null)),
                     new LocalFilesStorageDatabase()));
+
+            services.AddSingleton<IThumbnailsService, ThumbnailsService>(c =>
+                new(new ThumbnailsDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null))));
         }
 
         public void SetConnectionStrings()
