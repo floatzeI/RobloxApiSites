@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using Roblox.Assets.Client;
 using Roblox.Files.Client;
 using Roblox.Passwords.Client;
+using Roblox.Platform.Thumbnail;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -36,7 +37,7 @@ namespace Roblox.Web.WebAPI
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
-            // services
+            // api clients
             services.AddScoped<IUsersV1Client, UsersV1Client>(_ => 
                 new (
                     config.GetSection("ApiClients:Users:BaseUrl").Value, 
@@ -65,6 +66,15 @@ namespace Roblox.Web.WebAPI
                 new (
                     config.GetSection("ApiClients:Files:BaseUrl").Value,
                     config.GetSection("ApiClients:Files:ApiKey").Value
+                )
+            );
+            // platform services
+            services.AddScoped<IThumbnailManager, ThumbnailManager>(_ =>
+                new(
+                    new FilesV1Client(
+                        config.GetSection("ApiClients:Files:BaseUrl").Value,
+                        config.GetSection("ApIClients:Files:ApiKey").Value
+                    )
                 )
             );
             // config attributes
