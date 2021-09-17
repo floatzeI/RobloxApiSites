@@ -13,7 +13,7 @@ namespace Roblox.Services.Database
             db = config.dbConnection;
         }
 
-        private const string _columnSelection = "id as thumbnailId, reference_id as referenceId, file_id as fileId, thumbnail_type as thumbnailType, resolution_x as resolution, resolution_y as resolutionY";
+        private const string _columnSelection = "id as thumbnailId, reference_id as referenceId, file_id as fileId, thumbnail_type as thumbnailType, resolution_x as resolutionX, resolution_y as resolutionY";
 
         public async Task InsertThumbnail(ThumbnailEntry request)
         {
@@ -44,10 +44,10 @@ namespace Roblox.Services.Database
         public async Task<ThumbnailEntry> GetThumbnail(long referenceId, int thumbnailType, int resolutionX, int resolutionY)
         {
             return await db.connection.QuerySingleOrDefaultAsync<ThumbnailEntry>(
-                "SELECT "+_columnSelection+" FROM thumbnail WHERE reference_id = @id AND thumbnail_type = @thumbnail_type AND resolution_x = @resolution_x AND resolution_y = @resolution_y LIMIT 1",
+                "SELECT "+_columnSelection+" FROM thumbnail WHERE reference_id = @reference_id AND thumbnail_type = @thumbnail_type AND resolution_x = @resolution_x AND resolution_y = @resolution_y LIMIT 1",
                 new
                 {
-                    id = referenceId,
+                    reference_id = referenceId,
                     thumbnail_type = thumbnailType,
                     resolution_x = resolutionX,
                     resolution_y = resolutionY,
