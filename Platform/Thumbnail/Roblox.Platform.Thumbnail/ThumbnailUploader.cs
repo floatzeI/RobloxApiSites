@@ -1,4 +1,0 @@
-namespace Roblox.Platform.Thumbnail
-{
-    
-}
