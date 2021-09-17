@@ -1,0 +1,4 @@
+namespace Roblox.Platform.Thumbnail
+{
+    
+}
