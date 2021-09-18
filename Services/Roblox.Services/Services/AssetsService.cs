@@ -68,9 +68,16 @@ namespace Roblox.Services.Services
             
             var toDelete = ListExtensions.GetItemsNotInSecondList(existingGenres, newGenres, (a, b) => a == b);
             var toAdd = ListExtensions.GetItemsNotInSecondList(newGenres, existingGenres, (a, b) => a == b);
-            
-            await db.DeleteAssetGenres(assetId, toDelete);
-            await db.InsertAssetGenres(assetId, toAdd);
+
+            if (toDelete.Count > 0)
+            {
+                await db.DeleteAssetGenres(assetId, toDelete);
+            }
+
+            if (toAdd.Count > 0)
+            {
+                await db.InsertAssetGenres(assetId, toAdd);
+            }
         }
     }
 }
