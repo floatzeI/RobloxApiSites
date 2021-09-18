@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,6 +54,41 @@ namespace Roblox.Services.Database
                     updated_at = DateTime.Now,
                     id = request.assetId,
                 });
+        }
+
+        public async Task<IEnumerable<int>> GetAssetGenres(long assetId)
+        {
+            var result = await db.connection.QueryAsync("SELECT genre_id FROM asset_genre WHERE asset_id = @asset_id", new
+            {
+                asset_id = assetId,
+            });
+            return result.ToList().Select(c => (int)c.genre_id).Distinct();
+        }
+
+        public async Task InsertAssetGenres(long assetId, IEnumerable<int> genres)
+        {
+            var genreIds = genres as int[] ?? genres.ToArray();
+            var cols = string.Join(",", genreIds.Select((_, idx) => $"(@asset_id, @genre_id_{idx})")) + ";";
+            var args = new DynamicParameters();
+            args.Add("asset_id", assetId);
+            for (var i = 0; i < genreIds.Length; i++)
+            {
+                args.Add("genre_id_" + i, genreIds[i]);
+            }
+            await db.connection.ExecuteAsync("INSERT INTO asset_genre (asset_id, genre_id) VALUES " + cols, args);
+        }
+
+        public async Task DeleteAssetGenres(long assetId, IEnumerable<int> genres)
+        {
+            foreach (var item in genres)
+            {
+                await db.connection.ExecuteAsync(
+                    "DELETE FROM asset_genre WHERE asset_id = @asset_id AND genre_id = @genre_id", new
+                    {
+                        asset_id = assetId,
+                        genre_id = item,
+                    });
+            }
         }
     }
 }
