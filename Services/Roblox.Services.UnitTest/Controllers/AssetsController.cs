@@ -93,5 +93,41 @@ namespace Roblox.Services.UnitTest.Controllers
             await controller.UpdateAsset(request);
             mock.Verify(c => c.UpdateAsset(request), Times.Once);
         }
+
+        [Fact]
+        public async Task Get_Asset_Genres()
+        {
+            var assetId = 1;
+            var genres = new int[]
+            {
+                1,
+                2,
+                4,
+            };
+            var mock = new Mock<IAssetsService>();
+            mock.Setup(c => c.GetAssetGenres(assetId)).ReturnsAsync(genres);
+            var controller = new AssetsController(mock.Object);
+            var result = await controller.GetAssetGenres(assetId);
+            Assert.Equal(genres.Length, result.Count());
+        }
+        [Fact]
+        public async Task Set_Asset_Genres()
+        {
+            var assetId = 1;
+            var newGenres = new int[]
+            {
+                1,
+                2,
+                4,
+            };
+            var mock = new Mock<IAssetsService>();
+            var controller = new AssetsController(mock.Object);
+            await controller.SetAssetGenres(new ()
+            {
+                assetId = assetId,
+                genres = newGenres,
+            });
+            mock.Verify(c => c.SetAssetGenres(assetId, newGenres));
+        }
     }
 }
