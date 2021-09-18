@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Roblox.Web.Enums;
 
 namespace Roblox.Assets.Client
 {
@@ -19,5 +20,14 @@ namespace Roblox.Assets.Client
         /// <param name="assetId">The assetId</param>
         /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Models.AssetDetailsEntry"/></returns>
         Task<IEnumerable<Models.AssetDetailsEntry>> MultiGetAssetById(IEnumerable<long> assetId);
+
+        /// <summary>
+        /// Create an asset. Returns the <see cref="Models.CreateAssetResponse"/>
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <returns>The <see cref="Models.CreateAssetResponse"/></returns>
+        Task<Models.CreateAssetResponse> CreateAsset(Models.CreateAssetRequest request);
+
+        Task SetAssetGenres(long assetId, IEnumerable<AssetGenre> genres);
     }
 }
