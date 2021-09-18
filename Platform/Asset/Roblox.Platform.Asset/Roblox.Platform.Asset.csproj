@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ApiClients\Roblox.Assets.Client\Roblox.Assets.Client.csproj" />
+    <ProjectReference Include="..\..\..\ApiClients\Roblox.Files.Client\Roblox.Files.Client.csproj" />
+    <ProjectReference Include="..\..\..\ApiClients\Roblox.Marketplace.Client\Roblox.Marketplace.Client.csproj" />
+  </ItemGroup>
+
+</Project>

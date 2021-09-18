@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Files.Client", "..\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Thumbnail", "..\Platform\Thumbnail\Roblox.Platform.Thumbnail\Roblox.Platform.Thumbnail.csproj", "{993DCA0B-6496-4365-AD80-20AAC9C50EE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Asset", "..\Platform\Asset\Roblox.Platform.Asset\Roblox.Platform.Asset.csproj", "{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,5 +114,9 @@ Global
 		{993DCA0B-6496-4365-AD80-20AAC9C50EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{993DCA0B-6496-4365-AD80-20AAC9C50EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{993DCA0B-6496-4365-AD80-20AAC9C50EE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
