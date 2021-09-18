@@ -13,6 +13,10 @@ namespace Roblox.Platform.Asset.Models
         public CreatorType creatorType { get; set; }
         public long creatorId { get; set; }
         /// <summary>
+        /// The user who is uploading this item.
+        /// </summary>
+        public long userId { get; set; }
+        /// <summary>
         /// Genres for the assetId. Optional.
         /// </summary>
         public IEnumerable<AssetGenre> genres { get; set; }
