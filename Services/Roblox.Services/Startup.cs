@@ -57,6 +57,10 @@ namespace Roblox.Services
 
             services.AddSingleton<IThumbnailsService, ThumbnailsService>(c =>
                 new(new ThumbnailsDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null))));
+
+            services.AddSingleton<IMarketplaceService, MarketplaceService>(c =>
+                new MarketplaceService(
+                    new MarketplaceDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null))));
         }
 
         public void SetConnectionStrings()
