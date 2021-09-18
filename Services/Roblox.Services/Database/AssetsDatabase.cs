@@ -75,7 +75,9 @@ namespace Roblox.Services.Database
             {
                 args.Add("genre_id_" + i, genreIds[i]);
             }
-            await db.connection.ExecuteAsync("INSERT INTO asset_genre (asset_id, genre_id) VALUES " + cols, args);
+
+            var sql = "INSERT INTO asset_genre (asset_id, genre_id) VALUES " + cols;
+            await db.connection.ExecuteAsync(sql, args);
         }
 
         public async Task DeleteAssetGenres(long assetId, IEnumerable<int> genres)
