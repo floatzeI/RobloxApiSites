@@ -17,6 +17,7 @@
         "**/*.IntegrationTest/*",
         "**/Program.cs",
         "**/Startup.cs",
-        "**/Services/Roblox.Services/Migrations/sql/*"
+        "**/Services/Roblox.Services/Migrations/sql/*",
+        "**/InternalSites/Roblox.Administration/wwwroot"
     ]
 }
