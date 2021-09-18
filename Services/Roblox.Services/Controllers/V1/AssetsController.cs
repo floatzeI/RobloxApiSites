@@ -43,5 +43,17 @@ namespace Roblox.Services.Controllers.V1
         {
             await assetsService.UpdateAsset(request);
         }
+
+        [HttpGet("GetAssetGenres")]
+        public async Task<IEnumerable<int>> GetAssetGenres([Required] long assetId)
+        {
+            return await assetsService.GetAssetGenres(assetId);
+        }
+        
+        [HttpPost("SetAssetGenres")]
+        public async Task SetAssetGenres([Required, FromBody] Models.Assets.UpdateAssetGenresRequest request)
+        {
+            await assetsService.SetAssetGenres(request.assetId, request.genres);
+        }
     }
 }
