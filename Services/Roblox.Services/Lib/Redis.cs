@@ -1,11 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Npgsql;
-using Dapper;
-using SqlKata;
-using SqlKata.Execution;
-using SqlKata.Compilers;
-using System.Data.SqlClient;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
 using StackExchange.Redis;
