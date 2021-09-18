@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Roblox.Services.Exceptions.Services;
@@ -35,5 +36,19 @@ namespace Roblox.Services.Services
         Task<Models.Assets.AssetEntry> InsertAsset(Models.Assets.InsertAssetRequest request);
         
         Task UpdateAsset(Models.Assets.UpdateAssetRequest request);
+
+        /// <summary>
+        /// Get the genres for the assetId
+        /// </summary>
+        /// <param name="assetId">The assetId</param>
+        /// <returns>An array of genreIds</returns>
+        Task<IEnumerable<int>> GetAssetGenres(long assetId);
+
+        /// <summary>
+        /// Set the genres for the assetId
+        /// </summary>
+        /// <param name="assetId">The assetId</param>
+        /// <param name="genreIds">Array of genres</param>
+        Task SetAssetGenres(long assetId, IEnumerable<int> genreIds);
     }
 }

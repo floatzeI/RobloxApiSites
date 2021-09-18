@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Roblox.Services.Database;
 using Roblox.Services.Exceptions.Services;
+using Roblox.Services.Lib.Extensions;
 using Roblox.Services.Models.Assets;
 
 namespace Roblox.Services.Services
@@ -53,6 +54,23 @@ namespace Roblox.Services.Services
         public async Task UpdateAsset(UpdateAssetRequest request)
         {
             await db.UpdateAsset(request);
+        }
+
+        public async Task<IEnumerable<int>> GetAssetGenres(long assetId)
+        {
+            return await db.GetAssetGenres(assetId);
+        }
+
+        public async Task SetAssetGenres(long assetId, IEnumerable<int> genreIds)
+        {
+            var existingGenres = (await db.GetAssetGenres(assetId)).ToList();
+            var newGenres = genreIds.ToList();
+            
+            var toDelete = ListExtensions.GetItemsNotInSecondList(existingGenres, newGenres, (a, b) => a == b);
+            var toAdd = ListExtensions.GetItemsNotInSecondList(newGenres, existingGenres, (a, b) => a == b);
+            
+            await db.DeleteAssetGenres(assetId, toDelete);
+            await db.InsertAssetGenres(assetId, toAdd);
         }
     }
 }
