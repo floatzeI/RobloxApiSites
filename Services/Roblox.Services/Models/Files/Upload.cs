@@ -12,7 +12,6 @@ namespace Roblox.Services.Models.Files
         /// <summary>
         /// The file to upload
         /// </summary>
-        [Required]
         public IFormFile file { get; set; }
     }
 
