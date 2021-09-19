@@ -61,6 +61,7 @@ namespace Roblox.Platform.Asset
                     isLimited = request.economyInfo.isLimited,
                     isLimitedUnique = request.economyInfo.isLimitedUnique,
                     offSaleDeadline = request.economyInfo.offSaleDeadline,
+                    stockCount = request.economyInfo.stockCount,
                 });
                 response.productId = product.productId;
             }

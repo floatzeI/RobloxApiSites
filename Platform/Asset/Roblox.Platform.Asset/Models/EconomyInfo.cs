@@ -10,5 +10,6 @@ namespace Roblox.Platform.Asset.Models
         public bool isLimited { get; set; }
         public bool isLimitedUnique { get; set; }
         public DateTime? offSaleDeadline { get; set; }
+        public int? stockCount { get; set; }
     }
 }
