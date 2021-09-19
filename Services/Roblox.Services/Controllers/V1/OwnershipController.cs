@@ -6,7 +6,7 @@ using Roblox.Services.Services;
 namespace Roblox.Services.Controllers.V1
 {
     [ApiController]
-    [Route("/Ownership")]
+    [Route("/Ownership/v1")]
     public class OwnershipController
     {
         private IOwnershipService ownershipService { get; set; }
