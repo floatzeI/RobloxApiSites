@@ -34,6 +34,9 @@ namespace Roblox.Platform.Asset.Models
     {
         public long assetId { get; set; }
         public long assetVersionId { get; set; }
+        /// <summary>
+        /// 0 if no economy info was provided
+        /// </summary>
         public long productId { get; set; }
     }
 }
