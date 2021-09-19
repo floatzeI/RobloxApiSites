@@ -20,7 +20,7 @@ namespace Roblox.Services.Controllers.V1
 
         [HttpPost("UploadFile")]
         public async Task<Models.Files.UploadResponse> UploadFile(
-            [FromBody, Required] Models.Files.UploadRequest request)
+            [FromForm, Required] Models.Files.UploadRequest request)
         {
             var stream = request.file.OpenReadStream();
             var hash = await filesService.CreateFileHash(stream);
