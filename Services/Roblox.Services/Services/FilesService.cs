@@ -27,7 +27,7 @@ namespace Roblox.Services.Services
             // - 4df253f22f492b2199ba8c48d8cb0269
             using var sha = SHA512.Create();
             var hash = await sha.ComputeHashAsync(fileStream);
-            return Convert.ToHexString(hash);
+            return Convert.ToHexString(hash).ToLower();
         }
 
         public async Task UploadFile(Stream fileStream, string fileHash, string mimeType)
