@@ -62,6 +62,15 @@ namespace Roblox.Services
             services.AddSingleton<IMarketplaceService, MarketplaceService>(c =>
                 new MarketplaceService(
                     new MarketplaceDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null))));
+
+            services.AddSingleton<IAssetVersionsService, AssetVersionsService>(c =>
+                new AssetVersionsService(
+                    new AssetVersionsDatabase(
+                        new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null))));
+
+            services.AddSingleton<IOwnershipService, OwnershipService>(c =>
+                new OwnershipService(
+                    new OwnershipDatabase(new DatabaseConfiguration<dynamic>(new PostgresDatabaseProvider(), null))));
         }
 
         public void SetConnectionStrings()
