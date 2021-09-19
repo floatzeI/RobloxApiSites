@@ -1,0 +1,104 @@
+﻿@page "/Assets/Create.aspx"
+@using Roblox.Administration.Partials
+@using Roblox.Web.Enums
+@model Roblox.Administration.Pages.Assets.Create
+
+@{
+    ViewData["Title"] = "Assets > Create";
+}
+
+<h1 class="page-title">Create an Asset</h1>
+
+<partial name="Components/Breadcrumb" model="@BreadcrumbsModel.FromTitle((string)ViewData["Title"])"/>
+
+<div class="card card-body">
+    @if (Model.okMessage != null)
+    {
+        <div class="card card-body bg-success mb-2">
+            <p class="text-white">
+                @Model.okMessage
+                @if (Model.okUrl != null)
+                {
+                    <a href="@Model.okUrl"> @Model.okUrl</a>
+                }
+            </p>
+        </div>
+    }
+    else if (Model.errorMessage != null)
+    {
+        <div class="card card-body bg-danger mb-2">
+            <p class="text-white">@Model.errorMessage</p>
+        </div>
+    }
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="assetName">Asset Name</label>
+            <input type="text" class="form-control" id="assetName" name="name">
+        </div>
+        <div class="form-group">
+            <label for="assetDescription">Asset Description</label>
+            <input type="text" class="form-control" id="assetDescription" name="description">
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group mt-2">
+                    <label for="rbxFile">Asset File</label>
+                    <input type="file" class="form-control-file" id="rbxFile" name="rbxFile">
+                </div>
+            </div>
+            <div class="col-6">
+                <label for="assetType">Asset Type</label>
+                <select class="form-control" name="assetType" id="assetType">
+                    @foreach (var item in Enum.GetValues<AssetType>())
+                    {
+                        <option value="@((int)item)">@Enum.GetName(item)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <details>
+            <summary>
+                <span class="pe-4">Economy Data</span>
+            </summary>
+            <div class="mt-2 mb-4">
+                <hr/>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="isForSaleCheckbox" name="isForSale">
+                    <label class="form-check-label" for="isForSaleCheckbox">Is For Sale</label>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="priceRobux">Price (R$)</label>
+                            <input type="number" class="form-control" id="priceRobux" name="priceInRobux" min="0"/>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="priceTickets">Price (TX$)</label>
+                            <input type="number" class="form-control" id="priceTickets" name="priceInTickets" min="0"/>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="limitedStatus">Limited Status</label>
+                            <select class="form-control" name="limitedStatus" id="limitedStatus">
+                                <option value="false">Not Limited</option>
+                                <option value="isLimited">Limited</option>
+                                <option value="isLimitedUnique">Limited Unique</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="copyCount">Copy Count</label>
+                            <input type="number" class="form-control" name="copyCount" id="copyCount" min="0"/>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+        </details>
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+    </form>
+</div>
