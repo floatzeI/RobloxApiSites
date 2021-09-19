@@ -38,5 +38,6 @@ namespace Roblox.Platform.Asset.Models
         /// 0 if no economy info was provided
         /// </summary>
         public long productId { get; set; }
+        public long userAssetId { get; set; }
     }
 }
