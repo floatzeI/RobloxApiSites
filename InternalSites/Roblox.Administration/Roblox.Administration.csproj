@@ -12,4 +12,16 @@
     <_ContentIncludedByDefault Remove="Pages\Components\Breadcrumb.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Roblox.Web, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\ApiSites\Roblox.Web\Roblox.Web\bin\Debug\net5.0\Roblox.Web.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ApiClients\Roblox.Avatar.Client\Roblox.Avatar.Client.csproj" />
+    <ProjectReference Include="..\..\ApiClients\Roblox.Users.Client\Roblox.Users.Client.csproj" />
+    <ProjectReference Include="..\..\Platform\Asset\Roblox.Platform.Asset\Roblox.Platform.Asset.csproj" />
+  </ItemGroup>
+
 </Project>
