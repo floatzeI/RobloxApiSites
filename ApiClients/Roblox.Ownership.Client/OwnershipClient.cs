@@ -11,7 +11,7 @@ namespace Roblox.Ownership.Client
 
         public OwnershipClient(string baseUrl, string apiKey)
         {
-            clientBase = new GuardedApiClientBase(baseUrl, "V1", apiKey);
+            clientBase = new GuardedApiClientBase(baseUrl, "v1", apiKey);
         }
         
         public async Task<OwnershipEntry> CreateEntry(CreateRequest request)
