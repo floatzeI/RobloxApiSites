@@ -26,6 +26,7 @@ namespace Roblox.Platform.Asset
         {
             // todo: add rollbacks if something fails...
             // insert asset
+            var response = new Models.CreateAssetResponse();
             var asset = await assetsClient.CreateAsset(new()
             {
                 name = request.name,
@@ -34,10 +35,11 @@ namespace Roblox.Platform.Asset
                 creatorId = request.creatorId,
                 creatorType = request.creatorType,
             });
+            response.assetId = asset.assetId;
             // add genres
             await assetsClient.SetAssetGenres(asset.assetId, request.genres);
             // upload the asset
-            var file = await filesClient.UploadFile("application/binary", request.file);
+            var file = await filesClient.UploadFile("application/octet-stream", request.file);
             // create a new asset version
             var version = await assetVersionsClient.CreateAssetVersion(new()
             {
@@ -45,15 +47,27 @@ namespace Roblox.Platform.Asset
                 fileId = file,
                 userId = request.userId,
             });
+            response.assetVersionId = version.assetVersionId;
+            
             if (request.economyInfo != null)
             {
-                // add economy data (todo)
-                throw new NotImplementedException();
+                // add economy data
+                var product = await marketplaceClient.SetProduct(new()
+                {
+                    assetId = asset.assetId,
+                    priceInRobux = request.economyInfo.priceInRobux,
+                    priceInTickets = request.economyInfo.priceInTickets,
+                    isForSale = request.economyInfo.isForSale,
+                    isLimited = request.economyInfo.isLimited,
+                    isLimitedUnique = request.economyInfo.isLimitedUnique,
+                    offSaleDeadline = request.economyInfo.offSaleDeadline,
+                });
+                response.productId = product.productId;
             }
             // todo: add to the userId's inventory (or should we expect the caller to do that?...)
             // todo: request a thumbnail if the assetType needs a thumbnail (or should the caller do that?...)
 
-            throw new NotImplementedException();
+            return response;
         }
     }
 }
