@@ -15,7 +15,7 @@ namespace Roblox.ApiProxy.Api.Models
         public Creator Creator { get; set; }
         public long IconImageAssetId { get; set; }
         public DateTime Created { get; set; }
-        public DateTime Update { get; set; }
+        public DateTime Updated { get; set; }
         public int? PriceInRobux { get; set; }
         public int? PriceInTickets { get; set; }
         public int Sales { get; set; }
