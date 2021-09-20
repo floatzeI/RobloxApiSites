@@ -55,6 +55,12 @@ namespace Roblox.Administration.Pages.Assets
                 errorMessage = string.Join("\n", allErrors.Select(c => c.ErrorMessage));
                 return;
             }
+
+            if (assetType == 0)
+            {
+                errorMessage = "Invalid assetType.";
+                return;
+            }
             // reset
             if (copyCount <= 0)
             {
