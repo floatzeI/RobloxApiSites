@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Roblox.ApiClientBase;
+using Roblox.Marketplace.Client.Model;
 using Roblox.Marketplace.Client.Models;
 
 namespace Roblox.Marketplace.Client
@@ -21,6 +22,25 @@ namespace Roblox.Marketplace.Client
         public async Task<IEnumerable<AssetEntry>> GetProductsByAssetId(IEnumerable<long> assetIds)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<AssetEntry> GetProductByAssetId(long assetId)
+        {
+            var req = new Dictionary<string, string>() { { "assetId", assetId.ToString() } };
+            try
+            {
+                var result = await clientBase.ExecuteHttpRequest(null, HttpMethod.Get, req, null, null, null, null,
+                    "GetProductByAssetId");
+                return JsonSerializer.Deserialize<AssetEntry>(result.body);
+            }
+            catch (ApiClientException e)
+            {
+                if (e.HasError("RecordNotFound"))
+                {
+                    throw new ProductNotFoundForAsset(assetId, e);
+                }
+                throw;
+            }
         }
 
         public async Task<CreateResponse> SetProduct(AssetEntry request)
