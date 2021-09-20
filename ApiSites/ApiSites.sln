@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.AssetVersions.Client
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Ownership.Client", "..\ApiClients\Roblox.Ownership.Client\Roblox.Ownership.Client.csproj", "{8B1A2840-D773-4CC0-9662-7546C846BB8B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.ApiProxy.Api", "Roblox.ApiProxy.Api\Roblox.ApiProxy.Api\Roblox.ApiProxy.Api.csproj", "{5ADA9E03-0080-4E75-82AD-606FA91F422D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,5 +132,9 @@ Global
 		{8B1A2840-D773-4CC0-9662-7546C846BB8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B1A2840-D773-4CC0-9662-7546C846BB8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B1A2840-D773-4CC0-9662-7546C846BB8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5ADA9E03-0080-4E75-82AD-606FA91F422D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ADA9E03-0080-4E75-82AD-606FA91F422D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ADA9E03-0080-4E75-82AD-606FA91F422D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5ADA9E03-0080-4E75-82AD-606FA91F422D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
