@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Roblox.Assets.Client;
 using Roblox.Files.Client;
+using Roblox.Marketplace.Client;
 using Roblox.Passwords.Client;
 using Roblox.Platform.Thumbnail;
 using Roblox.Sessions.Client;
@@ -69,6 +70,14 @@ namespace Roblox.Web.WebAPI
                     config.GetSection("ApiClients:Files:ApiKey").Value
                 )
             );
+            services.AddScoped<IAssetsV1Client>(_ =>
+                new AssetsV1Client(config.GetSection("ApiClients:Assets:BaseUrl").Value,
+                    config.GetSection("ApiClients:Assets:ApiKey").Value));
+            
+            services.AddScoped<IMarketplaceV1Client>(_ =>
+                new MarketplaceV1Client(config.GetSection("ApiClients:Marketplace:BaseUrl").Value,
+                    config.GetSection("ApiClients:Marketplace:ApiKey").Value));
+
             // platform services
             services.AddScoped<IThumbnailManager, ThumbnailManager>(_ =>
                 new(
