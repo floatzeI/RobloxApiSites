@@ -8,3 +8,4 @@ When creating a new service, please select a development port and add it here fo
 |---|---|
 | Roblox.AccountInformation.Api | 5101 |
 | Roblox.Authentication.Api     | 5102 |
+| Roblox.ApiProxy.Api           | 5103 |
