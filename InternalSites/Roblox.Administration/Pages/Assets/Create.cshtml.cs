@@ -85,7 +85,7 @@ namespace Roblox.Administration.Pages.Assets
                     offSaleDeadline = null,
                     priceInRobux = priceInRobux,
                     priceInTickets = priceInTickets,
-                    stockCount = copyCount,
+                    stockCount = limitedStatus == "isLimitedUnique" ? copyCount : null,
                 },
                 file = rbxFile.OpenReadStream(),
                 name = name,
