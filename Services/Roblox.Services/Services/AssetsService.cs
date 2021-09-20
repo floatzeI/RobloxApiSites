@@ -48,6 +48,7 @@ namespace Roblox.Services.Services
                 creatorType = request.creatorType,
                 created = result.created,
                 updated = result.created,
+                assetTypeId = request.assetType,
             };
         }
 
