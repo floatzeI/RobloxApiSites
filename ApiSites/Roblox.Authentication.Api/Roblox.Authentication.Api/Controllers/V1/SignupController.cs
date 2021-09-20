@@ -162,7 +162,7 @@ namespace Roblox.Authentication.Api.Controllers
                 // first, filter out the assets request to only include items that are for sale, exist, and are free
                 // Remove items that are not wearable
                 var assetDetails = await assetsClient.MultiGetAssetById(request.assetIds);
-                assetDetails = assetDetails.Where(c => AvatarValidator.IsWearable(c.assetType));
+                assetDetails = assetDetails.Where(c => AvatarValidator.IsWearable(c.assetTypeId));
                 // Remove items that are not free and not for sale
                 var productDetails = await marketplaceClient.GetProductsByAssetId(assetDetails.Select(c => c.assetId));
                 productDetails = productDetails.Where(c => c.isFree && c.isForSale);
