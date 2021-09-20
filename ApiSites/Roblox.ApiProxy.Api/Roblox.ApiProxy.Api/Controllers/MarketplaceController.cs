@@ -40,7 +40,7 @@ namespace Roblox.ApiProxy.Api.Controllers
                 AssetId = details.assetId,
                 Name = details.name,
                 Description = null, // todo
-                AssetTypeId = details.assetType,
+                AssetTypeId = details.assetTypeId,
                 Created = details.created,
                 Updated = details.updated,
                 Creator = new ()
