@@ -36,6 +36,7 @@ namespace Roblox.Web.WebAPI
             services.AddRazorPages();
             services.AddControllers().AddJsonOptions(options => {
                 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
             // api clients
             services.AddScoped<IUsersV1Client, UsersV1Client>(_ => 
