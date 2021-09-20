@@ -21,9 +21,9 @@ namespace Roblox.Services.Controllers.V1
         }
         
         [HttpGet("MultiGetDetails")]
-        public async Task<IEnumerable<Models.Assets.AssetEntry>> MultiGetAssetsById(string ids)
+        public async Task<IEnumerable<Models.Assets.AssetEntry>> MultiGetAssetsById(string assetIds)
         {
-            return await assetsService.MultiGetAssetsById(ListExtensions.CsvToLongList(ids));
+            return await assetsService.MultiGetAssetsById(ListExtensions.CsvToLongList(assetIds));
         }
 
         [HttpGet("GetDetails")]
