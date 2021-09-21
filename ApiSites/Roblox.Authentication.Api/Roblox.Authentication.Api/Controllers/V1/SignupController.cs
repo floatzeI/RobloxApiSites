@@ -7,6 +7,7 @@ using Roblox.Authentication.Api.Models;
 using Roblox.Authentication.Api.Validators;
 using Roblox.Avatar.Client;
 using Roblox.Marketplace.Client;
+using Roblox.Ownership.Client;
 using Roblox.Passwords.Client;
 using Roblox.Platform.Avatar;
 using Roblox.Sessions.Client;
@@ -27,8 +28,9 @@ namespace Roblox.Authentication.Api.Controllers
         private IAvatarV1Client avatarClient { get; }
         private IAssetsV1Client assetsClient { get; set; }
         private IMarketplaceV1Client marketplaceClient { get; set; }
+        private IOwnershipClient ownershipClient { get; set; }
 
-        public SignupController(IUsersV1Client users, IPasswordsV1Client passwords, ISessionsV1Client sessions, IAvatarV1Client avatar, IAssetsV1Client assets, IMarketplaceV1Client marketplace)
+        public SignupController(IUsersV1Client users, IPasswordsV1Client passwords, ISessionsV1Client sessions, IAvatarV1Client avatar, IAssetsV1Client assets, IMarketplaceV1Client marketplace, IOwnershipClient ownershipClientParam)
         {
             usersClient = users;
             passwordsClient = passwords;
@@ -36,6 +38,7 @@ namespace Roblox.Authentication.Api.Controllers
             avatarClient = avatar;
             assetsClient = assets;
             marketplaceClient = marketplace;
+            ownershipClient = ownershipClientParam;
         }
 
         private SignupRequest ValidateScales(Models.SignupRequest request)
@@ -110,7 +113,7 @@ namespace Roblox.Authentication.Api.Controllers
             // Done: 4. Insert password for that user
             // 5. If email specified, insert email record
             // Done: 6. Create avatar (go off params if specified, otherwise use default)
-            // 7. Add default avatar items to inventory, plus items specified in request.assetIds (as long as they're free items)
+            // Done: 7. Add default avatar items to inventory, plus items specified in request.assetIds (as long as they're free items)
             // 8. add thumbnail and headshot
             // 9. Create default place and universe for the user
             // Done: 10. Finally, Create session and set cookie
@@ -167,8 +170,17 @@ namespace Roblox.Authentication.Api.Controllers
                 var productDetails = await marketplaceClient.GetProductsByAssetId(assetDetails.Select(c => c.assetId));
                 productDetails = productDetails.Where(c => c.isFree && c.isForSale);
                 // Create a new array of valid items the user can have
-                // TODO: for each of these, add to user assets
-                var acceptedAssetIds = productDetails.Select(c => c.assetId);
+                var acceptedAssetIds = productDetails.Select(c => c.assetId).ToArray();
+                foreach (var item in acceptedAssetIds)
+                {
+                    await ownershipClient.CreateEntry(new()
+                    {
+                        userId = user.userId,
+                        assetId = item,
+                        serialNumber = null,
+                        expires = null,
+                    });
+                }
 
                 var colorId = request.bodyColorId;
                 var colorOk = AvatarValidator.IsBrickColorValid(colorId);
