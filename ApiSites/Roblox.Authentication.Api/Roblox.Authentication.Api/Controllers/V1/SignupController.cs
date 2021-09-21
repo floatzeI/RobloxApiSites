@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -171,16 +172,19 @@ namespace Roblox.Authentication.Api.Controllers
                 productDetails = productDetails.Where(c => c.isFree && c.isForSale);
                 // Create a new array of valid items the user can have
                 var acceptedAssetIds = productDetails.Select(c => c.assetId).ToArray();
+                var insertOwnershipTasks = new List<Task>();
                 foreach (var item in acceptedAssetIds)
                 {
-                    await ownershipClient.CreateEntry(new()
+                    insertOwnershipTasks.Add(ownershipClient.CreateEntry(new()
                     {
                         userId = user.userId,
                         assetId = item,
                         serialNumber = null,
                         expires = null,
-                    });
+                    }));
                 }
+
+                await Task.WhenAll(insertOwnershipTasks);
 
                 var colorId = request.bodyColorId;
                 var colorOk = AvatarValidator.IsBrickColorValid(colorId);
