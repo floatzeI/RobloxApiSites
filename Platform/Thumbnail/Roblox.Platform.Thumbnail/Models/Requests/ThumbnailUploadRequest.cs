@@ -1,9 +1,21 @@
 ﻿using System.IO;
+using Roblox.Thumbnails.Client.Models;
 
 namespace Roblox.Platform.Thumbnail.Models
 {
     public class ThumbnailUploadRequest
     {
+        public ThumbnailUploadRequest(string id, Stream file, string mime, ThumbnailType thumbnailType, long referenceId, int resolutionX, int resolutionY)
+        {
+            this.id = id;
+            this.file = file;
+            this.mime = mime;
+            this.thumbnailType = thumbnailType;
+            this.referenceId = referenceId;
+            this.resolutionX = resolutionX;
+            this.resolutionY = resolutionY;
+        }
+
         /// <summary>
         /// A unique identifier. It must be 32 characters and in hex format.
         /// </summary>
@@ -14,5 +26,8 @@ namespace Roblox.Platform.Thumbnail.Models
         public Stream file { get; set; }
         public string mime { get; set; }
         public ThumbnailType thumbnailType { get; set; }
+        public long referenceId { get; set; }
+        public int resolutionX { get; set; }
+        public int resolutionY { get; set; }
     }
 }
