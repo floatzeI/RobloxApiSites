@@ -36,8 +36,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Avatar.Unit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Files.Client", "..\ApiClients\Roblox.Files.Client\Roblox.Files.Client.csproj", "{4D9BF183-9E78-46DC-B50F-F4740E9E8118}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Thumbnail", "..\Platform\Thumbnail\Roblox.Platform.Thumbnail\Roblox.Platform.Thumbnail.csproj", "{993DCA0B-6496-4365-AD80-20AAC9C50EE0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Asset", "..\Platform\Asset\Roblox.Platform.Asset\Roblox.Platform.Asset.csproj", "{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.AssetVersions.Client", "..\ApiClients\Roblox.AssetVersions.Client\Roblox.AssetVersions.Client.csproj", "{D8ED332B-DF50-4EDB-AA28-CFD92D8BEA43}"
@@ -47,6 +45,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.ApiProxy.Api", "Roblox.ApiProxy.Api\Roblox.ApiProxy.Api\Roblox.ApiProxy.Api.csproj", "{5ADA9E03-0080-4E75-82AD-606FA91F422D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Rendering.Client", "..\ApiClients\Roblox.Rendering.Client\Roblox.Rendering.Client.csproj", "{D7D1B20E-5F0F-40FA-9667-F8D2603C2FA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Rendering", "..\Platform\Rendering\Roblox.Platform.Rendering\Roblox.Platform.Rendering.csproj", "{9A9D3424-9C69-45BF-BAB6-EE769A308864}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Platform.Thumbnail", "..\Platform\Thumbnail\Roblox.Platform.Thumbnail\Roblox.Platform.Thumbnail.csproj", "{A89B6C59-7557-48E2-AF08-10AFA7BB7676}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Thumbnails.Client", "..\ApiClients\Roblox.Thumbnails.Client\Roblox.Thumbnails.Client.csproj", "{07F01732-E69F-4AB2-AE7E-6106F0678B48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -118,10 +122,6 @@ Global
 		{4D9BF183-9E78-46DC-B50F-F4740E9E8118}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D9BF183-9E78-46DC-B50F-F4740E9E8118}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D9BF183-9E78-46DC-B50F-F4740E9E8118}.Release|Any CPU.Build.0 = Release|Any CPU
-		{993DCA0B-6496-4365-AD80-20AAC9C50EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{993DCA0B-6496-4365-AD80-20AAC9C50EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{993DCA0B-6496-4365-AD80-20AAC9C50EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{993DCA0B-6496-4365-AD80-20AAC9C50EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8667A6E7-12F1-47FD-B92B-0CBA6DDDDB2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -142,5 +142,17 @@ Global
 		{D7D1B20E-5F0F-40FA-9667-F8D2603C2FA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7D1B20E-5F0F-40FA-9667-F8D2603C2FA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7D1B20E-5F0F-40FA-9667-F8D2603C2FA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A9D3424-9C69-45BF-BAB6-EE769A308864}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A9D3424-9C69-45BF-BAB6-EE769A308864}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A9D3424-9C69-45BF-BAB6-EE769A308864}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A9D3424-9C69-45BF-BAB6-EE769A308864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A89B6C59-7557-48E2-AF08-10AFA7BB7676}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89B6C59-7557-48E2-AF08-10AFA7BB7676}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89B6C59-7557-48E2-AF08-10AFA7BB7676}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A89B6C59-7557-48E2-AF08-10AFA7BB7676}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07F01732-E69F-4AB2-AE7E-6106F0678B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07F01732-E69F-4AB2-AE7E-6106F0678B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07F01732-E69F-4AB2-AE7E-6106F0678B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07F01732-E69F-4AB2-AE7E-6106F0678B48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
