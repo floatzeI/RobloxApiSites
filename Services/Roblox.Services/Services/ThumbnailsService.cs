@@ -19,6 +19,11 @@ namespace Roblox.Services.Services
             await thumbnailsDatabase.InsertThumbnail(request);
         }
 
+        public async Task DeleteThumbnailsForReference(long referenceId, int thumbnailType)
+        {
+            await thumbnailsDatabase.DeleteThumbnailsForReference(referenceId, thumbnailType);
+        }
+
         public async Task<ThumbnailEntry> GetThumbnail(long referenceId, int thumbnailType)
         {
             var result = await thumbnailsDatabase.GetThumbnail(referenceId, thumbnailType);
