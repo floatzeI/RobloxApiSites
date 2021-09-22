@@ -106,6 +106,6 @@ namespace Roblox.Services.Models.Users
     public class SetGenderRequest
     {
         public long userId { get; set; }
-        public Gender gender { get; set; }
+        public byte gender { get; set; }
     }
 }
