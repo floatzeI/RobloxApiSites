@@ -262,7 +262,7 @@ namespace Roblox.Services.UnitTest.Controllers
             var request = new SetGenderRequest()
             {
                 userId = 1,
-                gender = Gender.Male,
+                gender = 2,
             };
             var mock = new Mock<IUsersService>();
             var controller = new UsersController(mock.Object);
