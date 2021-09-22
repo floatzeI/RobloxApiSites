@@ -108,7 +108,7 @@ namespace Roblox.Users.Client
             var body = new Dictionary<string, string>()
             {
                 { "userId", userId.ToString() },
-                { "gender", gender.ToString() },
+                { "gender", ((int)gender).ToString() },
             };
             await _base.ExecuteHttpRequest("", HttpMethod.Post, null, body, null, null, null, "SetUserGender");
         }
