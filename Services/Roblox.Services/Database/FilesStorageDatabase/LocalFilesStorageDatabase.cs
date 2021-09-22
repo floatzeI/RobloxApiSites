@@ -58,11 +58,10 @@ namespace Roblox.Services.Database
         public async Task UploadFile(string id, Stream fileStream, string mimeType)
         {
             var filePath = GetFullPath(id);
-            await using var destinationFileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true);
-            while (fileStream.Position < fileStream.Length)
-            {
-                destinationFileStream.WriteByte((byte)fileStream.ReadByte());
-            }
+            var destinationStream = File.Create(filePath);
+            fileStream.Seek(0, SeekOrigin.Begin);
+            await fileStream.CopyToAsync(destinationStream);
+            destinationStream.Close();
         }
 
         public async Task DeleteFile(string id)
