@@ -52,12 +52,12 @@ namespace Roblox.Services.Services
             }
         }
 
-        public async Task SetUserGender(long userId, Gender gender)
+        public async Task SetUserGender(long userId, byte gender)
         {
             var exists = await db.DoesHaveAccountInformationEntry(userId);
             if (exists)
             {
-                await db.UpdateUserGender(userId, (int)gender);
+                await db.UpdateUserGender(userId, gender);
             }
             else
             {
@@ -68,7 +68,7 @@ namespace Roblox.Services.Services
                     birthDay = null,
                     birthMonth = null,
                     birthYear = null,
-                    gender = (int)gender,
+                    gender = gender,
                 });
             }
         }
