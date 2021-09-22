@@ -53,6 +53,15 @@ namespace Roblox.Platform.Rendering
             var hashBytes = MD5.Create().ComputeHash(byteArray);
             return Convert.ToHexString(hashBytes).ToLower();
         }
+        
+        private string CreateMd5ForAsset(long assetId)
+        {
+            // If you make any changes the output of this function, you MUST increment the version
+            var str = $"V1 asset entry " + assetId;
+            var byteArray = Encoding.UTF8.GetBytes(str);
+            var hashBytes = MD5.Create().ComputeHash(byteArray);
+            return Convert.ToHexString(hashBytes).ToLower();
+        }
 
         public async Task DeleteAvatarThumbnails(long userId)
         {
@@ -69,19 +78,8 @@ namespace Roblox.Platform.Rendering
 
             if (!force)
             {
-                // check if it already exists
-                try
-                {
-                    var exists = await thumbnailsClient.GetThumbnailByHash(imageId, resolution, resolution);
-                    // Add the existing thumb and return
-                    await thumbnailsClient.InsertThumbnail(new(imageId, userId, exists.fileId, ThumbnailType.AvatarThumbnail, resolution, resolution));
-                    return;
-
-                }
-                catch (ThumbnailNotFoundException)
-                {
-                    // Ignore
-                }
+                var isCached = await CacheCheck(ThumbnailType.AvatarThumbnail, userId, imageId, resolution);
+                if (isCached) return;
             }
 
             var result = await renderingClient.RenderAvatarThumbnail(new RenderAvatarRequest()
@@ -117,19 +115,8 @@ namespace Roblox.Platform.Rendering
 
             if (!force)
             {
-                // check if it already exists
-                try
-                {
-                    var exists = await thumbnailsClient.GetThumbnailByHash(imageId, resolution, resolution);
-                    // Add the existing thumb and return
-                    await thumbnailsClient.InsertThumbnail(new(imageId, userId, exists.fileId, ThumbnailType.AvatarThumbnail, resolution, resolution));
-                    return;
-
-                }
-                catch (ThumbnailNotFoundException)
-                {
-                    // Ignore
-                }
+                var isCached = await CacheCheck(ThumbnailType.AvatarHeadshot, userId, imageId, resolution);
+                if (isCached) return;
             }
 
             var result = await renderingClient.RenderAvatarHeadshot(new RenderAvatarRequest()
@@ -153,7 +140,45 @@ namespace Roblox.Platform.Rendering
             var imageStream = ConvertBase64ToImage(result.fileBase64);
             // upload the image
             var fileId = await filesClient.UploadFile("image/png", imageStream);
-            await thumbnailsClient.InsertThumbnail(new(imageId, userId, fileId, ThumbnailType.AvatarThumbnail, resolution, resolution));
+            await thumbnailsClient.InsertThumbnail(new(imageId, userId, fileId, ThumbnailType.AvatarHeadshot, resolution, resolution));
+        }
+
+        private async Task<bool> CacheCheck(ThumbnailType type, long referenceId, string imageId, int resolution)
+        {
+            // check if it already exists
+            try
+            {
+                var exists = await thumbnailsClient.GetThumbnailByHash(imageId, resolution, resolution);
+                // Add the existing thumb and return
+                await thumbnailsClient.InsertThumbnail(new(imageId, referenceId, exists.fileId, type, resolution, resolution));
+                return true;
+
+            }
+            catch (ThumbnailNotFoundException)
+            {
+                // Ignore
+                return false;
+            }
+        }
+                
+        public async Task RenderAssetThumbnail(long assetId, int resolution, bool force = false)
+        {
+            // temporary until resolutions are added to RenderingClient
+            if (resolution != 420) throw new ArgumentException("Unsupported resolution");
+            
+            var imageId = CreateMd5ForAsset(assetId);
+
+            if (!force)
+            {
+                var isCached = await CacheCheck(ThumbnailType.AssetThumbnail, assetId, imageId, resolution);
+                if (isCached) return;
+            }
+
+            var result = await renderingClient.RenderAsset(assetId, resolution);
+            var imageStream = ConvertBase64ToImage(result.fileBase64);
+            // upload the image
+            var fileId = await filesClient.UploadFile("image/png", imageStream);
+            await thumbnailsClient.InsertThumbnail(new(imageId, assetId, fileId, ThumbnailType.AssetThumbnail, resolution, resolution));
         }
     }
 }
