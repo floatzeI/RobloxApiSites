@@ -18,6 +18,15 @@ namespace Roblox.Services.Database
         public async Task InsertThumbnail(ThumbnailEntry request)
         {
             await db.connection.ExecuteAsync(
+                "DELETE FROM thumbnail WHERE reference_id = @reference_id AND thumbnail_type = @thumbnail_type AND resolution_x = @resolution_x AND resolution_y = @resolution_y",
+                new
+                {
+                    reference_id = request.referenceId,
+                    thumbnail_type = request.thumbnailType,
+                    resolution_x = request.resolutionX,
+                    resolution_y = request.resolutionY,
+                });
+            await db.connection.ExecuteAsync(
                 "INSERT INTO thumbnail (id, file_id, reference_id, thumbnail_type, resolution_x, resolution_y) VALUES (@id, @file_id, @reference_id, @thumbnail_type, @resolution_x, @resolution_y)",
                 new
                 {
@@ -30,6 +39,15 @@ namespace Roblox.Services.Database
                 });
         }
 
+        public async Task DeleteThumbnailsForReference(long referenceId, int thumbnailType)
+        {
+            await db.connection.ExecuteAsync("DELETE FROM thumbnail WHERE reference_id = @reference_id AND thumbnail_type = @thumbnail_type", new
+            {
+                reference_id = referenceId,
+                thumbnail_type = thumbnailType,
+            });
+        }
+        
         public async Task<ThumbnailEntry> GetThumbnail(long referenceId, int thumbnailType)
         {
             return await db.connection.QuerySingleOrDefaultAsync<ThumbnailEntry>(
