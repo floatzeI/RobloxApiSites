@@ -21,7 +21,14 @@ namespace Roblox.Marketplace.Client
 
         public async Task<IEnumerable<AssetEntry>> GetProductsByAssetId(IEnumerable<long> assetIds)
         {
-            throw new NotImplementedException();
+            // this is temporary until multiget is added to backend
+            var tasks = new List<Task<AssetEntry>>();
+            foreach (var id in assetIds)
+            {
+                tasks.Add(GetProductByAssetId(id));
+            }
+
+            return await Task.WhenAll(tasks);
         }
 
         public async Task<AssetEntry> GetProductByAssetId(long assetId)
