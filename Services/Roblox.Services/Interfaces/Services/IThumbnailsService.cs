@@ -10,6 +10,13 @@ namespace Roblox.Services.Services
         /// </summary>
         /// <param name="request">Your insertion request</param>
         Task InsertThumbnail(Models.Thumbnails.ThumbnailEntry request);
+
+        /// <summary>
+        /// Delete thumbnails matching the referenceId
+        /// </summary>
+        /// <param name="referenceId">The ID (e.g. "UserId" or "assetId")</param>
+        /// <param name="thumbnailType">The thumbnailId</param>
+        Task DeleteThumbnailsForReference(long referenceId, int thumbnailType);
         /// <summary>
         /// (Debug) Get a thumbnail by it's referenceId and type, with any resolution
         /// </summary>
