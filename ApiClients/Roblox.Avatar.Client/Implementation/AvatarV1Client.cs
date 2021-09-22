@@ -43,7 +43,7 @@ namespace Roblox.Avatar.Client
         public async Task SetUserAvatar(SetAvatarRequest request)
         {
             var body = JsonSerializer.Serialize(request);
-            await clientBase.ExecuteHttpRequest("", HttpMethod.Post, null, null, null, body, null, "GetUserAvatar");
+            await clientBase.ExecuteHttpRequest("", HttpMethod.Post, null, null, null, body, null, "SetUserAvatar");
         }
     }
 }
