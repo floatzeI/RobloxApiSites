@@ -27,11 +27,19 @@ namespace Roblox.Rendering.Client
         public RenderingClient(ConnectionMultiplexer redis)
         {
             redisConnectionMultiplexer = redis;
+        }
+
+        static RenderingClient()
+        {
             RenderingClient.RedisSubscribeHandler();
         }
 
         private static async Task RedisSubscribeHandler()
         {
+            while (redisConnectionMultiplexer == null)
+            {
+                await Task.Delay(100);
+            }
             var con = redisConnectionMultiplexer.GetSubscriber();
             var channel = await con.SubscribeAsync(renderChannelResponse);
             channel.OnMessage(message =>
