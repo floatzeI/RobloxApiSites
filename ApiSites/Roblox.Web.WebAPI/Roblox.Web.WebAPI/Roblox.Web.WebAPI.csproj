@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\..\ApiClients\Roblox.Sessions.Client\Roblox.Sessions.Client.csproj" />
     <ProjectReference Include="..\..\..\ApiClients\Roblox.Users.Client\Roblox.Users.Client.csproj" />
     <ProjectReference Include="..\..\..\Platform\Membership\Roblox.Platform.Membership\Roblox.Platform.Membership.csproj" />
+    <ProjectReference Include="..\..\..\Platform\Rendering\Roblox.Platform.Rendering\Roblox.Platform.Rendering.csproj" />
     <ProjectReference Include="..\..\..\Platform\Thumbnail\Roblox.Platform.Thumbnail\Roblox.Platform.Thumbnail.csproj" />
   </ItemGroup>
 
