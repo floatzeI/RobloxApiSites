@@ -16,9 +16,11 @@ using Roblox.Files.Client;
 using Roblox.Marketplace.Client;
 using Roblox.Ownership.Client;
 using Roblox.Passwords.Client;
+using Roblox.Platform.Rendering;
 using Roblox.Platform.Thumbnail;
 using Roblox.Rendering.Client;
 using Roblox.Sessions.Client;
+using Roblox.Thumbnails.Client;
 using Roblox.Users.Client;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -89,6 +91,12 @@ namespace Roblox.Web.WebAPI
             services.AddScoped<IOwnershipClient>(_ =>
                 new OwnershipClient(config.GetSection("ApiClients:Ownership:BaseUrl").Value,
                     config.GetSection("ApiClients:Ownership:ApiKey").Value));
+
+            services.AddScoped<IThumbnailsV1Client>(_ =>
+                new ThumbnailsV1Client(
+                    config.GetSection("ApiClients:Thumbnails:BaseUrl").Value,
+                    config.GetSection("ApIClients:Thumbnails:ApiKey").Value
+                ));
             
             var redis = ConnectionMultiplexer.Connect(config.GetSection("Redis").Value);
             services.AddScoped<IRenderingClient>(_ =>
@@ -100,7 +108,24 @@ namespace Roblox.Web.WebAPI
                     new FilesV1Client(
                         config.GetSection("ApiClients:Files:BaseUrl").Value,
                         config.GetSection("ApIClients:Files:ApiKey").Value
+                    ),
+                    new ThumbnailsV1Client(
+                        config.GetSection("ApiClients:Thumbnails:BaseUrl").Value,
+                        config.GetSection("ApIClients:Thumbnails:ApiKey").Value
                     )
+                )
+            );
+            services.AddScoped<IRenderingManager>(_ =>
+                new RenderingManager(
+                    new FilesV1Client(
+                        config.GetSection("ApiClients:Files:BaseUrl").Value,
+                        config.GetSection("ApIClients:Files:ApiKey").Value
+                    ),
+                    new ThumbnailsV1Client(
+                        config.GetSection("ApiClients:Thumbnails:BaseUrl").Value,
+                        config.GetSection("ApIClients:Thumbnails:ApiKey").Value
+                    ),
+                    new RenderingClient(redis)
                 )
             );
             // config attributes
