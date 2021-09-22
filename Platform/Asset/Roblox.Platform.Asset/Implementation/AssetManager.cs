@@ -5,6 +5,7 @@ using Roblox.AssetVersions.Client;
 using Roblox.Files.Client;
 using Roblox.Marketplace.Client;
 using Roblox.Ownership.Client;
+using Roblox.Platform.Rendering;
 
 namespace Roblox.Platform.Asset
 {
@@ -15,14 +16,16 @@ namespace Roblox.Platform.Asset
         private IFilesV1Client filesClient { get; set; }
         private IAssetVersionsV1Client assetVersionsClient { get; set; }
         private IOwnershipClient ownershipClient { get; set; }
+        private IRenderingManager renderingManager { get; set; }
 
-        public AssetManager(IAssetsV1Client assetsV1Client, IMarketplaceV1Client marketplaceV1Client, IFilesV1Client filesV1Client, IAssetVersionsV1Client assetVersionsV1Client, IOwnershipClient ownershipClientV1)
+        public AssetManager(IAssetsV1Client assetsV1Client, IMarketplaceV1Client marketplaceV1Client, IFilesV1Client filesV1Client, IAssetVersionsV1Client assetVersionsV1Client, IOwnershipClient ownershipClientV1, IRenderingManager renderingManager)
         {
             assetsClient = assetsV1Client;
             marketplaceClient = marketplaceV1Client;
             filesClient = filesV1Client;
             assetVersionsClient = assetVersionsV1Client;
             ownershipClient = ownershipClientV1;
+            this.renderingManager = renderingManager;
         }
         
         public async Task<Models.CreateAssetResponse> CreateAsset(Models.CreateAssetRequest request)
@@ -77,8 +80,11 @@ namespace Roblox.Platform.Asset
                 expires = null
             });
             response.userAssetId = userAssetId.userAssetId;
-            // todo: request a thumbnail if the assetType needs a thumbnail (or should the caller do that?...)
 
+            Task.Run(async () =>
+            {
+                await renderingManager.RenderAssetThumbnail(asset.assetId, 420);
+            });
             return response;
         }
     }
