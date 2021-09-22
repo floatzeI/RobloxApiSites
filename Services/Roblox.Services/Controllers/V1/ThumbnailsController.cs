@@ -30,6 +30,12 @@ namespace Roblox.Services.Controllers.V1
             await thumbnailsService.InsertThumbnail(request);
         }
 
+        [HttpPost("DeleteThumbnailsForReference")]
+        public async Task DeleteThumbnailsForReference([Required] long referenceId, [Required] int thumbnailType)
+        {
+            await thumbnailsService.DeleteThumbnailsForReference(referenceId, thumbnailType);
+        }
+
         [HttpGet("GetThumbnailByHash")]
         public async Task<Models.Thumbnails.ThumbnailEntry> GetThumbnailByHash([Required] string thumbnailHash,
             [Required] int resolutionX, [Required] int resolutionY)
