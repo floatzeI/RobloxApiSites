@@ -8,10 +8,12 @@ namespace Roblox.Services.Models.Files
         /// <summary>
         /// The file mime type. Defaults to null.
         /// </summary>
+        [Required]
         public string mime { get; set; }
         /// <summary>
         /// The file to upload
         /// </summary>
+        [Required]
         public IFormFile file { get; set; }
     }
 
