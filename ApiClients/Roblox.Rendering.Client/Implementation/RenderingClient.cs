@@ -166,5 +166,52 @@ namespace Roblox.Rendering.Client
             
             return tcs.Task;
         }
+
+        public Task<RenderAvatarResponse> RenderAsset(long assetId, int resolution)
+        {
+            var id = Guid.NewGuid().ToString();
+            var tcs = new TaskCompletionSource<RenderAvatarResponse>();
+            
+            renderPoolMutex.WaitOne();
+            renderPool.Add(new ()
+            {
+                id = id,
+                parameters = new()
+                {
+                    assetId,
+                },
+                onFinish = (onFinish, rawBody) =>
+                {
+                    if (onFinish.status == 200)
+                    {
+                        tcs.SetResult(new ()
+                        {
+                            fileBase64 = onFinish.data,
+                        });
+                    }
+                    else
+                    {
+                        tcs.SetException(new Exception("Result failed with Status = " + onFinish.status + "\nBody = " + rawBody + "\nID = " + onFinish.id));
+                    }
+                    return null;
+                },
+            });
+            renderPoolMutex.ReleaseMutex();
+
+            Task.Run(async () =>
+            {
+                await SendRequest(new RenderRequest()
+                {
+                    id = id,
+                    args = new()
+                    {
+                        assetId,
+                    },
+                    command = "GenerateThumbnailHeadshot",
+                });
+            });
+            
+            return tcs.Task;
+        }
     }
 }
