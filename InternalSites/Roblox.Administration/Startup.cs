@@ -14,6 +14,10 @@ using Roblox.Files.Client;
 using Roblox.Marketplace.Client;
 using Roblox.Ownership.Client;
 using Roblox.Platform.Asset;
+using Roblox.Platform.Rendering;
+using Roblox.Rendering.Client;
+using Roblox.Thumbnails.Client;
+using StackExchange.Redis;
 
 namespace Roblox.Administration
 {
@@ -40,9 +44,12 @@ namespace Roblox.Administration
                 Configuration.GetSection("ApiClients:AssetVersions:ApiKey").Value);
             var ownership = new OwnershipClient(Configuration.GetSection("ApiClients:Ownership:BaseUrl").Value,
                 Configuration.GetSection("ApiClients:Ownership:ApiKey").Value);
+            var thumbnails = new ThumbnailsV1Client(Configuration.GetSection("ApiClients:Thumbnails:BaseUrl").Value,
+                Configuration.GetSection("ApiClients:Thumbnails:ApiKey").Value);
+            var renderingClient = new RenderingClient(ConnectionMultiplexer.Connect(Configuration.GetSection("Redis").Value));
 
-            services.AddSingleton<IAssetManager, AssetManager>(c =>
-                new AssetManager(assetsClient, marketplace, files, assetVersions, ownership));
+            services.AddSingleton<IAssetManager>(_ =>
+                new AssetManager(assetsClient, marketplace, files, assetVersions, ownership, new RenderingManager(files, thumbnails, renderingClient)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
