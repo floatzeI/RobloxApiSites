@@ -81,7 +81,11 @@ namespace Roblox.ApiClientBase
         private async Task<ApiClientResponse> DoPost(HttpClient httpClient, string requestUrl, string jsonData)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, requestUrl);
-            request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            if (jsonData != null)
+            {
+                request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            }
+
             var result = await httpClient.SendAsync(request);
             var body = await result.Content.ReadAsStringAsync();
             return new()
