@@ -1,11 +1,10 @@
-﻿namespace Roblox.Platform.Thumbnail.Models
+﻿namespace Roblox.Thumbnails.Client.Models
 {
     public enum ThumbnailType
     {
         AvatarThumbnail = 1,
         AvatarHeadshot,
         GameIcon,
-        GameThumbnail,
         AssetThumbnail,
     }
 }
