@@ -5,6 +5,7 @@ namespace Roblox.Services.Database
     public interface IThumbnailsDatabase
     {
         Task InsertThumbnail(Models.Thumbnails.ThumbnailEntry request);
+        Task DeleteThumbnailsForReference(long referenceId, int thumbnailType);
         Task<Models.Thumbnails.ThumbnailEntry> GetThumbnail(long referenceId, int thumbnailType);
 
         Task<Models.Thumbnails.ThumbnailEntry> GetThumbnail(long referenceId, int thumbnailType, int resolutionX,
