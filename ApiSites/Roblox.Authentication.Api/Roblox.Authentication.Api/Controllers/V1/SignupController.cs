@@ -7,14 +7,19 @@ using Roblox.Assets.Client;
 using Roblox.Authentication.Api.Models;
 using Roblox.Authentication.Api.Validators;
 using Roblox.Avatar.Client;
+using Roblox.Avatar.Client.Models;
 using Roblox.Marketplace.Client;
 using Roblox.Ownership.Client;
 using Roblox.Passwords.Client;
 using Roblox.Platform.Avatar;
+using Roblox.Platform.Rendering;
+using Roblox.Rendering.Client;
+using Roblox.Rendering.Client.Models;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
 using Roblox.Users.Client.Exceptions;
 using Roblox.Web.Authentication.Signup;
+using Roblox.Web.WebAPI;
 using Roblox.Web.WebAPI.Exceptions;
 
 namespace Roblox.Authentication.Api.Controllers
@@ -30,8 +35,10 @@ namespace Roblox.Authentication.Api.Controllers
         private IAssetsV1Client assetsClient { get; set; }
         private IMarketplaceV1Client marketplaceClient { get; set; }
         private IOwnershipClient ownershipClient { get; set; }
+        private IRenderingClient renderingClient { get; set; }
+        private IRenderingManager renderingManager { get; set; }
 
-        public SignupController(IUsersV1Client users, IPasswordsV1Client passwords, ISessionsV1Client sessions, IAvatarV1Client avatar, IAssetsV1Client assets, IMarketplaceV1Client marketplace, IOwnershipClient ownershipClientParam)
+        public SignupController(IUsersV1Client users, IPasswordsV1Client passwords, ISessionsV1Client sessions, IAvatarV1Client avatar, IAssetsV1Client assets, IMarketplaceV1Client marketplace, IOwnershipClient ownershipClientParam, IRenderingClient renderingClientParam, IRenderingManager renderingManager)
         {
             usersClient = users;
             passwordsClient = passwords;
@@ -40,6 +47,8 @@ namespace Roblox.Authentication.Api.Controllers
             assetsClient = assets;
             marketplaceClient = marketplace;
             ownershipClient = ownershipClientParam;
+            renderingClient = renderingClientParam;
+            this.renderingManager = renderingManager;
         }
 
         private SignupRequest ValidateScales(Models.SignupRequest request)
@@ -115,7 +124,7 @@ namespace Roblox.Authentication.Api.Controllers
             // 5. If email specified, insert email record
             // Done: 6. Create avatar (go off params if specified, otherwise use default)
             // Done: 7. Add default avatar items to inventory, plus items specified in request.assetIds (as long as they're free items)
-            // 8. add thumbnail and headshot
+            // Done: 8. add thumbnail and headshot
             // 9. Create default place and universe for the user
             // Done: 10. Finally, Create session and set cookie
             
@@ -160,11 +169,12 @@ namespace Roblox.Authentication.Api.Controllers
             var user = await usersClient.InsertUser(request.username, birthDate.Year, birthDate.Month, birthDate.Day);
             try
             {
+                // set pass
+                await passwordsClient.SetPassword(user.userId, request.password);
                 // set account gender
                 await usersClient.SetGender(user.userId, request.gender);
                 // set avatar
-                // first, filter out the assets request to only include items that are for sale, exist, and are free
-                // Remove items that are not wearable
+                // first, filter out the assets request to only include items that are for sale, exist, are free, and are wearable
                 var assetDetails = await assetsClient.MultiGetAssetById(request.assetIds);
                 assetDetails = assetDetails.Where(c => AvatarValidator.IsWearable(c.assetTypeId));
                 // Remove items that are not free and not for sale
@@ -188,7 +198,7 @@ namespace Roblox.Authentication.Api.Controllers
 
                 var colorId = request.bodyColorId;
                 var colorOk = AvatarValidator.IsBrickColorValid(colorId);
-                await avatarClient.SetUserAvatar(new()
+                var av = new SetAvatarRequest()
                 {
                     userId = user.userId,
                     scales = new()
@@ -226,8 +236,17 @@ namespace Roblox.Authentication.Api.Controllers
                         // 144076760, // dark green jeans
                     },
                     */
+                };
+                await avatarClient.SetUserAvatar(av);
+                var defaultResolution = 420;
+                JobQueue.Schedule("RenderAvatarThumbnail,Headshot",async () =>
+                {
+                    await Task.WhenAll(new List<Task>()
+                    {
+                        renderingManager.RenderAvatarHeadshot(user.userId, defaultResolution, av),
+                        renderingManager.RenderAvatarThumbnail(user.userId, defaultResolution, av)
+                    });
                 });
-                throw new NotImplementedException();
             }
             catch (Exception e)
             {
@@ -236,7 +255,11 @@ namespace Roblox.Authentication.Api.Controllers
 
                 throw new Exception("Signup Failed", e);
             }
-            throw new NotImplementedException();
+
+            return new()
+            {
+                userId = user.userId,
+            };
         }
     }
 }
