@@ -28,7 +28,7 @@ namespace Roblox.Files.Client
         public async Task<string> UploadFile(string mimeType, Stream fileToUpload)
         {
             var content = new MultipartFormDataContent();
-            content.Add(new StringContent(mimeType), "mime", "mime");
+            content.Add(new StringContent(mimeType), "mime");
             content.Add(new StreamContent(fileToUpload), "file", "file");
             var url = baseUrl + "v1/UploadFile";
             var response = await clientBase.PostAsync(url, content);
