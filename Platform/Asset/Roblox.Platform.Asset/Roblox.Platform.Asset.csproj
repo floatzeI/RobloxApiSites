@@ -10,6 +10,7 @@
     <ProjectReference Include="..\..\..\ApiClients\Roblox.Files.Client\Roblox.Files.Client.csproj" />
     <ProjectReference Include="..\..\..\ApiClients\Roblox.Marketplace.Client\Roblox.Marketplace.Client.csproj" />
     <ProjectReference Include="..\..\..\ApiClients\Roblox.Ownership.Client\Roblox.Ownership.Client.csproj" />
+    <ProjectReference Include="..\..\Rendering\Roblox.Platform.Rendering\Roblox.Platform.Rendering.csproj" />
   </ItemGroup>
 
 </Project>
