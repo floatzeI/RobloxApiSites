@@ -11,12 +11,16 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Roblox.Assets.Client;
+using Roblox.Avatar.Client;
 using Roblox.Files.Client;
 using Roblox.Marketplace.Client;
+using Roblox.Ownership.Client;
 using Roblox.Passwords.Client;
 using Roblox.Platform.Thumbnail;
+using Roblox.Rendering.Client;
 using Roblox.Sessions.Client;
 using Roblox.Users.Client;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Roblox.Web.WebAPI
@@ -78,6 +82,18 @@ namespace Roblox.Web.WebAPI
                 new MarketplaceV1Client(config.GetSection("ApiClients:Marketplace:BaseUrl").Value,
                     config.GetSection("ApiClients:Marketplace:ApiKey").Value));
 
+            services.AddScoped<IAvatarV1Client>(c =>
+                new AvatarV1Client(config.GetSection("ApiClients:Avatar:BaseUrl").Value,
+                    config.GetSection("ApiClients:Avatar:Apikey").Value));
+
+            services.AddScoped<IOwnershipClient>(_ =>
+                new OwnershipClient(config.GetSection("ApiClients:Ownership:BaseUrl").Value,
+                    config.GetSection("ApiClients:Ownership:ApiKey").Value));
+            
+            var redis = ConnectionMultiplexer.Connect(config.GetSection("Redis").Value);
+            services.AddScoped<IRenderingClient>(_ =>
+                new RenderingClient(redis));
+            
             // platform services
             services.AddScoped<IThumbnailManager, ThumbnailManager>(_ =>
                 new(
