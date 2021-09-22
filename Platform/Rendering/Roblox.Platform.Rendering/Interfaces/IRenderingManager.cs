@@ -27,5 +27,14 @@ namespace Roblox.Platform.Rendering
         /// <param name="avatar">The avatar of the user</param>
         /// <param name="force">If true, a new render will be forced</param>
         Task RenderAvatarHeadshot(long userId, int resolution, AvatarEntry avatar, bool force = false);
+        
+        /// <summary>
+        /// Render an asset thumbnail
+        /// </summary>
+        /// <param name="assetId"></param>
+        /// <param name="resolution"></param>
+        /// <param name="force"></param>
+        /// <returns></returns>
+        Task RenderAssetThumbnail(long assetId, int resolution, bool force = false);
     }
 }
