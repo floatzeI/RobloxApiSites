@@ -300,7 +300,7 @@ namespace Roblox.Services.UnitTest.Services
         public async Task Set_User_Gender_With_Previous_Entry()
         {
             var userId = 1;
-            var gender = Gender.Male;
+            byte gender = 1;
             
             var mock = new Mock<IUsersDatabase>();
             mock.Setup(c => c.DoesHaveAccountInformationEntry(userId)).ReturnsAsync(true);
@@ -316,7 +316,7 @@ namespace Roblox.Services.UnitTest.Services
         public async Task Set_User_Gender_No_Previous_Entry()
         {
             var userId = 1;
-            var gender = Gender.Male;
+            byte gender = 1;
             
             var mock = new Mock<IUsersDatabase>();
             mock.Setup(c => c.DoesHaveAccountInformationEntry(userId)).ReturnsAsync(false);
