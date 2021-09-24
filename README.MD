@@ -1,5 +1,5 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/c1e6ff9283e40b3db80d/maintainability)](https://codeclimate.com/github/floatzeI/RobloxApiSites/maintainability)
-![Dotnet Workflow](https://github.com/floatzeI/RobloxApiSites/actions/workflows/dotnet.yml/badge.svg)
+![Dotnet Workflow](https://github.com/floatzeI/RobloxApiSites/actions/workflows/build-and-test.yml/badge.svg)
 ![Code Quality](https://github.com/floatzeI/RobloxApiSites/actions/workflows/codeql-analysis.yml/badge.svg)
 
 # RobloxWeb
