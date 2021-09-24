@@ -42,7 +42,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: delete global json
-      run: rm **/global.json
+      run: rm **/global.json && rm -f global.json
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
